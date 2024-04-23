@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import AdverticeNetwork from "../../../Network";
 import AuthContext from "../authContext/AuthContext";
-import CreateFormModal from "./CreateOrganisationForm";
-import EditFormModal from "./EditOrganisation";
+import CreateFormModal from "../superAdminOrganisation/CreateOrganisationForm";
+import EditFormModal from "../superAdminOrganisation/EditOrganisation";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -134,7 +134,7 @@ const OrganisationList = [
     },
 ]
 
-const SuperAdminOrgnisationList = () => {
+const AdminOrgnisationList = () => {
 
     const theme = useTheme();
     const [page, setPage] = useState(0);
@@ -154,12 +154,13 @@ const SuperAdminOrgnisationList = () => {
     }, [])
 
     const fetchOrganisationList = async () => {
+     const orgId = 0
         try {
             const body = {
                 "page": 0,
                 "pageSize": 0
             }
-            const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+            const response = await AdverticeNetwork.fetchAdminOrganisationApi(body, auth, orgId);
 
             console.log('response', response);
         } catch (error) {
@@ -439,10 +440,9 @@ const SuperAdminOrgnisationList = () => {
                 <Dialog open={editFormModal} onClose={handleCloseModal}>
                     <EditFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} />
                 </Dialog>
-
             </Card>
         </React.Fragment>
     )
 };
 
-export default SuperAdminOrgnisationList;
+export default AdminOrgnisationList;

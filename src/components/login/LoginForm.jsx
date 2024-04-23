@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button,Grid, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, Grid, TextField, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/advertice-logo.png"
@@ -18,13 +18,14 @@ const LoginForm = () => {
             const body = {
                 "password": password,
                 "userName": username
-              }
+            }
             const response = await AdverticeNetwork.superAdminLoginApi(body);
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
                 navigate('/')
             }
         }
+        navigate('/')
 
     };
 
@@ -86,7 +87,7 @@ const LoginForm = () => {
                                             <Grid item xs={12} sm={12} md={12} lg={12} sx={{
                                                 textAlign: 'center',
                                             }}>
-                                                <p style={{ color: "#000", fontWeight : 500, fontSize: '15px' }}>Don't have an account? &nbsp;
+                                                <p style={{ color: "#000", fontWeight: 500, fontSize: '15px' }}>Don't have an account? &nbsp;
                                                     <Link to={"#"} className="link-color">Sign up
                                                     </Link> &nbsp;
                                                 </p>

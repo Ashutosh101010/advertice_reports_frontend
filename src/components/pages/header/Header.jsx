@@ -109,13 +109,15 @@ function TopHeader() {
 
     const handleHeaderMenu = (values) => {
         if (values === "Dashboard") {
-            navigate('/')
+            navigate('/');
         } else if (values === "Campaigns") {
-            navigate('/campaigns')
+            navigate('/campaigns');
         } else if (values === "Pixel") {
-            navigate('/campaigns')
-        }else if (values === "organisation") {
-            navigate('/organisation')
+            navigate('/campaigns');
+        }else if (values === "superadminorganisation") {
+            navigate('/super-admin-organisation');
+        }else if ("adminorganisation") {
+            navigate('/admin-organisation');
         }
         setActive(values);
     }
@@ -223,7 +225,7 @@ function TopHeader() {
                     <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
                         Pixel
                     </Button>
-                    <Button className={active === "organisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("organisation")}>
+                    <Button className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("superadminorganisation")}>
                     Organisation
                     </Button>
                     <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
