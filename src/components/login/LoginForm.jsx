@@ -20,7 +20,6 @@ const LoginForm = () => {
                 "userName": username
               }
             const response = await AdverticeNetwork.superAdminLoginApi(body);
-            console.log('response', response);
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
                 navigate('/')
