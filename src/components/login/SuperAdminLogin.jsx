@@ -5,13 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/advertice-logo.png"
 import AdverticeNetwork from "../../Network";
 
-const LoginForm = () => {
+const SuperAdminLoginForm = () => {
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const domain = window.location.host;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,15 +19,13 @@ const LoginForm = () => {
                 "password": password,
                 "userName": username
             }
-            const response = await AdverticeNetwork.adminLoginApi(body, domain);
+            const response = await AdverticeNetwork.superAdminLoginApi(body);
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
                 // navigate('/')
             }
             navigate('/')
         }
-
-
     };
 
     return (
@@ -53,7 +50,6 @@ const LoginForm = () => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-
                                 <form onSubmit={handleSubmit}>
                                     <Box sx={{
                                         '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
@@ -110,4 +106,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default SuperAdminLoginForm;

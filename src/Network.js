@@ -5,6 +5,7 @@ export default class AdverticeNetwork {
 
     static META_URL_STATE = "https://prodapi.classiolabs.com/getMetaData/state";
     static SUPERADMIN_LOGIN_URL = Endpoints.baseURL + "/superadmin/login";
+    static ADMIN_LOGIN_URL = Endpoints.baseURL + "/admin/login";
     static FETCH_SUPER_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/fetch-all-organisation";
     static FETCH_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/fetch-admin/";
     static CREATE_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/create-organisation";
@@ -26,6 +27,17 @@ export default class AdverticeNetwork {
         let response = await axios.post(this.SUPERADMIN_LOGIN_URL, body, {
             headers: {
                 "Content-Type": "application/json",
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    static async adminLoginApi(body, domain) {
+        let response = await axios.post(this.ADMIN_LOGIN_URL, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "domain": domain
             },
             withCredentials: false,
         });

@@ -16,6 +16,7 @@ import Campaigns from './components/pages/campaigns/Campaigns';
 import BasicComponent from './components/pages/reports/Basic';
 import SuperAdminOrgnisationList from './components/pages/superAdminOrganisation/SuperAdminOrganisation';
 import AdminOrgnisationList from './components/pages/adminOrganisation/adminOrganisation';
+import SuperAdminLoginForm from './components/login/SuperAdminLogin';
 
 function App() {
 
@@ -30,7 +31,8 @@ function App() {
             <Route path="/admin-organisation" element={<AdminOrgnisationList />} />
             <Route path="/reports/basic" element={<BasicComponent />} />
           </Route>
-          <Route path="login" element={<LoginForm />} />
+          <Route path="/admin-login" element={<LoginForm />} />
+          <Route path="/super-admin-login" element={<SuperAdminLoginForm />} />
         </Routes>
       </Router>
 

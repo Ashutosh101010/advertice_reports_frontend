@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -154,7 +154,7 @@ const AdminOrgnisationList = () => {
     }, [])
 
     const fetchOrganisationList = async () => {
-     const orgId = 0
+        const orgId = 0
         try {
             const body = {
                 "page": 0,
@@ -211,6 +211,20 @@ const AdminOrgnisationList = () => {
             renderCell: (params) => {
                 return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
             }
+        },
+        {
+            field: 'logo',
+            sortable: false,
+            headerClassName: 'super-app-theme--header',
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Logo</p>,
+            flex: 0.5,
+            renderCell: (params) => {
+                return (
+                    <Avatar
+                        src={`${params.row.logo}`}
+                    />
+                );
+            },
         },
         {
             field: "organisation",
