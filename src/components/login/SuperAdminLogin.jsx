@@ -22,9 +22,10 @@ const SuperAdminLoginForm = () => {
             const response = await AdverticeNetwork.superAdminLoginApi(body);
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
-                // navigate('/')
+                localStorage.setItem('userId', response.userId);
+                localStorage.setItem('userType', "superadmin");
+                navigate('/')
             }
-            navigate('/')
         }
     };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import AuthContext from '../authContext/AuthContext';
 
 const pages = ['Dahboard', 'Campaigns', 'Reports', 'Pixel'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -66,12 +67,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 function TopHeader() {
+
+    const userType = localStorage.getItem("userType");
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [active, setActive] = useState('Dashboard');
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
-
+    const { userId } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = useState(null);
 
     function handleClick(event) {
@@ -81,7 +84,6 @@ function TopHeader() {
     }
 
     function handleClose(e) {
-        console.log('e.target.outerText', e.target.outerText);
         if (e.target.outerText === 'Basic') {
             navigate('/reports/basic')
         }
@@ -102,7 +104,11 @@ function TopHeader() {
 
     const handleCloseUserMenu = (e) => {
         if (e.target.outerText === "Logout") {
-            navigate('/login')
+            if (userType === "superadmin") {
+                navigate('/super-admin-login')
+            } else {
+                navigate('/admin-login')
+            }
         }
         setAnchorElUser(null);
     };
@@ -114,9 +120,9 @@ function TopHeader() {
             navigate('/campaigns');
         } else if (values === "Pixel") {
             navigate('/campaigns');
-        }else if (values === "superadminorganisation") {
+        } else if (values === "superadminorganisation") {
             navigate('/super-admin-organisation');
-        }else if ("adminorganisation") {
+        } else if ("adminorganisation") {
             navigate('/admin-organisation');
         }
         setActive(values);
@@ -225,12 +231,17 @@ function TopHeader() {
                     <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
                         Pixel
                     </Button>
-                    <Button className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("superadminorganisation")}>
-                    Organisation
-                    </Button>
-                    <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
-                        Admin Organisation
-                    </Button>
+                    {
+                        userType === "superadmin" ?
+                            <Button className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("superadminorganisation")}>
+                                Organisation
+                            </Button>
+                            : userType === "admin" ?
+                                <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
+                                    Organisation
+                                </Button> : ""
+                    }
+
                     <Menu
                         position="relative"
                         slotProps={{

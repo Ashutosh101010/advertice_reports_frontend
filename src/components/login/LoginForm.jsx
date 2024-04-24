@@ -23,9 +23,11 @@ const LoginForm = () => {
             const response = await AdverticeNetwork.adminLoginApi(body, domain);
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
-                // navigate('/')
+                localStorage.setItem('userId', response.userId);
+                localStorage.setItem('userType', "admin");
+                navigate('/')
             }
-            navigate('/')
+            // navigate('/')
         }
 
 

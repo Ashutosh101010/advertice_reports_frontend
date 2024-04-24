@@ -7,10 +7,10 @@ const ProtectedRoute = ({ children }) => {
   const { auth } = useContext(AuthContext);
 
   if (!auth) {
-    return <Navigate to="login" />
+    return <Navigate to="/admin-login" />
   }
   if (auth) {
-    
+
     return children;
   }
 };

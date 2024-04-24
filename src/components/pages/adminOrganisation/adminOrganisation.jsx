@@ -139,15 +139,13 @@ const AdminOrgnisationList = () => {
     const theme = useTheme();
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
-    const [rowCount, setRowCount] = useState(OrganisationList.length);
+    const [rowCount, setRowCount] = useState(0);
     const [switchChecked, setSwitchChecked] = useState(false);
-    const [organisationList, setOrganisationList] = useState(OrganisationList);
+    const [organisationList, setOrganisationList] = useState([]);
     const { auth, stateList } = useContext(AuthContext)
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     const [editTableData, setEditTableData] = useState({});
-
-    console.log('organisationList', organisationList);
 
     useEffect(() => {
         fetchOrganisationList();
@@ -157,22 +155,22 @@ const AdminOrgnisationList = () => {
         const orgId = 0
         try {
             const body = {
-                "page": 0,
-                "pageSize": 0
+                "page": page,
+                "pageSize": pageSize
             }
             const response = await AdverticeNetwork.fetchAdminOrganisationApi(body, auth, orgId);
-
-            console.log('response', response);
+            if (response.errorCode === 0) {
+                setOrganisationList(response.admins);
+                setRowCount(response.count)
+            }
         } catch (error) {
             console.log(error);
         }
     }
 
     const handleClick = async (event, data) => {
-        console.log('data===', data);
         event.stopPropagation();
         const response = await AdverticeNetwork.changeStatusApi(auth, data?.id);
-        console.log('response===', response);
         if (response?.errorCode === 0) {
             fetchOrganisationList();
         }
@@ -212,33 +210,33 @@ const AdminOrgnisationList = () => {
                 return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
             }
         },
+        // {
+        //     field: 'logo',
+        //     sortable: false,
+        //     headerClassName: 'super-app-theme--header',
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Logo</p>,
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return (
+        //             <Avatar
+        //                 src={`${params.row.logo}`}
+        //             />
+        //         );
+        //     },
+        // },
         {
-            field: 'logo',
-            sortable: false,
+            field: "name",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Name</p>,
             headerClassName: 'super-app-theme--header',
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Logo</p>,
-            flex: 0.5,
+            sortable: false,
             renderCell: (params) => {
-                return (
-                    <Avatar
-                        src={`${params.row.logo}`}
-                    />
-                );
+                return <p style={{ margin: "0px" }}><Link>{params.row.name}</Link></p>
             },
+            flex: 1.5,
         },
         {
-            field: "organisation",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>organisation</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px" }}><Link>{params.row.organisation}</Link></p>
-            },
-            flex: 1,
-        },
-        {
-            field: "domain",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>domain</p>,
+            field: "username",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Username</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1.5,
@@ -269,7 +267,7 @@ const AdminOrgnisationList = () => {
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>stateName</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1.2
         },
         {
             field: "cityName",
@@ -369,7 +367,7 @@ const AdminOrgnisationList = () => {
                     </Grid>
                 </Grid>
                 <Box
-                    m="40px 0 0 0"
+                    m="10px 0 0 0"
                     height="75vh"
                     sx={{
                         '.MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
