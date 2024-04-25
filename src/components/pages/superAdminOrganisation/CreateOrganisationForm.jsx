@@ -13,8 +13,6 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
 
-    console.log('selectedCity', selectedCity);
-
     function handleStateChange(event) {
         setCityList(event.target.value.city);
         setSelectedState(event.target.value);
@@ -36,7 +34,6 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                 }
                 const response = await AdverticeNetwork.createOrganisationApi(body, auth);
                 if (response.errorCode === 0) {
-                    console.log('response', response);
                     fetchOrganisationList();
                     handleClose();
                 }

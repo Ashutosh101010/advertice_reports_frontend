@@ -6,12 +6,12 @@ import { sentenceCase } from "change-case";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import AdverticeNetwork from "../../../Network";
 import AuthContext from "../authContext/AuthContext";
-import CreateFormModal from "../superAdminOrganisation/CreateOrganisationForm";
-import EditFormModal from "../superAdminOrganisation/EditOrganisation";
+import CreateAdminFormModal from "./CreateAdminForm";
+import EditAdminFormModal from "./EditAdminForm";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -137,6 +137,8 @@ const OrganisationList = [
 const AdminOrgnisationList = () => {
 
     const theme = useTheme();
+    const location = useLocation();
+    const organisationId = location?.state?.orgId ? location?.state?.orgId : 0;
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(0);
@@ -152,7 +154,7 @@ const AdminOrgnisationList = () => {
     }, [])
 
     const fetchOrganisationList = async () => {
-        const orgId = 0
+        const orgId = organisationId
         try {
             const body = {
                 "page": page,
@@ -362,7 +364,7 @@ const AdminOrgnisationList = () => {
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
                         <Button className='hearder-right-btn create-organisation' onClick={createForm}>
-                            Create Organisation
+                            Create Admins
                         </Button>
                     </Grid>
                 </Grid>
@@ -447,10 +449,10 @@ const AdminOrgnisationList = () => {
                     />
                 </Box>
                 <Dialog open={createFormModal} onClose={handleCloseModal}>
-                    <CreateFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} />
+                    <CreateAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} organisationId={organisationId} />
                 </Dialog>
                 <Dialog open={editFormModal} onClose={handleCloseModal}>
-                    <EditFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} />
+                    <EditAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} />
                 </Dialog>
             </Card>
         </React.Fragment>

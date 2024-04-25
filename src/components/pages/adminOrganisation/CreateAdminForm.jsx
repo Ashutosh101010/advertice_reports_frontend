@@ -1,44 +1,20 @@
 import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdverticeNetwork from "../../../Network";
 
-export default function EditFormModal({ handleClose, fetchOrganisationList, auth, stateList, editTableData }) {
+export default function CreateAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, organisationId }) {
 
 
     const [address, setAddress] = useState("");
-    const [owner, setOwner] = useState("");
+    const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [contact, setContact] = useState();
+    const [bio, setBio] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
-
-    useEffect(() => {
-        if (editTableData) {
-            const cityLists = []
-            for (let statename of stateList) {
-                if (statename.id === editTableData.stateId) {
-
-                    setCityList(statename?.city)
-                    cityLists.push(...statename?.city)
-                    setSelectedState(statename);
-
-                }
-            };
-            if (cityLists?.length > 0) {
-                for (let cityId of cityLists) {
-                    if (cityId.id === editTableData.cityId) {
-                        setSelectedCity(cityId);
-
-                    }
-                }
-            };
-            setAddress(editTableData?.address);
-            setOwner(editTableData?.owner);
-            setEmail(editTableData?.email);
-            setContact(editTableData?.contact);
-        }
-    }, [editTableData])
 
     function handleStateChange(event) {
         setCityList(event.target.value.city);
@@ -54,14 +30,17 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
             if (address && email && contact) {
                 const body = {
                     "address": address,
-                    "cityId": selectedCity?.id,
-                    "owner": owner,
+                    "bio": bio,
+                    "contact": contact,
                     "email": email,
-                    "contact": contact
+                    "name": name,
+                    "password": password,
+                    "userName": userName,
+                    "cityId": selectedCity?.id,
+                    "organisationId": organisationId
                 }
-                const response = await AdverticeNetwork.editOrganisationApi(body, auth, editTableData.id);
+                const response = await AdverticeNetwork.createAdminOrganisationApi(body, auth);
                 if (response.errorCode === 0) {
-                    console.log('response', response);
                     fetchOrganisationList();
                     handleClose();
                 }
@@ -74,7 +53,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Organisation</Typography>
+            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Admin</Typography>
             <form
                 style={{
                     display: "flex",
@@ -87,20 +66,37 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="Address"
-                    name="sddress"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    label="Name"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     sx={{ gridColumn: "span 12", width: "430px" }}
                 />
-
+                <TextField
+                    variant="outlined"
+                    type="password"
+                    label="Password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                />
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="Owner"
-                    name="owner"
-                    value={owner}
-                    onChange={(e) => setOwner(e.target.value)}
+                    label="Bio"
+                    name="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="UserName"
+                    name="UserName"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
@@ -119,6 +115,15 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         marginTop: "30px",
                         width: "430px",
                     }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="Address"
+                    name="sddress"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
                 />
                 <TextField
                     variant="outlined"
@@ -150,7 +155,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         );
                     })}
                 </Select>
-                {selectedState?.id !== undefined &&
+                {selectedState.id !== undefined &&
                     <>
                         <InputLabel id="city-label" sx={{ left: '10px', marginTop: "15px", }}>City</InputLabel>
                         <Select

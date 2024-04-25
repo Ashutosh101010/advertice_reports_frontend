@@ -2,13 +2,16 @@ import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography } fr
 import React, { useEffect, useState } from "react";
 import AdverticeNetwork from "../../../Network";
 
-export default function EditFormModal({ handleClose, fetchOrganisationList, auth, stateList, editTableData }) {
+export default function EditAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, editTableData }) {
 
 
     const [address, setAddress] = useState("");
-    const [owner, setOwner] = useState("");
     const [email, setEmail] = useState("");
     const [contact, setContact] = useState();
+    const [userName, setUserName] = useState("");
+    const [bio, setBio] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
@@ -33,8 +36,11 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     }
                 }
             };
+            setUserName(editTableData?.username)
+            setBio(editTableData?.bio);
+            setName(editTableData?.name);
+            setPassword(editTableData?.password);
             setAddress(editTableData?.address);
-            setOwner(editTableData?.owner);
             setEmail(editTableData?.email);
             setContact(editTableData?.contact);
         }
@@ -52,16 +58,19 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
     async function handleSubmit() {
         try {
             if (address && email && contact) {
+
                 const body = {
                     "address": address,
-                    "cityId": selectedCity?.id,
-                    "owner": owner,
+                    "bio": bio,
+                    "contact": contact,
                     "email": email,
-                    "contact": contact
+                    "name": name,
+                    "password": password,
+                    "userName": userName,
+                    "cityId": selectedCity?.id,
                 }
-                const response = await AdverticeNetwork.editOrganisationApi(body, auth, editTableData.id);
+                const response = await AdverticeNetwork.editAdminOrganisationApi(body, auth, editTableData.id);
                 if (response.errorCode === 0) {
-                    console.log('response', response);
                     fetchOrganisationList();
                     handleClose();
                 }
@@ -84,23 +93,41 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     padding: "2rem",
                 }}
             >
-                <TextField
-                    variant="outlined"
-                    type="text"
-                    label="Address"
-                    name="sddress"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    sx={{ gridColumn: "span 12", width: "430px" }}
-                />
 
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="Owner"
-                    name="owner"
-                    value={owner}
-                    onChange={(e) => setOwner(e.target.value)}
+                    label="Name"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    sx={{ gridColumn: "span 12", width: "430px" }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="password"
+                    label="Password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="Bio"
+                    name="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="UserName"
+                    name="UserName"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
@@ -122,6 +149,15 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                 />
                 <TextField
                     variant="outlined"
+                    type="text"
+                    label="Address"
+                    name="sddress"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                />
+                <TextField
+                    variant="outlined"
                     type="tel"
                     label="Contact"
                     name="contact"
@@ -132,8 +168,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         marginTop: "30px",
                         width: "430px",
                     }}
-                />
-                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
+                />                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"

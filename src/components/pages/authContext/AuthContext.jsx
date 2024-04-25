@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const token = localStorage.getItem("accessToken");
   const userId = localStorage.getItem("userId");
   const userType = localStorage.getItem("userType");
+  const organisationId = localStorage.getItem("organizationId");
   const [authenticated, setAuthenticated] = useState(false);
   const [auth, setAuth] = useState(token);
   const [stateList, setStateList] = useState([]);
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, setAuthenticated, setAuth, auth, stateList, setStateList, userId, userType }}>
+    <AuthContext.Provider value={{ authenticated, setAuthenticated, setAuth, auth, stateList, setStateList, userId, userType, organisationId }}>
       {children}
     </AuthContext.Provider>
   );

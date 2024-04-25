@@ -6,7 +6,7 @@ import { sentenceCase } from "change-case";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import AdverticeNetwork from "../../../Network";
 import AuthContext from "../authContext/AuthContext";
@@ -64,85 +64,17 @@ const IOSSwitch = styled((props) => (
     },
 }));
 
-const CampaignData = [
-    {
-        id: 1,
-        campaigns: "(7953) new test",
-        impression: "0",
-        clicks: "0",
-        ctr: '0%',
-        dailyCap: "111",
-        todayCost: "0",
-        todayBudget: "212",
-        mediaCost: "0",
-        eCpm: "0",
-        eCpc: "0",
-        progress: 0,
-        status: true,
-        adminStatus: true,
-    },
-    {
-        id: 2,
-        campaigns: "(7953) new test",
-        impression: "0",
-        clicks: "0",
-        ctr: '0%',
-        dailyCap: "111",
-        todayCost: "0",
-        todayBudget: "212",
-        mediaCost: "0",
-        eCpm: "0",
-        eCpc: "0",
-        progress: 85,
-        status: true,
-        adminStatus: true,
-    }
-]
-
-const OrganisationList = [
-    {
-        "id": 1,
-        "organisation": "classio",
-        "address": "indore",
-        "domain": "www.classio.com",
-        "email": "classio@gmail.com",
-        "contact": "1234567890",
-        "logo": "",
-        "status": true,
-        "createdAt": 1713365503318,
-        "updatedAt": 0,
-        "cityId": 1,
-        "cityName": "Indore",
-        "stateName": "madhya pradesh",
-        "stateId": 1
-    },
-    {
-        "id": 2,
-        "organisation": "ps academy",
-        "address": "indore",
-        "domain": "www.pdacademy.com",
-        "email": "pdacademy@gmail.com",
-        "contact": "1234567890",
-        "logo": "",
-        "status": false,
-        "createdAt": 1713365503318,
-        "updatedAt": 0,
-        "cityId": 2,
-        "cityName": "ujjain",
-        "stateName": "madhya pradesh",
-        "stateId": 1
-    },
-]
 
 const SuperAdminOrgnisationList = () => {
 
     const theme = useTheme();
+    const navigate = useNavigate();
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
-    const [rowCount, setRowCount] = useState(OrganisationList.length);
+    const [rowCount, setRowCount] = useState(0);
     const [switchChecked, setSwitchChecked] = useState(false);
     const [organisationList, setOrganisationList] = useState([]);
-    const { auth, stateList } = useContext(AuthContext)
+    const { auth, stateList } = useContext(AuthContext);
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     const [editTableData, setEditTableData] = useState({});
@@ -160,6 +92,7 @@ const SuperAdminOrgnisationList = () => {
             const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
             if (response.errorCode === 0) {
                 setOrganisationList(response.organisations);
+                setRowCount(response.count)
             }
         } catch (error) {
             console.log(error);
@@ -196,6 +129,10 @@ const SuperAdminOrgnisationList = () => {
         setEditTableData(data);
         setEditFormModal(true);
     }
+
+    function handleSectionClick(value) {
+        navigate("/admin-organisation", { state: { orgId: value.id } });
+    };
 
     const columns = [
         {
@@ -433,7 +370,7 @@ const SuperAdminOrgnisationList = () => {
                         rows={organisationList}
                         columns={columns}
                         pagination
-                        // onCellClick={handleSectionClick}
+                        onCellClick={handleSectionClick}
                         disableColumnMenu
                         disableColumnFilter
                         disableColumnSelector={false}

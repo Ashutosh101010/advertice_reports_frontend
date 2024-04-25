@@ -9,8 +9,15 @@ export default class AdverticeNetwork {
     static FETCH_SUPER_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/fetch-all-organisation";
     static FETCH_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/fetch-admin/";
     static CREATE_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/create-organisation";
+    static CREATE_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/admin/create";
     static EDIT_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/edit-organisation/";
+    static EDIT_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/admin/edit-profile";
     static CHANGE_STATUS_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/change-status/";
+    static CREATE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/create/";
+
+    static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
+    static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign/";
+
 
     static async fetchCity() {
         let response = await axios.get(this.META_URL_STATE, {
@@ -54,6 +61,16 @@ export default class AdverticeNetwork {
         });
         return response.data;
     }
+    static async fetchCampaignApi(body, auth) {
+        let response = await axios.post(this.FETCH_CAMPAIGN_URL, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
 
     static async fetchAdminOrganisationApi(body, auth, organisationId) {
         let response = await axios.post(this.FETCH_ADMIN_ORGANISATION_URL + organisationId, body, {
@@ -77,8 +94,52 @@ export default class AdverticeNetwork {
         return response.data;
     }
 
+    static async createAdminOrganisationApi(body, auth) {
+        let response = await axios.post(this.CREATE_ADMIN_ORGANISATION_URL, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    static async createCampaignApi(body, auth, organizationId) {
+        let response = await axios.post(this.CREATE_CAMPAIGN_URL + organizationId, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
     static async editOrganisationApi(body, auth, organisationId) {
         let response = await axios.post(this.EDIT_ORGANISATION_URL + organisationId, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    static async editAdminOrganisationApi(body, auth, organisationId) {
+        let response = await axios.post(this.EDIT_ADMIN_ORGANISATION_URL, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    static async editCampaignApi(body, auth, campaignId) {
+        let response = await axios.post(this.EDIT_CAMPAIGN_URL + campaignId, body, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel } from '@mui/material';
+import React, { useContext, useEffect, useState } from "react";
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -8,6 +8,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Link } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
+import CreateCampaignFormModal from "./CreateCampaignForm";
+import AuthContext from "../authContext/AuthContext";
+import AdverticeNetwork from "../../../Network";
+import EditCampaignFormModal from "./EditCampaign";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -98,10 +102,39 @@ const CampaignData = [
 const Campaigns = () => {
 
     const theme = useTheme();
+    const organisationId = localStorage.getItem("organizationId");
+    const userType = localStorage.getItem("userType");
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
-    const [rowCount, setRowCount] = useState(CampaignData.length);
+    const [rowCount, setRowCount] = useState(0);
     const [switchChecked, setSwitchChecked] = useState(true);
+    const [createFormModal, setCreateFormModal] = useState(false);
+    const [editFormModal, setEditFormModal] = useState(false);
+    const { auth, userId } = useContext(AuthContext);
+    const [editTableData, setEditTableData] = useState({});
+    const [campaignList, setCampaignList] = useState([]);
+
+
+
+    useEffect(() => {
+        fetchCampaignList();
+    }, [])
+
+    const fetchCampaignList = async () => {
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize
+            }
+            const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
+            if (response.errorCode === 0) {
+                setCampaignList(response.campaigns);
+                setRowCount(response.count)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -116,6 +149,19 @@ const Campaigns = () => {
         setPageSize(newPageSize);
     };
 
+    const createForm = () => {
+        setCreateFormModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setCreateFormModal(false);
+        setEditFormModal(false);
+    }
+    const handleEditTable = (data) => {
+        setEditTableData(data);
+        setEditFormModal(true);
+    }
+
     const columns = [
         {
             field: "id",
@@ -128,17 +174,17 @@ const Campaigns = () => {
             }
         },
         {
-            field: "campaigns",
+            field: "title",
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Campaign</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}><Link>{params.row.campaigns}</Link></p>
+                return <p style={{ margin: "0px" }}><Link>{params.row.title}</Link></p>
             },
             flex: 1,
         },
         {
-            field: "impression",
+            field: "impressions",
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
@@ -187,14 +233,14 @@ const Campaigns = () => {
             flex: 1
         },
         {
-            field: "eCpm",
+            field: "cpm",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
-            field: "eCpc",
+            field: "cpc",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
             headerClassName: 'super-app-theme--header',
@@ -209,7 +255,7 @@ const Campaigns = () => {
             renderCell: (params) => {
                 return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
             },
-            
+
         },
         {
             field: "status",
@@ -261,7 +307,7 @@ const Campaigns = () => {
         },
         {
             field: "action",
-            flex: 1.5,
+            flex: 2,
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
             headerClassName: 'super-app-theme--header',
@@ -278,6 +324,7 @@ const Campaigns = () => {
 
                         >
                             <FormControlLabel
+                                sx={{ marginRight: 0 }}
                                 checked={switchChecked}
                                 value={switchChecked}
                                 onChange={(e) => {
@@ -289,6 +336,7 @@ const Campaigns = () => {
                         </IconButton>
                         <IconButton
                             aria-label="more"
+                            onClick={() => handleEditTable(params.row)}
                         >
                             <EditIcon />
                         </IconButton>
@@ -306,8 +354,15 @@ const Campaigns = () => {
     return (
         <React.Fragment>
             <Card className="card">
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+                        <Button className='hearder-right-btn create-organisation' onClick={createForm}>
+                            Create Campaign
+                        </Button>
+                    </Grid>
+                </Grid>
                 <Box
-                    m="40px 0 0 0"
+                    m="10px 0 0 0"
                     height="75vh"
                     sx={{
                         '.MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
@@ -372,7 +427,7 @@ const Campaigns = () => {
                         pageSize={pageSize}
                         onPageSizeChange={handlePageSizeChange}
                         rowsPerPageOptions={[25, 50, 100]}
-                        rows={CampaignData}
+                        rows={campaignList}
                         columns={columns}
                         pagination
                         // onCellClick={handleSectionClick}
@@ -386,6 +441,12 @@ const Campaigns = () => {
                         }}
                     />
                 </Box>
+                <Dialog open={createFormModal} onClose={handleCloseModal}>
+                    <CreateCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} organisationId={organisationId} userType={userType} />
+                </Dialog>
+                <Dialog open={editFormModal} onClose={handleCloseModal}>
+                    <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} />
+                </Dialog>
             </Card>
         </React.Fragment>
     )

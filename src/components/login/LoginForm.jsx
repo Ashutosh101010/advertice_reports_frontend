@@ -11,7 +11,8 @@ const LoginForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const domain = window.location.host;
+    // const domain = window.location.host;
+    const domain = "domain"
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +25,7 @@ const LoginForm = () => {
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
                 localStorage.setItem('userId', response.userId);
+                localStorage.setItem('organizationId', response.organizationId)
                 localStorage.setItem('userType', "admin");
                 navigate('/')
             }
