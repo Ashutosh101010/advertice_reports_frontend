@@ -4,7 +4,7 @@ import AdverticeNetwork from "../../../Network";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-export default function EditCampaignFormModal({ handleClose, auth, userId, fetchCampaignList, editTableData }) {
+export default function EditCampaignFormModal({ handleClose, auth, fetchCampaignList, editTableData }) {
 
 
     const [title, setTitle] = useState("");

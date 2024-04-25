@@ -1,22 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import loginLogo from "../../../assets/advertice-logo.png";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import AuthContext from '../authContext/AuthContext';
 
 const pages = ['Dahboard', 'Campaigns', 'Reports', 'Pixel'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -74,7 +72,6 @@ function TopHeader() {
     const [active, setActive] = useState('Dashboard');
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
-    const { userId } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = useState(null);
 
     function handleClick(event) {

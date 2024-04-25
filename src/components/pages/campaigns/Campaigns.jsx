@@ -110,7 +110,7 @@ const Campaigns = () => {
     const [switchChecked, setSwitchChecked] = useState(true);
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
-    const { auth, userId } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
     const [editTableData, setEditTableData] = useState({});
     const [campaignList, setCampaignList] = useState([]);
 
