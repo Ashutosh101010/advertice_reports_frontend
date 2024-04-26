@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
@@ -12,6 +12,7 @@ import CreateCampaignFormModal from "./CreateCampaignForm";
 import AuthContext from "../authContext/AuthContext";
 import AdverticeNetwork from "../../../Network";
 import EditCampaignFormModal from "./EditCampaign";
+import ImportCampaignCsv from "./ImportCampaign";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -113,8 +114,7 @@ const Campaigns = () => {
     const { auth } = useContext(AuthContext);
     const [editTableData, setEditTableData] = useState({});
     const [campaignList, setCampaignList] = useState([]);
-
-
+    const [importModal, setImportModal] = useState(false);
 
     useEffect(() => {
         fetchCampaignList();
@@ -156,10 +156,15 @@ const Campaigns = () => {
     const handleCloseModal = () => {
         setCreateFormModal(false);
         setEditFormModal(false);
+        setImportModal(false)
     }
     const handleEditTable = (data) => {
         setEditTableData(data);
         setEditFormModal(true);
+    }
+
+    const ImportCampaign = () => {
+        setImportModal(true)
     }
 
     const columns = [
@@ -314,7 +319,7 @@ const Campaigns = () => {
             renderCell: (params) => {
                 return (
                     <>
-                        <IconButton
+                        {/* <IconButton
                             aria-label="more"
                             id={params.row.id}
                             aria-controls={open ? "long-menu" : undefined}
@@ -333,7 +338,7 @@ const Campaigns = () => {
                                 control={<IOSSwitch />}
                                 label=""
                             />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                             aria-label="more"
                             onClick={() => handleEditTable(params.row)}
@@ -356,6 +361,9 @@ const Campaigns = () => {
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+                        <Button className='hearder-right-btn create-organisation' onClick={ImportCampaign}>
+                            Import Campaign
+                        </Button>
                         <Button className='hearder-right-btn create-organisation' onClick={createForm}>
                             Create Campaign
                         </Button>
@@ -446,6 +454,9 @@ const Campaigns = () => {
                 </Dialog>
                 <Dialog open={editFormModal} onClose={handleCloseModal}>
                     <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} />
+                </Dialog>
+                <Dialog open={importModal} onClose={handleCloseModal}>
+                    <ImportCampaignCsv organisationId={organisationId} handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} />
                 </Dialog>
             </Card>
         </React.Fragment>
