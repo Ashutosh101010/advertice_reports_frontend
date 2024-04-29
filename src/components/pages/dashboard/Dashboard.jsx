@@ -55,13 +55,40 @@ const Dashboard = () => {
 
     const chartOptions = {
         chart: {
-            id: 'impressions-chart',
-            toolbar: {
-                show: false
+            type: 'area',
+            height: 350,
+            zoom: {
+                enabled: false
             }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
         },
         xaxis: {
             categories: formattedDates
+        },
+        fill: {
+            colors: ['#ee4036']
+        },
+        stroke: {
+            width: 2,
+            colors: ['#ee4036']
+        },
+        markers: {
+            size: 4,
+            colors: ['#ee4036'],
+            strokeWidth: 1,
+            strokeColors: ['#ee4036'],
+            shape: 'circle',
+            dataLabels: {
+                enabled: true,
+                style: {
+                    colors: ['#ffffff']
+                }
+            }
         },
         tooltip: {
             enabled: true,
@@ -84,7 +111,6 @@ const Dashboard = () => {
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-
                                 label="Select From Date"
                                 value={selectedDate}
                                 onChange={handleDateChange}
@@ -103,7 +129,7 @@ const Dashboard = () => {
                 </Grid>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} >
-                        <Chart options={chartOptions} series={chartSeries} type="line" height={350} />
+                        <Chart options={chartOptions} series={chartSeries} type="area" height={350} />
                     </Grid>
                 </Grid>
 
