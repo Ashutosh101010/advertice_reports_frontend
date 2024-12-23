@@ -71,7 +71,6 @@ function TopHeader() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [active, setActive] = useState('Dashboard');
     const navigate = useNavigate();
-    const [searchQuery, setSearchQuery] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
 
     function handleClick(event) {
@@ -84,6 +83,9 @@ function TopHeader() {
         if (e.target.outerText === 'Basic') {
             navigate('/reports/basic')
         }
+        if (e.target.outerText === 'Advance') {
+            navigate('/reports/advance')
+        }        
         setAnchorEl(null);
     }
 
@@ -110,7 +112,7 @@ function TopHeader() {
         setAnchorElUser(null);
     };
 
-    const handleHeaderMenu = (values) => {
+    const handleHeaderMenu = (values) => {        
         if (values === "Dashboard") {
             navigate('/');
         } else if (values === "Campaigns") {
@@ -119,11 +121,12 @@ function TopHeader() {
             navigate('/campaigns');
         } else if (values === "superadminorganisation") {
             navigate('/super-admin-organisation');
-        } else if ("adminorganisation") {
+        } else if (values === "adminorganisation") {            
             navigate('/admin-organisation');
         }
         setActive(values);
     }
+    
 
     return (
         <AppBar position="static" className='top-header'>
@@ -203,12 +206,12 @@ function TopHeader() {
                     <img src={loginLogo} className='header-logo' />
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
-                    <Button
+                    {/* <Button
                         className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
                         onClick={() => handleHeaderMenu("Dashboard")}
                     >
                         Dashboard
-                    </Button>
+                    </Button> */}
                     <Button className={active === "Campaigns" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Campaigns")}>
                         Campaigns
                     </Button>
@@ -225,9 +228,9 @@ function TopHeader() {
                     >
                         Reports <KeyboardArrowDownIcon color={active === "Basic" || active === "Billing" || active === "Advance" || active === "Video" ? "white" : 'action'} />
                     </Button>
-                    <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
+                    {/* <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
                         Pixel
-                    </Button>
+                    </Button> */}
                     {
                         userType === "superadmin" ?
                             <Button className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("superadminorganisation")}>
@@ -297,12 +300,12 @@ function TopHeader() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Button className='hearder-right-btn'>
+                    {/* <Button className='hearder-right-btn'>
                         Create Campaign
                     </Button>
                     <Button className='hearder-right-btn'>
                         Add Funds
-                    </Button>
+                    </Button> */}
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                             <Avatar alt="Hemlata Rajpoot" src="/static/images/avatar/2.jpg" />
