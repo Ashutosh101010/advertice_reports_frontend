@@ -17,7 +17,9 @@ export default class AdverticeNetwork {
 
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
     static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign/";
+    static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "/campaign/create";
 
+    
 
     static async fetchCity() {
         let response = await axios.get(this.META_URL_STATE, {
@@ -151,6 +153,17 @@ export default class AdverticeNetwork {
 
     static async changeStatusApi(auth, organisationId) {
         let response = await axios.get(this.CHANGE_STATUS_ORGANISATION_URL + organisationId, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    static async importCsvDashboard(body, auth) {
+        let response = await axios.post(this.IMPORT_DASHBOARD_CSV, body, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth

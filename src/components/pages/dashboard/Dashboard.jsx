@@ -1,24 +1,58 @@
 import React, { useContext, useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import AdverticeNetwork from "../../../Network";
-import { Card, Grid, TextField } from "@mui/material";
+import { Button, Card, Dialog, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import AuthContext from "../authContext/AuthContext";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ImportDashboardCsv from "./ImportCsv";
 
 
 const Dashboard = () => {
 
+    const organisationId = localStorage.getItem("organizationId");
+    const userType = localStorage.getItem("userType");
     const { auth } = useContext(AuthContext);
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(500);
     const [campaignData, setCampaignData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [toDate, setToDate] = useState(null);
+    const [importModal, setImportModal] = useState(false);
+    const [organisationList, setOrganisationList] = useState([]);
+    const [selectOrgnigation, setSelectOrgnigation] = useState('');
 
     useEffect(() => {
-        fetchCampaignList();
-    }, [selectedDate, toDate])
+        if (userType === "superadmin") {
+            if (selectOrgnigation?.id) {
+                fetchCampaignList();
+            }
 
+        } else if (userType === "admin") {
+            fetchCampaignList();
+        }
 
+    }, [selectedDate, toDate, selectOrgnigation, userType])
+
+    useEffect(() => {
+        fetchOrganisationList();
+    }, [])
+
+    const fetchOrganisationList = async () => {
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize
+            }
+            const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+            if (response.errorCode === 0) {
+                setOrganisationList(response.organisations);
+                setSelectOrgnigation(response.organisations[0])
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
@@ -32,7 +66,11 @@ const Dashboard = () => {
                 "page": 0,
                 "pageSize": 100,
                 "from": selectedDate === null ? null : selectedDate.toDate().getTime(),
-                "to": toDate === null ? null : toDate.toDate().getTime()
+                "to": toDate === null ? null : toDate.toDate().getTime(),
+                // "organizationId": selectOrgnigation?.id
+            }
+            if (selectOrgnigation?.id && userType === "superadmin") {
+                body.organizationId = selectOrgnigation?.id
             }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
@@ -50,8 +88,6 @@ const Dashboard = () => {
 
     const formattedDates = campaignData.map(campaign => formatDate(campaign.date));
     const impressions = campaignData.map(campaign => campaign.impressions);
-
-
 
     const chartOptions = {
         chart: {
@@ -104,11 +140,51 @@ const Dashboard = () => {
         }
     ];
 
+    const handleCloseModal = () => {
+        setImportModal(false)
+    }
+
+    const ImportCampaign = () => {
+        setImportModal(true)
+    }
+
+    function handleSelectOrgnigation(event) {
+        setSelectOrgnigation(event.target.value);
+    };
+
     return (
         <React.Fragment>
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+
+                        <Button className='' sx={{ height: "100%", background: "#ee4036", color: "#fff", textTransform: "capitalize", mr: 2 }} onClick={ImportCampaign}>
+                            Import Campaign
+                        </Button>
+                        {
+                            userType === "superadmin" && (
+                                <FormControl sx={{ textAlign: "start" }}>
+                                    <InputLabel id="state-label">Organisation</InputLabel>
+                                    <Select
+                                        value={selectOrgnigation}
+                                        label="Organisation"
+                                        labelId='state-label'
+                                        onChange={handleSelectOrgnigation}
+                                        sx={{ minWidth: 250, mr: 2 }}
+                                        disableUnderline
+                                    >
+                                        {organisationList.map((item) => {
+                                            return (
+                                                <MenuItem value={item} key={item.id}>
+                                                    {item.domain}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            )
+                        }
+
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Select From Date"
@@ -134,6 +210,9 @@ const Dashboard = () => {
                 </Grid>
 
             </Card>
+            <Dialog open={importModal} onClose={handleCloseModal}>
+                <ImportDashboardCsv organisationId={organisationId} handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} />
+            </Dialog>
         </React.Fragment>
     )
 };
