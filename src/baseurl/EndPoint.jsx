@@ -1,4 +1,4 @@
 const Endpoints = {
-	baseURL: "http://170.187.238.156:8080",
+	baseURL: "https://adverticeapi.classiolabs.com",
 };
 export default Endpoints;
