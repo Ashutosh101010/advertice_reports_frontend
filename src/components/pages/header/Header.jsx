@@ -102,6 +102,7 @@ function TopHeader() {
     };
 
     const handleCloseUserMenu = (e) => {
+     
         if (e.target.outerText === "Logout") {
             if (userType === "superadmin") {
                 navigate('/super-admin-login')
@@ -109,6 +110,7 @@ function TopHeader() {
                 navigate('/admin-login')
             }
         }
+        localStorage.clear();
         setAnchorElUser(null);
     };
 
@@ -126,6 +128,10 @@ function TopHeader() {
         }
         setActive(values);
     }
+
+    const handleHome = () =>{
+        navigate('/');
+    }
     
 
     return (
@@ -133,6 +139,7 @@ function TopHeader() {
 
             <Toolbar disableGutters sx={{ margin: "0px 25px" }}>
                 <Typography
+                onClick={handleHome}
                     variant="h6"
                     noWrap
                     component="a"
@@ -236,10 +243,11 @@ function TopHeader() {
                             <Button className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("superadminorganisation")}>
                                 Organisation
                             </Button>
-                            : userType === "admin" ?
-                                <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
-                                    Organisation
-                                </Button> : ""
+                            : userType === "admin" ? ""
+                                // <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
+                                //     Organisation
+                                // </Button> 
+                                : ""
                     }
 
                     <Menu
@@ -265,13 +273,13 @@ function TopHeader() {
                                 handleHeaderMenu("Basic");
                             }}>Basic
                         </MenuItem>
-                        <MenuItem
+                        {/* <MenuItem
                             className={active === "Billing" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
                             onClick={(e) => {
                                 handleClose(e);
                                 handleHeaderMenu("Billing");
                             }}>Billing
-                        </MenuItem>
+                        </MenuItem> */}
                         <MenuItem
                             className={active === "Advance" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
                             onClick={(e) => {
@@ -279,19 +287,19 @@ function TopHeader() {
                                 handleHeaderMenu("Advance");
                             }}>Advance
                         </MenuItem>
-                        <MenuItem
+                        {/* <MenuItem
                             className={active === "Video" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
                             onClick={(e) => {
                                 handleClose(e);
                                 handleHeaderMenu("Video");
                             }}>Video Stats
-                        </MenuItem>
+                        </MenuItem> */}
                     </Menu>
                 </Box>
 
                 <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
 
-                    <Search>
+                    {/* <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -299,7 +307,7 @@ function TopHeader() {
                             placeholder="Search Campaign"
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                    </Search>
+                    </Search> */}
                     {/* <Button className='hearder-right-btn'>
                         Create Campaign
                     </Button>

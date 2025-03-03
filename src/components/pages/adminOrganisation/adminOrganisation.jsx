@@ -363,9 +363,9 @@ const AdminOrgnisationList = () => {
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
-                        <Button className='hearder-right-btn create-organisation' onClick={createForm}>
+                        {/* <Button className='hearder-right-btn create-organisation' onClick={createForm}>
                             Create Admins
-                        </Button>
+                        </Button> */}
                     </Grid>
                 </Grid>
                 <Box

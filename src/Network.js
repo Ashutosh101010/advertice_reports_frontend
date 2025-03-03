@@ -18,8 +18,7 @@ export default class AdverticeNetwork {
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
     static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign/";
     static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "/campaign/create";
-
-    
+    static FETCH_REPORT_URL = Endpoints.baseURL + "/campaign/create";    
 
     static async fetchCity() {
         let response = await axios.get(this.META_URL_STATE, {
@@ -172,5 +171,17 @@ export default class AdverticeNetwork {
         });
         return response.data;
     }
+
+    static async fetchReportListApi(auth) {
+        let response = await axios.get(this.FETCH_REPORT_URL, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+    
 
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
@@ -7,6 +7,8 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Link } from "react-router-dom";
+import AdverticeNetwork from "../../../Network";
+import AuthContext from "../authContext/AuthContext";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -103,11 +105,19 @@ const CampaignData = [
 
 const BasicComponent = () => {
 
+    const { auth } = useContext(AuthContext);
     const theme = useTheme();
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(CampaignData.length);
     const [switchChecked, setSwitchChecked] = useState(true);
+    const [basicList, setBasicList] = useState([]);
+
+    useEffect(()=>{
+        fetchReportList();
+        console.log('aaaaaaaaa');
+        
+    }, [])
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -121,6 +131,22 @@ const BasicComponent = () => {
     function handlePageSizeChange(newPageSize) {
         setPageSize(newPageSize);
     };
+
+      const fetchReportList = async () => {
+            try {
+                const body = {
+                    "page": page,
+                    "pageSize": pageSize
+                }
+                console.log('body', body);
+                const response = await AdverticeNetwork.fetchReportListApi(auth);
+                if (response.errorCode === 0) {
+                    setBasicList(response.organisations);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
 
     const columns = [
         {

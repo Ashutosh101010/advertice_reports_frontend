@@ -4,10 +4,17 @@ import { Navigate } from "react-router-dom";
 import AuthContext from "../authContext/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, userType } = useContext(AuthContext);
 
-  if (!auth) {
-    return <Navigate to="/admin-login" />
+  console.log('userType', userType);
+  
+
+  if (!auth && userType) {
+    if (userType !== "superadmin") {
+      return <Navigate to="/admin-login" />
+    }else{
+      return <Navigate to="super-admin-login" />
+    }
   }
   if (auth) {
 

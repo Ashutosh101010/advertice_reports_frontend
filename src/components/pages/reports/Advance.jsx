@@ -255,7 +255,7 @@ const AdvanceComponent = () => {
                                             variant="outlined"
                                             id="startDate"
                                             onChange={handleStartDate}
-                                            renderInput={(params) => <TextField sx={{ width: "430px" }} variant="outlined" {...params} />}
+                                            renderInput={(params) => <TextField sx={{ minWidth: "230px" }} variant="outlined" {...params} />}
                                         />
                                     </LocalizationProvider>
                                     <Box>
@@ -309,7 +309,7 @@ const AdvanceComponent = () => {
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Campaign</InputLabel>
                                             <Select
-                                                sx={{ width: "430px" }}
+                                                sx={{ minWidth: "230px" }}
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 value={selectCampaign}
@@ -332,7 +332,7 @@ const AdvanceComponent = () => {
                                             variant="outlined"
                                             id="endDate"
                                             onChange={handleEndDate}
-                                            renderInput={(params) => <TextField sx={{ width: "430px" }} variant="outlined" {...params} />}
+                                            renderInput={(params) => <TextField sx={{ minWidth: "230px" }} variant="outlined" {...params} />}
                                         />
                                     </LocalizationProvider>
 
@@ -364,7 +364,7 @@ const AdvanceComponent = () => {
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Source</InputLabel>
                                             <Select
-                                                sx={{ width: "430px" }}
+                                                sx={{ minWidth: "230px" }}
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 value={selectCampaign}
