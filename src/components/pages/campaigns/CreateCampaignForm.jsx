@@ -4,7 +4,7 @@ import AdverticeNetwork from "../../../Network";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-export default function CreateCampaignFormModal({ handleClose, auth, organisationId, userType, fetchCampaignList }) {
+export default function CreateCampaignFormModal({ handleClose, auth, organisationId, userType, fetchCampaignList, organisationList }) {
 
 
     const [title, setTitle] = useState("");
@@ -16,29 +16,32 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
     const [cpm, setCpm] = useState(0);
     const [cpc, setCpc] = useState(0);
     const [cpa, setCpa] = useState(0);
-    const [organisationList, setOrganisationList] = useState([]);
+    // const [organisationList, setOrganisationList] = useState([]);
     const [organisationSelect, setOrganisationSelect] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
 
-    useEffect(() => {
-        fetchOrganisationList();
-    }, [])
+    console.log('organisationSelect', organisationSelect);
+    
 
-    const fetchOrganisationList = async () => {
-        try {
-            const body = {
-                "page": 0,
-                "pageSize": 100
-            }
-            const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
-            if (response.errorCode === 0) {
-                setOrganisationList(response.organisations);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // useEffect(() => {
+    //     fetchOrganisationList();
+    // }, [])
+
+    // const fetchOrganisationList = async () => {
+    //     try {
+    //         const body = {
+    //             "page": 0,
+    //             "pageSize": 100
+    //         }
+    //         const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+    //         if (response.errorCode === 0) {
+    //             setOrganisationList(response.organisations);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -62,7 +65,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
         try {
             if (title) {
                 const body = {
-                    "date": selectedDate !== null ? selectedDate.format('YYYY-MM-DD') : '',
+                    "date": selectedDate !== null ? selectedDate.format('DD-MM-YYYY') : '',
                     "title": title,
                     "impressions": Number(impressions),
                     "clicks": Number(clicks),
@@ -71,10 +74,11 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     "ctr": Number(ctr),
                     "cpm": Number(cpm),
                     "cpc": Number(cpc),
-                    "cpa": Number(cpa)
+                    "cpa": Number(cpa),
+                    "organizationId": ordId
                 }
 
-                const response = await AdverticeNetwork.createCampaignApi(body, auth, ordId);
+                const response = await AdverticeNetwork.createCampaignApi(body, auth);
                 if (response.errorCode === 0) {
                     fetchCampaignList();
                     handleClose();
@@ -235,7 +239,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                                 {organisationList.map((org, i) => {
                                     return (
                                         <MenuItem value={org} key={i}>
-                                            {org.email}
+                                            {org.organisation}
                                         </MenuItem>
                                     );
                                 })}

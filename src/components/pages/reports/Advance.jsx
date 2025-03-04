@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
@@ -9,6 +9,8 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Link } from "react-router-dom";
 import { DesktopDatePicker, LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import AdverticeNetwork from "../../../Network";
+import AuthContext from "../authContext/AuthContext";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -106,6 +108,8 @@ const CampaignData = [
 const AdvanceComponent = () => {
 
     const theme = useTheme();
+    const userType = localStorage.getItem("userType");
+    const { auth } = useContext(AuthContext);
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(CampaignData.length);
@@ -117,7 +121,81 @@ const AdvanceComponent = () => {
     const [countryCheck, setCountryCheck] = useState(null);
     const [osCheck, setOsCheck] = useState(null);
     const [selectCampaign, setSelectCampaign] = useState('');
-    const [intervalSelect, setIntervalSelect] = useState('none');    
+    const [intervalSelect, setIntervalSelect] = useState('none');
+    const [checked, setChecked] = React.useState(true);
+    const [reportList, setReportList] = useState([]);
+    const [organisationList, setOrganisationList] = useState([]);
+    const [selectOrgnigation, setSelectOrgnigation] = useState('');
+    const [campaignList, setCampaignList] = useState([]);
+    const [campiagnNameList, setCampiagnNameList] = useState([]);
+
+
+
+    useEffect(() => {
+        fetchReportList();
+        fetchOrganisationList();
+    }, [])
+
+    useEffect(() => {
+        if (organisationList?.length > 0) {
+            setSelectOrgnigation(organisationList[0])
+            fetchCampaignList();
+        }
+    }, [organisationList, selectOrgnigation, startDate, endDate, selectCampaign])
+
+    const fetchOrganisationList = async () => {
+        try {
+            const body = {
+                "allActive": true,
+                "page": 1,
+                "pageSize": 1
+            }
+            const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+            if (response.errorCode === 0) {
+                setOrganisationList(response.organisations);
+                setRowCount(response.count)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchCampaignList = async () => {
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize,
+                "organizationId": selectOrgnigation?.id,
+                "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
+                "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
+                "campaignName": selectCampaign
+            }
+            const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
+            if (response.errorCode === 0) {
+                setCampaignList(response.campaigns);
+                setCampiagnNameList(response?.campaignNames)
+                setRowCount(response.count)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchReportList = async () => {
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize
+            }
+            // console.log('body', body);
+            const response = await AdverticeNetwork.fetchReportListApi(auth);
+            if (response.errorCode === 0) {
+                setReportList(response.organisations);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -140,8 +218,6 @@ const AdvanceComponent = () => {
         setEndDate(newValue);
     };
 
-    const [checked, setChecked] = React.useState(true);
-
     const handleDomain = (event) => {
         setDomainCheck(event.target.checked);
     };
@@ -159,27 +235,37 @@ const AdvanceComponent = () => {
         setSelectCampaign(e.target.value);
     };
 
-    const handleInterval = (event) =>{
+    const handleInterval = (event) => {
         setIntervalSelect(event.target.value)
     }
 
+    function handleSelectOrgnigation(event) {
+        setSelectOrgnigation(event.target.value);
+    };
+
     const columns = [
         {
-            field: "date",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
+            field: "id",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}></p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
-            flex: 1,
+            flex: 0.5,
+            renderCell: (params) => {
+                return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
+            }
         },
         {
-            field: "campaigns",
+            field: "title",
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Campaign</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px" }}><Link>{params.row.title}</Link></p>
+            },
             flex: 1,
         },
         {
-            field: "impression",
+            field: "impressions",
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
@@ -193,19 +279,33 @@ const AdvanceComponent = () => {
             flex: 1
         },
         {
-            field: "conversions",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Conversions</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
             field: "ctr",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
+        // {
+        //     field: "dailyCap",
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Daily Cap</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     sortable: false,
+        //     flex: 1,
+        // },
+        // {
+        //     field: "todayCost",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Today's Cost</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
+        // {
+        //     field: "todayBudget",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Total Budget</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
         {
             field: "mediaCost",
             sortable: false,
@@ -216,24 +316,120 @@ const AdvanceComponent = () => {
         {
             field: "cpm",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPM</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "cpc",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPC</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        {
-            field: "cpa",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPA</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "progress",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Progress</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
+        //     },
+
+        // },
+        // {
+        //     field: "status",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Status</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <Label
+        //                 color={
+        //                     (params.row.status === true &&
+        //                         "success") ||
+        //                     "error"
+        //                 }
+        //             >
+        //                 {sentenceCase(
+        //                     params.row.status === true
+        //                         ? "Active"
+        //                         : "Paused"
+        //                 )}
+        //             </Label>
+        //         );
+        //     },
+        //     flex: 1
+        // },
+        // {
+        //     field: "adminStatus",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Admin Status</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <Label
+        //                 color={
+        //                     (params.row.adminStatus === true &&
+        //                         "success") ||
+        //                     "error"
+        //                 }
+        //             >
+        //                 {sentenceCase(
+        //                     params.row.adminStatus === true
+        //                         ? "Active"
+        //                         : "Pending"
+        //                 )}
+        //             </Label>
+        //         );
+        //     },
+        //     flex: 1
+        // },
+        // {
+        //     field: "action",
+        //     flex: 2,
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <>
+        //                 {/* <IconButton
+        //                     aria-label="more"
+        //                     id={params.row.id}
+        //                     aria-controls={open ? "long-menu" : undefined}
+        //                     aria-expanded={open ? "true" : undefined}
+        //                     aria-haspopup="true"
+        //                     style={{ color: 'black' }}
+
+        //                 >
+        //                     <FormControlLabel
+        //                         sx={{ marginRight: 0 }}
+        //                         checked={switchChecked}
+        //                         value={switchChecked}
+        //                         onChange={(e) => {
+        //                             handleClick(e);
+        //                         }}
+        //                         control={<IOSSwitch />}
+        //                         label=""
+        //                     />
+        //                 </IconButton> */}
+        //                 <IconButton
+        //                     aria-label="more"
+        //                     onClick={() => handleEditTable(params.row)}
+        //                 >
+        //                     <EditIcon />
+        //                 </IconButton>
+        //                 {/* <IconButton
+        //                     aria-label="more"
+        //                 >
+        //                     <ContentCopyIcon />
+        //                 </IconButton> */}
+        //             </>
+        //         );
+        //     },
+        // }
     ];
 
     return (
@@ -258,7 +454,7 @@ const AdvanceComponent = () => {
                                             renderInput={(params) => <TextField sx={{ minWidth: "230px" }} variant="outlined" {...params} />}
                                         />
                                     </LocalizationProvider>
-                                    <Box>
+                                    {/* <Box>
                                         <FormControl sx={{ mt: 2 }}>
                                             <FormLabel id="demo-row-radio-buttons-group-label">Interval</FormLabel>
                                             <RadioGroup
@@ -304,7 +500,7 @@ const AdvanceComponent = () => {
                                                 label="Os"
                                             />
                                         </FormGroup>
-                                    </FormControl></Box>
+                                    </FormControl></Box> */}
                                     <Box>
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Campaign</InputLabel>
@@ -316,13 +512,19 @@ const AdvanceComponent = () => {
                                                 label="Headers"
                                                 onChange={handleSlectCampaign}
                                             >
-                                                <MenuItem value={"test1"}>Test 1</MenuItem>
-                                                <MenuItem value={"test2"}>Test 2</MenuItem>
+                                                
+                                                {campiagnNameList.map((item) => {
+                                                        return (
+                                                            <MenuItem value={item} key={item}>
+                                                                {item}
+                                                            </MenuItem>
+                                                        );
+                                                    })}
                                             </Select>
                                         </FormControl>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={6} lg={6} sx={{position: "relative"}}>
+                                <Grid item xs={6} sm={6} md={6} lg={6} sx={{ position: "relative" }}>
                                     <InputLabel sx={{ fontWeight: "bold" }}>End Date</InputLabel>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DesktopDatePicker
@@ -336,7 +538,7 @@ const AdvanceComponent = () => {
                                         />
                                     </LocalizationProvider>
 
-                                    <Box>
+                                    {/* <Box>
                                         <FormControl sx={{ mt: 2 }} component="fieldset" variant="standard">
                                         <FormLabel component="legend">Date By</FormLabel>
                                         <FormGroup aria-label="position" row>
@@ -359,8 +561,8 @@ const AdvanceComponent = () => {
                                                 label="Creative"
                                             />
                                         </FormGroup>
-                                    </FormControl></Box>
-                                    <Box sx={{position: "absolute", bottom: 0}}>
+                                    </FormControl></Box> */}
+                                    {/* <Box sx={{position: "absolute", bottom: 0}}>
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Source</InputLabel>
                                             <Select
@@ -375,15 +577,38 @@ const AdvanceComponent = () => {
                                                 <MenuItem value={"test2"}>Test 2</MenuItem>
                                             </Select>
                                         </FormControl>
-                                    </Box>
+                                    </Box> */}
+                                    {
+                                        userType === "superadmin" && (
+                                            <FormControl sx={{ textAlign: "start", mt: 2 }}>
+                                                <InputLabel id="state-label">Organisation</InputLabel>
+                                                <Select
+                                                    value={selectOrgnigation}
+                                                    label="Organisation"
+                                                    labelId='state-label'
+                                                    onChange={handleSelectOrgnigation}
+                                                    sx={{ minWidth: 250, mr: 2 }}
+                                                    disableUnderline
+                                                >
+                                                    {organisationList.map((item) => {
+                                                        return (
+                                                            <MenuItem value={item} key={item.id}>
+                                                                {item.organisation}
+                                                            </MenuItem>
+                                                        );
+                                                    })}
+                                                </Select>
+                                            </FormControl>
+                                        )
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Divider sx={{mt: 2.5}} />
-                    <Box>
-                        <Button sx={{mt:2, background: "#4f46e5", color: "#fff"}}>Get Rreport</Button>
-                    </Box>
+                    <Divider sx={{ mt: 2.5 }} />
+                    {/* <Box>
+                        <Button sx={{ mt: 2, background: "#4f46e5", color: "#fff" }}>Get Rreport</Button>
+                    </Box> */}
                 </Box>
                 <Box
                     m="40px 0 0 0"
@@ -451,7 +676,7 @@ const AdvanceComponent = () => {
                         pageSize={pageSize}
                         onPageSizeChange={handlePageSizeChange}
                         rowsPerPageOptions={[25, 50, 100]}
-                        rows={CampaignData}
+                        rows={campaignList}
                         columns={columns}
                         pagination
                         // onCellClick={handleSectionClick}

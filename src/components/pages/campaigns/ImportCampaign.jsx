@@ -9,7 +9,7 @@ import Papa from 'papaparse'
 import { useSnackbar } from "notistack";
 import AdverticeNetwork from "../../../Network";
 
-export default function ImportCampaignCsv({ handleClose, auth, organisationId, fetchCampaignList }) {
+export default function ImportCampaignCsv({ handleClose, auth, organisationId, fetchCampaignList, selectOrgnigation }) {
 
     const expectedColumnNames = [
         'title',
@@ -20,7 +20,8 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         'ctr',
         'cpm',
         'cpa',
-        'cpc'
+        'cpc',
+        'date'
     ];
 
     const [isLoading, setLoading] = useState(false);
@@ -30,7 +31,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
 
     async function handleSubmit() {
         for (let listItem of importQuestions) {
-            const ordId = organisationId
+            const ordId = selectOrgnigation?.id
             try {
                 const body = {
                     "date": listItem?.date,
@@ -42,10 +43,11 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                     "ctr": Number(listItem?.ctr),
                     "cpm": Number(listItem?.cpm),
                     "cpc": Number(listItem?.cpc),
-                    "cpa": Number(listItem?.cpa)
+                    "cpa": Number(listItem?.cpa),
+                    "organizationId": ordId
                 }
 
-                const response = await AdverticeNetwork.createCampaignApi(body, auth, ordId);
+                const response = await AdverticeNetwork.createCampaignApi(body, auth);
                 if (response.errorCode === 0) {
                     fetchCampaignList();
 

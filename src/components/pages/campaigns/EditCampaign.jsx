@@ -18,7 +18,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
     const [cpa, setCpa] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
 
-    console.log('editTableData', editTableData);
+    // console.log('editTableData', editTableData);
 
     useEffect(() => {
         if (editTableData) {
@@ -61,10 +61,11 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                     "ctr": ctr,
                     "cpm": cpm,
                     "cpc": cpc,
-                    "cpa": cpa
+                    "cpa": cpa,
+                    "campaignId": editTableData?.id
                 }
 
-                const response = await AdverticeNetwork.editCampaignApi(body, auth, editTableData?.id);
+                const response = await AdverticeNetwork.editCampaignApi(body, auth);
                 if (response.errorCode === 0) {
                     fetchCampaignList();
                     handleClose();

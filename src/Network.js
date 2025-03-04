@@ -13,13 +13,23 @@ export default class AdverticeNetwork {
     static EDIT_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/edit-organisation/";
     static EDIT_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/admin/edit-profile";
     static CHANGE_STATUS_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/change-status/";
-    static CREATE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/create/";
+    static CREATE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/create";
 
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
-    static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign/";
+    static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign";
     static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "/campaign/create";
     static FETCH_REPORT_URL = Endpoints.baseURL + "/campaign/create";    
 
+    // static async fetchReportApi(auth) {
+    //     let response = await axios.get(this.FETCH_REPORT_URL, {
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "X-Auth": auth
+    //         },
+    //         withCredentials: false,
+    //     });
+    //     return response.data;
+    // }
     static async fetchCity() {
         let response = await axios.get(this.META_URL_STATE, {
             headers: {
@@ -106,8 +116,8 @@ export default class AdverticeNetwork {
         return response.data;
     }
 
-    static async createCampaignApi(body, auth, organizationId) {
-        let response = await axios.post(this.CREATE_CAMPAIGN_URL + organizationId, body, {
+    static async createCampaignApi(body, auth) {
+        let response = await axios.post(this.CREATE_CAMPAIGN_URL , body, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth
@@ -139,8 +149,8 @@ export default class AdverticeNetwork {
         return response.data;
     }
 
-    static async editCampaignApi(body, auth, campaignId) {
-        let response = await axios.post(this.EDIT_CAMPAIGN_URL + campaignId, body, {
+    static async editCampaignApi(body, auth) {
+        let response = await axios.post(this.EDIT_CAMPAIGN_URL, body, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth

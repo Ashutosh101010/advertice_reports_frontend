@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -115,20 +115,48 @@ const Campaigns = () => {
     const [editTableData, setEditTableData] = useState({});
     const [campaignList, setCampaignList] = useState([]);
     const [importModal, setImportModal] = useState(false);
+    const [organisationList, setOrganisationList] = useState([]);
+    const [selectOrgnigation, setSelectOrgnigation] = useState('');
+
+    // console.log('organisationList', organisationList, selectOrgnigation);
 
     useEffect(() => {
-        fetchCampaignList();
+        fetchOrganisationList();
     }, [])
+    useEffect(() => {
+       if (organisationList?.length > 0) {
+        setSelectOrgnigation(organisationList[0])
+        fetchCampaignList();
+       }
+    }, [organisationList])
 
     const fetchCampaignList = async () => {
         try {
             const body = {
                 "page": page,
-                "pageSize": pageSize
+                "pageSize": pageSize,
+                "organizationId": selectOrgnigation?.id,
             }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
+                setRowCount(response.count)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchOrganisationList = async () => {
+        try {
+            const body = {
+                "allActive": true,
+                "page": 1,
+                "pageSize": 1
+            }
+            const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+            if (response.errorCode === 0) {
+                setOrganisationList(response.organisations);
                 setRowCount(response.count)
             }
         } catch (error) {
@@ -166,6 +194,10 @@ const Campaigns = () => {
     const ImportCampaign = () => {
         setImportModal(true)
     }
+
+    function handleSelectOrgnigation(event) {
+        setSelectOrgnigation(event.target.value);
+    };
 
     const columns = [
         {
@@ -209,27 +241,27 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        {
-            field: "dailyCap",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Daily Cap</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1,
-        },
-        {
-            field: "todayCost",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Today's Cost</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
-            field: "todayBudget",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Total Budget</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "dailyCap",
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Daily Cap</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     sortable: false,
+        //     flex: 1,
+        // },
+        // {
+        //     field: "todayCost",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Today's Cost</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
+        // {
+        //     field: "todayBudget",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Total Budget</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
         {
             field: "mediaCost",
             sortable: false,
@@ -251,17 +283,17 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        {
-            field: "progress",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Progress</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
-            },
+        // {
+        //     field: "progress",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Progress</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
+        //     },
 
-        },
+        // },
         {
             field: "status",
             sortable: false,
@@ -286,30 +318,30 @@ const Campaigns = () => {
             },
             flex: 1
         },
-        {
-            field: "adminStatus",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Admin Status</p>,
-            headerClassName: 'super-app-theme--header',
-            renderCell: (params) => {
-                return (
-                    <Label
-                        color={
-                            (params.row.adminStatus === true &&
-                                "success") ||
-                            "error"
-                        }
-                    >
-                        {sentenceCase(
-                            params.row.adminStatus === true
-                                ? "Active"
-                                : "Pending"
-                        )}
-                    </Label>
-                );
-            },
-            flex: 1
-        },
+        // {
+        //     field: "adminStatus",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Admin Status</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <Label
+        //                 color={
+        //                     (params.row.adminStatus === true &&
+        //                         "success") ||
+        //                     "error"
+        //                 }
+        //             >
+        //                 {sentenceCase(
+        //                     params.row.adminStatus === true
+        //                         ? "Active"
+        //                         : "Pending"
+        //                 )}
+        //             </Label>
+        //         );
+        //     },
+        //     flex: 1
+        // },
         {
             field: "action",
             flex: 2,
@@ -345,11 +377,11 @@ const Campaigns = () => {
                         >
                             <EditIcon />
                         </IconButton>
-                        <IconButton
+                        {/* <IconButton
                             aria-label="more"
                         >
                             <ContentCopyIcon />
-                        </IconButton>
+                        </IconButton> */}
                     </>
                 );
             },
@@ -361,6 +393,29 @@ const Campaigns = () => {
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+                        {
+                            userType === "superadmin" && (
+                                <FormControl sx={{ textAlign: "start" }}>
+                                    <InputLabel id="state-label">Organisation</InputLabel>
+                                    <Select
+                                        value={selectOrgnigation}
+                                        label="Organisation"
+                                        labelId='state-label'
+                                        onChange={handleSelectOrgnigation}
+                                        sx={{ minWidth: 250, mr: 2 }}
+                                        disableUnderline
+                                    >
+                                        {organisationList.map((item) => {
+                                            return (
+                                                <MenuItem value={item} key={item.id}>
+                                                    {item.organisation}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            )
+                        }
                         <Button className='hearder-right-btn create-organisation' onClick={ImportCampaign}>
                             Import Campaign
                         </Button>
@@ -450,13 +505,13 @@ const Campaigns = () => {
                     />
                 </Box>
                 <Dialog open={createFormModal} onClose={handleCloseModal}>
-                    <CreateCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} organisationId={organisationId} userType={userType} />
+                    <CreateCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} organisationId={organisationId} userType={userType} organisationList={organisationList} />
                 </Dialog>
                 <Dialog open={editFormModal} onClose={handleCloseModal}>
                     <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} />
                 </Dialog>
                 <Dialog open={importModal} onClose={handleCloseModal}>
-                    <ImportCampaignCsv organisationId={organisationId} handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} />
+                    <ImportCampaignCsv organisationId={organisationId} handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} selectOrgnigation={selectOrgnigation} />
                 </Dialog>
             </Card>
         </React.Fragment>
