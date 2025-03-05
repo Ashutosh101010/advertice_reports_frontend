@@ -343,9 +343,6 @@ const SuperAdminOrgnisationList = () => {
                             backgroundColor: '#ffb6b2',
                             color: 'black',
                         },
-                        "& .MuiDataGrid-virtualScroller": {
-                            backgroundColor: "#fff",
-                        },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "600",
                         },
@@ -381,10 +378,24 @@ const SuperAdminOrgnisationList = () => {
                         }}
                     />
                 </Box>
-                <Dialog open={createFormModal} onClose={handleCloseModal}>
+                <Dialog open={createFormModal} onClose={handleCloseModal}
+                    sx={{
+                        "& .MuiDialog-paper": {
+                            width: "100%",
+                            maxWidth: "450px",
+                        },
+                    }}
+                >
                     <CreateFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} />
                 </Dialog>
-                <Dialog open={editFormModal} onClose={handleCloseModal}>
+                <Dialog open={editFormModal} onClose={handleCloseModal}
+                    sx={{
+                        "& .MuiDialog-paper": {
+                            width: "100%",
+                            maxWidth: "450px",
+                        },
+                    }}
+                >
                     <EditFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} />
                 </Dialog>
 

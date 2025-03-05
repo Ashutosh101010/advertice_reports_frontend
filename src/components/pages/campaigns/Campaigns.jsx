@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -103,6 +103,7 @@ const CampaignData = [
 const Campaigns = () => {
 
     const theme = useTheme();
+    const isMobile = useMediaQuery("(min-width:600px)");
     const organisationId = localStorage.getItem("organizationId");
     const userType = localStorage.getItem("userType");
     const [page, setPage] = useState(0);
@@ -124,10 +125,10 @@ const Campaigns = () => {
         fetchOrganisationList();
     }, [])
     useEffect(() => {
-       if (organisationList?.length > 0) {
-        setSelectOrgnigation(organisationList[0])
-        fetchCampaignList();
-       }
+        if (organisationList?.length > 0) {
+            setSelectOrgnigation(organisationList[0])
+            fetchCampaignList();
+        }
     }, [organisationList])
 
     const fetchCampaignList = async () => {
@@ -392,17 +393,17 @@ const Campaigns = () => {
         <React.Fragment>
             <Card className="card">
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+                    <Grid item xs={12} sm={6} md={6} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         {
                             userType === "superadmin" && (
-                                <FormControl sx={{ textAlign: "start" }}>
+                                <FormControl sx={{ textAlign: "start", width: '100%' }}>
                                     <InputLabel id="state-label">Organisation</InputLabel>
                                     <Select
                                         value={selectOrgnigation}
                                         label="Organisation"
                                         labelId='state-label'
                                         onChange={handleSelectOrgnigation}
-                                        sx={{ minWidth: 250, mr: 2 }}
+                                        sx={{ width: '100%' }}
                                         disableUnderline
                                     >
                                         {organisationList.map((item) => {
@@ -416,10 +417,24 @@ const Campaigns = () => {
                                 </FormControl>
                             )
                         }
-                        <Button className='hearder-right-btn create-organisation' onClick={ImportCampaign}>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} lg={6} sx={{ display: "flex", justifyContent: 'flex-end' }}>
+                        <Button
+                            sx={{
+                                width: '100%',
+                                maxWidth: '250px',
+                            }}
+                            className='hearder-right-btn create-organisation'
+                            onClick={ImportCampaign}>
                             Import Campaign
                         </Button>
-                        <Button className='hearder-right-btn create-organisation' onClick={createForm}>
+                        <Button
+                            sx={{
+                                width: '100%',
+                                maxWidth: '250px',
+                            }}
+                            className='hearder-right-btn create-organisation'
+                            onClick={createForm}>
                             Create Campaign
                         </Button>
                     </Grid>
@@ -466,9 +481,6 @@ const Campaigns = () => {
                             backgroundColor: '#ffb6b2',
                             color: 'black',
                         },
-                        "& .MuiDataGrid-virtualScroller": {
-                            backgroundColor: "#fff",
-                        },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "600",
                         },
@@ -504,10 +516,24 @@ const Campaigns = () => {
                         }}
                     />
                 </Box>
-                <Dialog open={createFormModal} onClose={handleCloseModal}>
+                <Dialog open={createFormModal} onClose={handleCloseModal}
+                    sx={{
+                        "& .MuiDialog-paper": {
+                            width: "100%",
+                            maxWidth: "350px",
+                        },
+                    }}
+                >
                     <CreateCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} organisationId={organisationId} userType={userType} organisationList={organisationList} />
                 </Dialog>
-                <Dialog open={editFormModal} onClose={handleCloseModal}>
+                <Dialog open={editFormModal} onClose={handleCloseModal}
+                    sx={{
+                        "& .MuiDialog-paper": {
+                            width: "100%",
+                            maxWidth: "350px",
+                        },
+                    }}
+                >
                     <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} />
                 </Dialog>
                 <Dialog open={importModal} onClose={handleCloseModal}>

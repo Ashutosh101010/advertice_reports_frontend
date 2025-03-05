@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button, Stack, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -108,6 +108,7 @@ const CampaignData = [
 const AdvanceComponent = () => {
 
     const theme = useTheme();
+    const isMobile = useMediaQuery("(min-width:600px)");
     const userType = localStorage.getItem("userType");
     const { auth } = useContext(AuthContext);
     const [page, setPage] = useState(0);
@@ -438,22 +439,23 @@ const AdvanceComponent = () => {
                 <Box>
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>Advance Report Filters</Typography>
                     <Grid container>
-                        <Grid item xs={6} sm={6} md={6} lg={6}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
                             <Grid container>
-
-                                <Grid item xs={6} sm={6} md={6} lg={6}>
-                                    <InputLabel sx={{ fontWeight: "bold" }}>Start Date</InputLabel>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DesktopDatePicker
-                                            // label="Start Date"
-                                            inputFormat="YYYY-MM-DD"
-                                            value={startDate ? startDate : null}
-                                            variant="outlined"
-                                            id="startDate"
-                                            onChange={handleStartDate}
-                                            renderInput={(params) => <TextField sx={{ minWidth: "230px" }} variant="outlined" {...params} />}
-                                        />
-                                    </LocalizationProvider>
+                                <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'end'} gap={2}>
+                                    <Stack direction={'column'} spacing={1}>
+                                        <InputLabel sx={{ fontWeight: "bold" }}>Start Date</InputLabel>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DesktopDatePicker
+                                                // label="Start Date"
+                                                inputFormat="YYYY-MM-DD"
+                                                value={startDate ? startDate : null}
+                                                variant="outlined"
+                                                id="startDate"
+                                                onChange={handleStartDate}
+                                                renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                            />
+                                        </LocalizationProvider>
+                                    </Stack>
                                     {/* <Box>
                                         <FormControl sx={{ mt: 2 }}>
                                             <FormLabel id="demo-row-radio-buttons-group-label">Interval</FormLabel>
@@ -501,43 +503,42 @@ const AdvanceComponent = () => {
                                             />
                                         </FormGroup>
                                     </FormControl></Box> */}
-                                    <Box>
-                                        <FormControl sx={{ mt: 2 }}>
-                                            <InputLabel id="demo-simple-select-label">Campaign</InputLabel>
-                                            <Select
-                                                sx={{ minWidth: "230px" }}
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={selectCampaign}
-                                                label="Headers"
-                                                onChange={handleSlectCampaign}
-                                            >
-                                                
-                                                {campiagnNameList.map((item) => {
-                                                        return (
-                                                            <MenuItem value={item} key={item}>
-                                                                {item}
-                                                            </MenuItem>
-                                                        );
-                                                    })}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={6} sm={6} md={6} lg={6} sx={{ position: "relative" }}>
-                                    <InputLabel sx={{ fontWeight: "bold" }}>End Date</InputLabel>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DesktopDatePicker
-                                            // label="End Date"
-                                            inputFormat="YYYY-MM-DD"
-                                            value={endDate ? endDate : null}
-                                            variant="outlined"
-                                            id="endDate"
-                                            onChange={handleEndDate}
-                                            renderInput={(params) => <TextField sx={{ minWidth: "230px" }} variant="outlined" {...params} />}
-                                        />
-                                    </LocalizationProvider>
+                                    <FormControl>
+                                        <InputLabel id="demo-simple-select-label">Campaign</InputLabel>
+                                        <Select
+                                            sx={{ width: isMobile ? "250px" : "360px" }}
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={selectCampaign}
+                                            label="Headers"
+                                            onChange={handleSlectCampaign}
+                                        >
 
+                                            {campiagnNameList.map((item) => {
+                                                return (
+                                                    <MenuItem value={item} key={item}>
+                                                        {item}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} gap={2} alignItems={'end'}>
+                                    <Stack direction={'column'} spacing={1} mt={[2, 0]}>
+                                        <InputLabel sx={{ fontWeight: "bold" }}>End Date</InputLabel>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DesktopDatePicker
+                                                // label="End Date"
+                                                inputFormat="YYYY-MM-DD"
+                                                value={endDate ? endDate : null}
+                                                variant="outlined"
+                                                id="endDate"
+                                                onChange={handleEndDate}
+                                                renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                            />
+                                        </LocalizationProvider>
+                                    </Stack>
                                     {/* <Box>
                                         <FormControl sx={{ mt: 2 }} component="fieldset" variant="standard">
                                         <FormLabel component="legend">Date By</FormLabel>
@@ -580,14 +581,14 @@ const AdvanceComponent = () => {
                                     </Box> */}
                                     {
                                         userType === "superadmin" && (
-                                            <FormControl sx={{ textAlign: "start", mt: 2 }}>
+                                            <FormControl sx={{ textAlign: "start", mt: 0 }}>
                                                 <InputLabel id="state-label">Organisation</InputLabel>
                                                 <Select
                                                     value={selectOrgnigation}
                                                     label="Organisation"
                                                     labelId='state-label'
                                                     onChange={handleSelectOrgnigation}
-                                                    sx={{ minWidth: 250, mr: 2 }}
+                                                    sx={{ width: isMobile ? "250px" : "360px" }}
                                                     disableUnderline
                                                 >
                                                     {organisationList.map((item) => {
@@ -651,9 +652,6 @@ const AdvanceComponent = () => {
                         '& .super-app-theme--header': {
                             backgroundColor: '#ffb6b2',
                             color: 'black',
-                        },
-                        "& .MuiDataGrid-virtualScroller": {
-                            backgroundColor: "#fff",
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "600",

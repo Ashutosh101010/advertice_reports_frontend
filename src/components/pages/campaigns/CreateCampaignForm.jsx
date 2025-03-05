@@ -21,8 +21,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
     const [selectedCity, setSelectedCity] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
 
-    console.log('organisationSelect', organisationSelect);
-    
+    // console.log('organisationSelect', organisationSelect);
+
 
     // useEffect(() => {
     //     fetchOrganisationList();
@@ -107,7 +107,14 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         label="Select Date"
                         value={selectedDate}
                         onChange={handleDateChange}
-                        renderInput={(params) => <TextField {...params} />}
+                        sx={{
+                            width: '100%',
+                            maxWidth: '300px'
+                        }}
+                        renderInput={(params) => <TextField sx={{
+                            width: '100%',
+                            maxWidth: '300px'
+                        }} {...params} />}
                     />
                 </LocalizationProvider>
                 <TextField
@@ -117,7 +124,12 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     name="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "30px",
+                        width: "100%",
+                        maxWidth: '300px'
+                    }}
                 />
 
                 <TextField
@@ -130,7 +142,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -143,7 +156,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -156,7 +170,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -169,7 +184,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -182,7 +198,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -195,7 +212,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -208,7 +226,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 <TextField
@@ -221,7 +240,8 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
-                        width: "430px",
+                        width: "100%",
+                        maxWidth: '300px'
                     }}
                 />
                 {
@@ -233,7 +253,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                                 label="state"
                                 labelId='state-label'
                                 onChange={handleOrganisation}
-                                sx={{ minWidth: 430, }}
+                                sx={{ width: "100%", maxWidth: '300px' }}
                                 disableUnderline
                             >
                                 {organisationList.map((org, i) => {
@@ -249,11 +269,11 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                 }
 
                 <Stack
-                    width={"100%"}
+                    width={["100%", "70%"]}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}
-                    style={{ marginTop: "1rem" }}
+                    sx={{ marginTop: "1rem" }}
                 >
                     <Button
                         color="error"

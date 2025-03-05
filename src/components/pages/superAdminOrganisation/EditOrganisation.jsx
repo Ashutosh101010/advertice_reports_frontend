@@ -91,7 +91,12 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     name="sddress"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    sx={{ gridColumn: "span 12", width: "430px" }}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
                 />
 
                 <TextField
@@ -103,8 +108,9 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     onChange={(e) => setOwner(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
                 <TextField
@@ -116,8 +122,9 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
                 <TextField
@@ -129,8 +136,9 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     onChange={(e) => setContact(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
                 <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
@@ -139,7 +147,12 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     label="state"
                     labelId='state-label'
                     onChange={handleStateChange}
-                    sx={{ minWidth: 430, }}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
                     disableUnderline
                 >
                     {stateList.map((state) => {
@@ -158,7 +171,12 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                             label="city"
                             labelId='city-label'
                             onChange={handleCityChange}
-                            sx={{ minWidth: 430 }}
+                            sx={{
+                                gridColumn: "span 12",
+                                marginTop: "10px",
+                                width: "100%",
+                                maxWidth: '390px'
+                            }}
                             disableUnderline
                         >
                             {cityList.map((city) => {
@@ -172,7 +190,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     </>
                 }
                 <Stack
-                    width={"100%"}
+                    width={["100%", "70%"]}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}

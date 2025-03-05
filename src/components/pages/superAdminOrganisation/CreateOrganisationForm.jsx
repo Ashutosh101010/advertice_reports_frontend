@@ -63,7 +63,12 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     name="sddress"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    sx={{ gridColumn: "span 12", width: "430px" }}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
                 />
 
                 <TextField
@@ -75,8 +80,9 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     onChange={(e) => setOwner(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
                 <TextField
@@ -88,8 +94,9 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
                 <TextField
@@ -101,17 +108,23 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     onChange={(e) => setContact(e.target.value)}
                     sx={{
                         gridColumn: "span 12",
-                        marginTop: "30px",
-                        width: "430px",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
                     }}
                 />
-                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
+                <InputLabel id="state-label" sx={{ left: '0px', marginTop: "5px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"
                     labelId='state-label'
                     onChange={handleStateChange}
-                    sx={{ minWidth: 430, }}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
                     disableUnderline
                 >
                     {stateList.map((state) => {
@@ -124,13 +137,18 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                 </Select>
                 {selectedState.id !== undefined &&
                     <>
-                        <InputLabel id="city-label" sx={{ left: '10px', marginTop: "15px", }}>City</InputLabel>
+                        <InputLabel id="city-label" sx={{ left: '0px', marginTop: "5px", }}>City</InputLabel>
                         <Select
                             value={selectedCity}
                             label="city"
                             labelId='city-label'
                             onChange={handleCityChange}
-                            sx={{ minWidth: 430 }}
+                            sx={{
+                                gridColumn: "span 12",
+                                marginTop: "10px",
+                                width: "100%",
+                                maxWidth: '390px'
+                            }}
                             disableUnderline
                         >
                             {cityList.map((city) => {
@@ -144,7 +162,7 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     </>
                 }
                 <Stack
-                    width={"100%"}
+                    width={["100%", "100%"]}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}
