@@ -10,7 +10,6 @@ import {
   Link,
 } from "react-router-dom";
 import Dashboard from './components/pages/dashboard/Dashboard';
-import { AuthProvider } from './components/pages/authContext/AuthContext';
 import Layout from './components/pages/layout/Layout';
 import Campaigns from './components/pages/campaigns/Campaigns';
 import BasicComponent from './components/pages/reports/Basic';
@@ -22,7 +21,6 @@ import AdvanceComponent from './components/pages/reports/Advance';
 function App() {
 
   return (
-    <AuthProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -37,8 +35,6 @@ function App() {
           <Route path="/super-admin-login" element={<SuperAdminLoginForm />} />
         </Routes>
       </Router>
-
-    </AuthProvider>
   )
 }
 

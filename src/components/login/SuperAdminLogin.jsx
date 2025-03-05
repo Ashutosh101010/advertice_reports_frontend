@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Button, Grid, TextField, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/advertice-logo.png"
 import AdverticeNetwork from "../../Network";
+import AuthContext from "../pages/authContext/AuthContext";
 
 const SuperAdminLoginForm = () => {
 
+    const { setAuth, setAuthenticated } = useContext(AuthContext);
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -23,6 +25,8 @@ const SuperAdminLoginForm = () => {
             if (response.errorCode === 0) {
                 localStorage.setItem('accessToken', response.authToken);
                 localStorage.setItem('userType', "superadmin");
+                setAuth(response.authToken);
+            setAuthenticated(true);
                 navigate('/')
             }
         }

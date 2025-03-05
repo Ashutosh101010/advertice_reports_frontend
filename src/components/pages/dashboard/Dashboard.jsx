@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import AdverticeNetwork from "../../../Network";
-import { Button, Card, Dialog, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, Card, Dialog, FormControl, Grid, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
 import AuthContext from "../authContext/AuthContext";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -10,6 +10,7 @@ import ImportDashboardCsv from "./ImportCsv";
 
 const Dashboard = () => {
 
+    const isMobile = useMediaQuery("(min-width:600px)");
     const organisationId = localStorage.getItem("organizationId");
     const userType = localStorage.getItem("userType");
     const { auth } = useContext(AuthContext);
@@ -27,16 +28,16 @@ const Dashboard = () => {
             if (selectOrgnigation?.id) {
                 fetchCampaignList();
             }
-
         } else if (userType === "admin") {
             fetchCampaignList();
         }
-
     }, [selectedDate, toDate, selectOrgnigation, userType])
 
     useEffect(() => {
-        fetchOrganisationList();
-    }, [])
+        if (auth) {
+            fetchOrganisationList(); 
+        }
+    }, [auth])
 
     const fetchOrganisationList = async () => {
         try {
@@ -44,7 +45,10 @@ const Dashboard = () => {
                 "page": page,
                 "pageSize": pageSize
             }
+            // console.log('auth', auth);
             const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
+            console.log('response', response);
+            
             if (response.errorCode === 0) {
                 setOrganisationList(response.organisations);
                 setSelectOrgnigation(response.organisations[0])
@@ -152,25 +156,27 @@ const Dashboard = () => {
         setSelectOrgnigation(event.target.value);
     };
 
+
+
     return (
         <React.Fragment>
             <Card className="card">
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "" }}>
 
-                        <Button className='' sx={{ height: "100%", background: "#ee4036", color: "#fff", textTransform: "capitalize", mr: 2 }} onClick={ImportCampaign}>
+                        <Button className='' sx={{ height: "100%", background: "#ee4036", color: "#fff", textTransform: "capitalize", mr: 2, mb: !isMobile ? 2 : "" }} onClick={ImportCampaign}>
                             Import Campaign
                         </Button>
                         {
                             userType === "superadmin" && (
-                                <FormControl sx={{ textAlign: "start" }}>
+                                <FormControl sx={{ textAlign: "start", mt :  !isMobile ? 2 : "" }}>
                                     <InputLabel id="state-label">Organisation</InputLabel>
                                     <Select
                                         value={selectOrgnigation}
                                         label="Organisation"
                                         labelId='state-label'
                                         onChange={handleSelectOrgnigation}
-                                        sx={{ minWidth: 250, mr: 2 }}
+                                        sx={{ minWidth: 250, mr:isMobile ? 2 : ''}}
                                         disableUnderline
                                     >
                                         {organisationList.map((item) => {
@@ -190,7 +196,7 @@ const Dashboard = () => {
                                 label="Select From Date"
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                renderInput={(params) => <TextField sx={{ mr: 2 }} {...params} />}
+                                renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt :  !isMobile ? 2 : "", minWidth: 250 }} {...params} />}
                             />
                         </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -198,7 +204,7 @@ const Dashboard = () => {
                                 label="Select To Date"
                                 value={toDate}
                                 onChange={handleToDateDateChange}
-                                renderInput={(params) => <TextField {...params} />}
+                                renderInput={(params) => <TextField {...params} sx={{ mt :  !isMobile ? 2 : "", minWidth: 250}} />}
                             />
                         </LocalizationProvider>
                     </Grid>

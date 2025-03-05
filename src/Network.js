@@ -63,6 +63,7 @@ export default class AdverticeNetwork {
     }
 
     static async fetchSuperAdminOrganisationApi(body, auth) {
+        // console.log('auth======', auth);
         let response = await axios.post(this.FETCH_SUPER_ADMIN_ORGANISATION_URL, body, {
             headers: {
                 "Content-Type": "application/json",

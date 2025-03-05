@@ -16,7 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 
-const pages = ['Dahboard', 'Campaigns', 'Reports', 'Pixel'];
+const pages = ['Campaigns', 'Basic', 'Advance', 'Organisation'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Search = styled('div')(({ theme }) => ({
@@ -96,9 +96,17 @@ function TopHeader() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-
+    const handleCloseNavMenu = (value) => {
         setAnchorElNav(null);
+       
+        if (userType === "superadmin" && value === "Organisation") {
+            value = "superadminorganisation"
+        }
+        if (userType === "admin"  && value === "Organisation") {
+            value = 'adminorganisation'
+        }
+        console.log('value', value);
+        handleHeaderMenu(value)
     };
 
     const handleCloseUserMenu = (e) => {
@@ -125,6 +133,10 @@ function TopHeader() {
             navigate('/super-admin-organisation');
         } else if (values === "adminorganisation") {            
             navigate('/admin-organisation');
+        }else if (values === 'Basic') {
+            navigate('/reports/basic')
+        } else if (values === 'Advance') {
+            navigate('/reports/advance')
         }
         setActive(values);
     }
@@ -154,7 +166,7 @@ function TopHeader() {
                         textDecoration: 'none',
                     }}
                 >
-                    <img src={loginLogo} className='header-logo' />
+                    <img src={loginLogo} className='header-logo'  />
                 </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -181,13 +193,13 @@ function TopHeader() {
                             horizontal: 'left',
                         }}
                         open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
+                        onClose={()=>handleCloseNavMenu()}
                         sx={{
                             display: { xs: 'block', md: 'none' },
                         }}
                     >
                         {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
+                            <MenuItem key={page} onClick={()=>handleCloseNavMenu(page)}>
                                 <Typography textAlign="center">{page}</Typography>
                             </MenuItem>
                         ))}
@@ -195,6 +207,7 @@ function TopHeader() {
                 </Box>
                 <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                 <Typography
+                  onClick={handleHome}
                     variant="h5"
                     noWrap
                     component="a"
