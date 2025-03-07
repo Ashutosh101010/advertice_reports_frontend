@@ -162,7 +162,7 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     </>
                 }
                 <Stack
-                    width={["100%", "100%"]}
+                    width={'100%'}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}

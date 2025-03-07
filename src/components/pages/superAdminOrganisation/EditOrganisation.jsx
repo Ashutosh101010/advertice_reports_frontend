@@ -141,7 +141,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         maxWidth: '390px'
                     }}
                 />
-                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
+                <InputLabel id="state-label" sx={{ left: '0px', marginTop: "5px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"
@@ -165,7 +165,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                 </Select>
                 {selectedState?.id !== undefined &&
                     <>
-                        <InputLabel id="city-label" sx={{ left: '10px', marginTop: "15px", }}>City</InputLabel>
+                        <InputLabel id="city-label" sx={{ left: '0px', marginTop: "5px", }}>City</InputLabel>
                         <Select
                             value={selectedCity}
                             label="city"
@@ -190,7 +190,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     </>
                 }
                 <Stack
-                    width={["100%", "70%"]}
+                    width={"100%"}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}

@@ -410,9 +410,6 @@ const AdminOrgnisationList = () => {
                             backgroundColor: '#ffb6b2',
                             color: 'black',
                         },
-                        "& .MuiDataGrid-virtualScroller": {
-                            backgroundColor: "#fff",
-                        },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "600",
                         },

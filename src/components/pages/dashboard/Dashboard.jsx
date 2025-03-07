@@ -104,9 +104,9 @@ const Dashboard = () => {
         dataLabels: {
             enabled: false
         },
-        stroke: {
-            curve: 'straight'
-        },
+        // stroke: {
+        //     curve: 'straight'
+        // },
         xaxis: {
             categories: formattedDates
         },

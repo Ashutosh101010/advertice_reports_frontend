@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -99,13 +99,14 @@ const SuperAdminOrgnisationList = () => {
         }
     }
 
-    const handleClick = async (event, data) => {
-        event.stopPropagation();
+    const handleClick = async (e, data) => {
+        e.stopPropagation();
+        e.preventDefault();
         const response = await AdverticeNetwork.changeStatusApi(auth, data?.id);
         if (response?.errorCode === 0) {
             fetchOrganisationList();
         }
-        setSwitchChecked(event.target.checked)
+        setSwitchChecked(e.target.checked);
     };
 
     function handlePageChange(newPage) {
@@ -125,12 +126,16 @@ const SuperAdminOrgnisationList = () => {
         setEditFormModal(false);
     }
 
-    const handleEditTable = (data) => {
+    const handleEditTable = (e, data) => {
+        e.stopPropagation();
+        e.preventDefault();
         setEditTableData(data);
         setEditFormModal(true);
     }
 
-    function handleSectionClick(value) {
+    function handleSectionClick(e, value) {
+        // e.preventDefault();
+        // e.stopPropagation();
         navigate("/admin-organisation", { state: { orgId: value.id } });
     };
 
@@ -161,7 +166,7 @@ const SuperAdminOrgnisationList = () => {
         // },
         {
             field: "organisation",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>organisation</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Organisation</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
@@ -171,7 +176,7 @@ const SuperAdminOrgnisationList = () => {
         },
         {
             field: "domain",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>domain</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Domain</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1.5,
@@ -179,20 +184,20 @@ const SuperAdminOrgnisationList = () => {
         {
             field: "email",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>email</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>E-mail</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5
         },
         {
             field: "address",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>address</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Address</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "contact",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>contact</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Contact</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
@@ -200,21 +205,21 @@ const SuperAdminOrgnisationList = () => {
         {
             field: "stateName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>stateName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>StateName</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.2
         },
         {
             field: "cityName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>cityName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CityName</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "createdAt",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>createdAt</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CreatedAt</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5,
             renderCell: (params) => (
@@ -259,7 +264,7 @@ const SuperAdminOrgnisationList = () => {
             headerClassName: 'super-app-theme--header',
             renderCell: (params) => {
                 return (
-                    <>
+                    <Stack direction={'row'} justifyContent={'flex-start'} alignItems={'center'}>
                         <IconButton
                             aria-label="more"
                             id={params.row.id}
@@ -267,25 +272,29 @@ const SuperAdminOrgnisationList = () => {
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
                             style={{ color: 'black' }}
-
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <FormControlLabel
                                 checked={params.row.status}
                                 value={params.row.status}
-                                onChange={(e) => {
-                                    handleClick(e, params.row);
-                                }}
                                 control={<IOSSwitch />}
                                 label=""
+                                onChange={(e) => {
+                                    e.stopPropagation();
+                                    handleClick(e, params.row);
+                                }}
                             />
                         </IconButton>
                         <IconButton
                             aria-label="more"
-                            onClick={() => handleEditTable(params.row)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditTable(e, params.row)
+                            }}
                         >
                             <EditIcon />
                         </IconButton>
-                    </>
+                    </Stack>
                 );
             },
         }
