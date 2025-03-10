@@ -53,7 +53,10 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Admin</Typography>
+            <Typography variant="h6" sx={{
+                mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Roboto Condensed", sans-serif`,
+                fontSize: '20px'
+            }}>Create Admin</Typography>
             <form
                 style={{
                     display: "flex",
@@ -189,6 +192,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: 'none'
                         }}
                         onClick={handleClose}
                     // color="error"
@@ -203,6 +207,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: 'none'
                         }}
                     >
                         Save

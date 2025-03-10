@@ -12,8 +12,7 @@ export const AuthProvider = ({ children }) => {
   const userType = localStorage.getItem("userType");
   const organisationId = localStorage.getItem("organizationId");
 
-  console.log('auth', auth);
-
+  // console.log('auth', auth)
 
   useEffect(() => {
     getAllCities();
@@ -31,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+  
   const getAllCities = async () => {
     const res = await AdverticeNetwork.fetchCity();
     setStateList(res.states);

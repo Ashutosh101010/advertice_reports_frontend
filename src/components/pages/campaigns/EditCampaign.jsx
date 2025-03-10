@@ -79,7 +79,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Organisation</Typography>
+            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Edit Organisation</Typography>
             <form
                 style={{
                     display: "flex",
@@ -96,11 +96,11 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         onChange={handleDateChange}
                         sx={{
                             width: '100%',
-                            maxWidth: '300px'
+                            maxWidth: '450px'
                         }}
                         renderInput={(params) => <TextField sx={{
                             width: '100%',
-                            maxWidth: '300px'
+                            maxWidth: '450px'
                         }} {...params} />}
                     />
                 </LocalizationProvider>
@@ -115,7 +115,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
 
@@ -130,7 +130,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -144,7 +144,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -158,7 +158,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -172,7 +172,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -186,7 +186,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -200,7 +200,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -214,7 +214,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -228,7 +228,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 {/* <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
@@ -270,7 +270,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                     </>
                 } */}
                 <Stack
-                    width={["100%", "70%"]}
+                    width={["100%", "100%"]}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}

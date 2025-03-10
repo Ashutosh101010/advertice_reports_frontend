@@ -92,7 +92,10 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Organisation</Typography>
+            <Typography variant="h6" sx={{
+                mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Poppins", sans-serif`,
+                fontSize: '20px'
+            }}>Create Organisation</Typography>
             <form
                 style={{
                     display: "flex",
@@ -109,11 +112,11 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         onChange={handleDateChange}
                         sx={{
                             width: '100%',
-                            maxWidth: '300px'
+                            maxWidth: '450px'
                         }}
                         renderInput={(params) => <TextField sx={{
                             width: '100%',
-                            maxWidth: '300px'
+                            maxWidth: '450px'
                         }} {...params} />}
                     />
                 </LocalizationProvider>
@@ -128,7 +131,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
 
@@ -143,7 +146,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -157,7 +160,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -171,7 +174,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -185,7 +188,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -199,7 +202,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -213,7 +216,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -227,7 +230,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 <TextField
@@ -241,7 +244,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         gridColumn: "span 12",
                         marginTop: "30px",
                         width: "100%",
-                        maxWidth: '300px'
+                        maxWidth: '450px'
                     }}
                 />
                 {
@@ -253,7 +256,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                                 label="state"
                                 labelId='state-label'
                                 onChange={handleOrganisation}
-                                sx={{ width: "100%", maxWidth: '300px' }}
+                                sx={{ width: "100%", maxWidth: '450px' }}
                                 disableUnderline
                             >
                                 {organisationList.map((org, i) => {
@@ -269,7 +272,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                 }
 
                 <Stack
-                    width={["100%", "70%"]}
+                    width={["100%", "100%"]}
                     justifyContent={"end"}
                     gap={"1rem"}
                     direction={"row"}
@@ -281,6 +284,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: 'none'
                         }}
                         onClick={handleClose}
                     // color="error"
@@ -295,6 +299,7 @@ export default function CreateCampaignFormModal({ handleClose, auth, organisatio
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: 'none'
                         }}
                     >
                         Save

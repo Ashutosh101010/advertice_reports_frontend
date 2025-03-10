@@ -3,6 +3,7 @@ import {
     Button,
     FormLabel,
     Stack,
+    Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import Papa from 'papaparse'
@@ -109,9 +110,12 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
     return (
         <Box sx={{ padding: "25px" }}>
             <form>
-                <Stack marginBottom={'1rem'} textAlign={'center'}>
-                    <h4>Upload only csv file</h4>
+                <Stack marginBottom={'1rem'} textAlign={'start'} fontFamily={`"Poppins", sans-serif`}>
+                    <h3>Import Campaign Form</h3>
                 </Stack>
+                {/* <Stack marginBottom={'1rem'} textAlign={'center'}>
+                    <h4>Upload only csv file</h4>
+                </Stack> */}
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }}>
 
                     <button
@@ -135,7 +139,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                                 alignItems: "center",
                             }}
                         >
-                            {csvFile ? <p>{csvFile.name}</p> : ""}
+                            {csvFile ? <p>{csvFile.name}</p> : <Typography sx={{ fontFamily: `"Poppins", sans-serif` }}>Upload only CSV file</Typography>}
                         </div>
                         <input
                             className="importCampaign"
@@ -157,12 +161,13 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                             // color="success"
                             component="label"
                             onClick={handleSubmit}
-                            style={{ marginRight: "1rem", color: '#fff' }}>
+                            style={{ marginRight: "1rem", color: '#fff', textTransform: 'none', fontFamily: `"Poppins", sans-serif` }}>
                             Save
                         </Button>
                         <Button
                             onClick={handleClose}
                             variant="contained"
+                            sx={{ textTransform: 'none', fontFamily: `"Poppins", sans-serif` }}
                             // color="error" 
                             component="label">
                             Cancel

@@ -205,14 +205,14 @@ const SuperAdminOrgnisationList = () => {
         {
             field: "stateName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>StateName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.2
         },
         {
             field: "cityName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CityName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
@@ -305,7 +305,14 @@ const SuperAdminOrgnisationList = () => {
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
-                        <Button className='hearder-right-btn create-organisation' onClick={createForm}>
+                        <Button
+                            className='hearder-right-btn create-organisation'
+                            onClick={createForm}
+                            sx={{
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px',
+                            }}
+                        >
                             Create Organisation
                         </Button>
                     </Grid>
@@ -335,7 +342,7 @@ const SuperAdminOrgnisationList = () => {
                         },
                         "& .MuiDataGrid-columnHeaders": {
                             backgroundColor: "#ffb6b2",
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
@@ -353,7 +360,7 @@ const SuperAdminOrgnisationList = () => {
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-row": {
                             border: "1px solid #ffb6b2",

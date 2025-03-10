@@ -219,7 +219,7 @@ const Campaigns = () => {
             renderCell: (params) => {
                 return <p style={{ margin: "0px" }}><Link>{params.row.title}</Link></p>
             },
-            flex: 1,
+            flex: 2,
         },
         {
             field: "impressions",
@@ -345,7 +345,7 @@ const Campaigns = () => {
         // },
         {
             field: "action",
-            flex: 2,
+            flex: 1,
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
             headerClassName: 'super-app-theme--header',
@@ -393,11 +393,11 @@ const Campaigns = () => {
         <React.Fragment>
             <Card className="card">
                 <Grid container>
-                    <Grid item xs={12} sm={6} md={6} lg={6} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                    <Grid item xs={12} sm={4} md={4} lg={4} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         {
                             userType === "superadmin" && (
                                 <FormControl sx={{ textAlign: "start", width: '100%' }}>
-                                    <InputLabel id="state-label">Organisation</InputLabel>
+                                    <InputLabel id="state-label" sx={{ fontFamily: `"Poppins", sans-serif` }}>Organisation</InputLabel>
                                     <Select
                                         value={selectOrgnigation}
                                         label="Organisation"
@@ -418,25 +418,29 @@ const Campaigns = () => {
                             )
                         }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6} lg={6} sx={{ display: "flex", justifyContent: 'flex-end' }}>
+                    <Grid item xs={12} sm={8} md={8} lg={8} sx={{ display: "flex", justifyContent: 'flex-end' }}>
                         <Button
                             sx={{
                                 width: '100%',
-                                maxWidth: '250px',
+                                maxWidth: '300px',
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px',
                             }}
                             className='hearder-right-btn create-organisation'
                             onClick={ImportCampaign}>
                             Import Campaign
                         </Button>
-                        <Button
+                        {/* <Button
                             sx={{
                                 width: '100%',
-                                maxWidth: '250px',
+                                maxWidth: '300px',
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px',
                             }}
                             className='hearder-right-btn create-organisation'
                             onClick={createForm}>
                             Create Campaign
-                        </Button>
+                        </Button> */}
                     </Grid>
                 </Grid>
                 <Box
@@ -464,7 +468,7 @@ const Campaigns = () => {
                         },
                         "& .MuiDataGrid-columnHeaders": {
                             backgroundColor: "#ffb6b2",
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
@@ -482,7 +486,7 @@ const Campaigns = () => {
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-row": {
                             border: "1px solid #ffb6b2",
@@ -520,7 +524,7 @@ const Campaigns = () => {
                     sx={{
                         "& .MuiDialog-paper": {
                             width: "100%",
-                            maxWidth: "350px",
+                            maxWidth: "500px",
                         },
                     }}
                 >
@@ -530,7 +534,7 @@ const Campaigns = () => {
                     sx={{
                         "& .MuiDialog-paper": {
                             width: "100%",
-                            maxWidth: "350px",
+                            maxWidth: "500px",
                         },
                     }}
                 >

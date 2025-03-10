@@ -133,7 +133,7 @@ const AdvanceComponent = () => {
 
 
     useEffect(() => {
-        fetchReportList();
+        // fetchReportList();
         fetchOrganisationList();
     }, [])
 
@@ -437,13 +437,20 @@ const AdvanceComponent = () => {
         <React.Fragment>
             <Card className="card">
                 <Box>
-                    <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>Advance Report Filters</Typography>
+                    <Typography variant="h6" sx={{
+                        mb: 2, fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
+                    }}
+                    >
+                        Advance Report Filters
+                    </Typography>
                     <Grid container>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <Grid container>
                                 <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'end'} gap={2}>
                                     <Stack direction={'column'} spacing={1}>
-                                        <InputLabel sx={{ fontWeight: "bold" }}>Start Date</InputLabel>
+                                        <InputLabel sx={{
+                                            fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
+                                        }}>Start Date</InputLabel>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DesktopDatePicker
                                                 // label="Start Date"
@@ -504,7 +511,10 @@ const AdvanceComponent = () => {
                                         </FormGroup>
                                     </FormControl></Box> */}
                                     <FormControl>
-                                        <InputLabel id="demo-simple-select-label">Campaign</InputLabel>
+                                        <InputLabel id="demo-simple-select-label" sx={{
+                                            fontFamily: `"Poppins", sans-serif`,
+                                            fontSize: '16px'
+                                        }}>Campaign</InputLabel>
                                         <Select
                                             sx={{ width: isMobile ? "250px" : "360px" }}
                                             labelId="demo-simple-select-label"
@@ -526,7 +536,9 @@ const AdvanceComponent = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} gap={2} alignItems={'end'}>
                                     <Stack direction={'column'} spacing={1} mt={[2, 0]}>
-                                        <InputLabel sx={{ fontWeight: "bold" }}>End Date</InputLabel>
+                                        <InputLabel sx={{
+                                            fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
+                                        }}>End Date</InputLabel>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DesktopDatePicker
                                                 // label="End Date"
@@ -582,7 +594,10 @@ const AdvanceComponent = () => {
                                     {
                                         userType === "superadmin" && (
                                             <FormControl sx={{ textAlign: "start", mt: 0 }}>
-                                                <InputLabel id="state-label">Organisation</InputLabel>
+                                                <InputLabel id="state-label" sx={{
+                                                    fontFamily: `"Poppins", sans-serif`,
+                                                    fontSize: '16px'
+                                                }}>Organisation</InputLabel>
                                                 <Select
                                                     value={selectOrgnigation}
                                                     label="Organisation"
@@ -636,7 +651,7 @@ const AdvanceComponent = () => {
                         },
                         "& .MuiDataGrid-columnHeaders": {
                             backgroundColor: "#ffb6b2",
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
@@ -654,7 +669,7 @@ const AdvanceComponent = () => {
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         // "& .MuiDataGrid-row": {
                         //     border: "1px solid #ffb6b2",

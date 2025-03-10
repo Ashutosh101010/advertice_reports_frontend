@@ -46,7 +46,10 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Organisation</Typography>
+            <Typography variant="h6" sx={{
+                mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Poppins", sans-serif`,
+                fontSize: '20px'
+            }}>Create Organisation</Typography>
             <form
                 style={{
                     display: "flex",
@@ -174,11 +177,13 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            fontFamily: `"Poppins", sans-serif`,
+                            textTransform: 'none'
                         }}
                         onClick={handleClose}
                     // color="error"
                     >
-                        CANCEL
+                        Cancel
                     </Button>
                     <Button
                         disabled={!owner || !address || !email || !contact ? true : false}
@@ -188,6 +193,8 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            fontFamily: `"Poppins", sans-serif`,
+                            textTransform: 'none'
                         }}
                     >
                         Save

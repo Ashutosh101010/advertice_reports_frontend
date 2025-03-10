@@ -109,9 +109,12 @@ export default function ImportDashboardCsv({ handleClose, auth, fetchCampaignLis
     return (
         <Box sx={{ padding: "25px" }}>
             <form>
-                <Stack marginBottom={'1rem'} textAlign={'center'}>
-                    <h4>Upload only csv file</h4>
+                <Stack textAlign={'start'}>
+                    <h3>Import Campaign Form</h3>
                 </Stack>
+                {/* <Stack marginBottom={'1rem'} textAlign={'center'}>
+                    <h4>Upload only csv file</h4>
+                </Stack> */}
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }}>
 
                     <button
@@ -135,7 +138,7 @@ export default function ImportDashboardCsv({ handleClose, auth, fetchCampaignLis
                                 alignItems: "center",
                             }}
                         >
-                            {csvFile ? <p>{csvFile.name}</p> : ""}
+                            {csvFile ? <p>{csvFile.name}</p> : "Upload only CSV file"}
                         </div>
                         <input
                             className="importCampaign"
@@ -157,11 +160,12 @@ export default function ImportDashboardCsv({ handleClose, auth, fetchCampaignLis
                             // color="success"
                             component="label"
                             onClick={handleSubmit}
-                            style={{ marginRight: "1rem", color: '#fff' }}>
+                            style={{ marginRight: "1rem", color: '#fff', textTransform: 'none' }}>
                             Save
                         </Button>
                         <Button
                             onClick={handleClose}
+                            sx={{ textTransform: 'none' }}
                             variant="contained"
                             // color="error" 
                             component="label">

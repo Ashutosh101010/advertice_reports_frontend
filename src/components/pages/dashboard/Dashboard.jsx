@@ -35,7 +35,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (auth) {
-            fetchOrganisationList(); 
+            fetchOrganisationList();
         }
     }, [auth])
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
             // console.log('auth', auth);
             const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
             console.log('response', response);
-            
+
             if (response.errorCode === 0) {
                 setOrganisationList(response.organisations);
                 setSelectOrgnigation(response.organisations[0])
@@ -164,24 +164,44 @@ const Dashboard = () => {
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "" }}>
 
-                        <Button className='' sx={{ height: "100%", background: "#ee4036", color: "#fff", textTransform: "capitalize", mr: 2, mb: !isMobile ? 2 : "" }} onClick={ImportCampaign}>
+                        <Button className=''
+                            sx={{
+                                height: "100%",
+                                background: "#ee4036",
+                                color: "#fff",
+                                textTransform: "capitalize",
+                                mr: 2,
+                                mb: !isMobile ? 2 : "",
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px',
+                                px: 2
+                            }} onClick={ImportCampaign}>
                             Import Campaign
                         </Button>
                         {
                             userType === "superadmin" && (
-                                <FormControl sx={{ textAlign: "start", mt :  !isMobile ? 2 : "" }}>
-                                    <InputLabel id="state-label">Organisation</InputLabel>
+                                <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
+                                    <InputLabel id="state-label"
+                                        sx={{
+                                            fontFamily: `"Poppins", sans-serif`,
+                                            fontSize: '16px'
+                                        }}
+                                    >Organisation</InputLabel>
                                     <Select
                                         value={selectOrgnigation}
                                         label="Organisation"
                                         labelId='state-label'
                                         onChange={handleSelectOrgnigation}
-                                        sx={{ minWidth: 250, mr:isMobile ? 2 : ''}}
+                                        sx={{ minWidth: 250, mr: isMobile ? 2 : '' }}
                                         disableUnderline
                                     >
                                         {organisationList.map((item) => {
                                             return (
-                                                <MenuItem value={item} key={item.id}>
+                                                <MenuItem value={item} key={item.id}
+                                                    sx={{
+                                                        fontFamily: `"Poppins", sans-serif`
+                                                    }}
+                                                >
                                                     {item.domain}
                                                 </MenuItem>
                                             );
@@ -196,7 +216,7 @@ const Dashboard = () => {
                                 label="Select From Date"
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt :  !isMobile ? 2 : "", minWidth: 250 }} {...params} />}
+                                renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt: !isMobile ? 2 : "", minWidth: 250, fontFamily: `"Poppins", sans-serif` }} {...params} />}
                             />
                         </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -204,7 +224,7 @@ const Dashboard = () => {
                                 label="Select To Date"
                                 value={toDate}
                                 onChange={handleToDateDateChange}
-                                renderInput={(params) => <TextField {...params} sx={{ mt :  !isMobile ? 2 : "", minWidth: 250}} />}
+                                renderInput={(params) => <TextField {...params} sx={{ mt: !isMobile ? 2 : "", minWidth: 250, fontFamily: `"Poppins", sans-serif` }} />}
                             />
                         </LocalizationProvider>
                     </Grid>

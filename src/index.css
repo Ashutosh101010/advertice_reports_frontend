@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 :root {
   height: 100%;
   width: 100%;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
 }
 
 .wrapper {
@@ -24,16 +27,19 @@ a {
   text-decoration: none;
   color: #00f !important;
 }
-.link-color{
+
+.link-color {
   color: #0061ff !important;
 }
-.forget-password{
+
+.forget-password {
   color: #7367f0 !important;
   font-size: 14px !important;
 }
+
 .header-link {
   color: #111 !important;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0 10px;
 }
 
@@ -52,7 +58,7 @@ a {
 
 .hearder-btn {
   color: #111 !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-transform: none !important;
   padding: .5rem .75rem !important;
   height: fit-content !important;
@@ -64,12 +70,13 @@ a {
   padding: .5rem .75rem !important;
   color: #fff !important;
   border-radius: 4px;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-transform: none !important;
   margin-right: 10px !important;
   height: fit-content !important;
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
+
 .create-organisation {
   margin: 10px !important;
 }
@@ -78,7 +85,7 @@ a {
   background: #ee4036 !important;
   color: #fff !important;
   border-radius: 4px;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-transform: none !important;
   padding: .5rem .75rem !important;
   height: fit-content !important;
@@ -88,7 +95,7 @@ a {
   background: #ee4036 !important;
   color: #fff !important;
   border-radius: 4px;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-transform: none !important;
   padding: .5rem .75rem !important;
 }

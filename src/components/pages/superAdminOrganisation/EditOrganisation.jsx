@@ -74,7 +74,10 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Create Organisation</Typography>
+            <Typography variant="h6" sx={{
+                mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Poppins", sans-serif`,
+                fontSize: '20px'
+            }}>Edit Organisation</Typography>
             <form
                 style={{
                     display: "flex",
@@ -202,11 +205,13 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            fontFamily: `"Poppins", sans-serif`,
+                            textTransform: 'none'
                         }}
                         onClick={handleClose}
                     // color="error"
                     >
-                        CANCEL
+                        Cancel
                     </Button>
                     <Button
                         disabled={!address || !email || !contact ? true : false}
@@ -216,6 +221,8 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            fontFamily: `"Poppins", sans-serif`,
+                            textTransform: 'none'
                         }}
                     >
                         Save

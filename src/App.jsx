@@ -17,11 +17,13 @@ import SuperAdminOrgnisationList from './components/pages/superAdminOrganisation
 import AdminOrgnisationList from './components/pages/adminOrganisation/adminOrganisation';
 import SuperAdminLoginForm from './components/login/SuperAdminLogin';
 import AdvanceComponent from './components/pages/reports/Advance';
+import { SnackbarProvider } from 'notistack';
 
 function App() {
 
   return (
-      <Router>
+    <Router>
+      <SnackbarProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
@@ -34,7 +36,8 @@ function App() {
           <Route path="/admin-login" element={<LoginForm />} />
           <Route path="/super-admin-login" element={<SuperAdminLoginForm />} />
         </Routes>
-      </Router>
+      </SnackbarProvider>
+    </Router>
   )
 }
 

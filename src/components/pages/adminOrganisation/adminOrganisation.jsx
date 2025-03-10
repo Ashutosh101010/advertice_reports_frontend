@@ -148,6 +148,7 @@ const AdminOrgnisationList = () => {
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     const [editTableData, setEditTableData] = useState({});
+    const [switchStates, setSwitchStates] = useState({});
 
     useEffect(() => {
         fetchOrganisationList();
@@ -170,13 +171,27 @@ const AdminOrgnisationList = () => {
         }
     }
 
-    const handleClick = async (event, data) => {
-        event.stopPropagation();
+    const handleClick = async (e, data) => {
+        e.stopPropagation();
+
+        // Optimistically update UI before API call
+        setSwitchStates((prev) => ({
+            ...prev,
+            [data.id]: !prev[data.id],
+        }));
+
+        // API call to change status
         const response = await AdverticeNetwork.changeStatusApi(auth, data?.id);
+
         if (response?.errorCode === 0) {
-            fetchOrganisationList();
+            fetchOrganisationList(); // Refresh data if API succeeds
+        } else {
+            // Revert UI if API fails
+            setSwitchStates((prev) => ({
+                ...prev,
+                [data.id]: prev[data.id], // Reset to previous state
+            }));
         }
-        setSwitchChecked(event.target.checked)
     };
 
     function handlePageChange(newPage) {
@@ -246,20 +261,20 @@ const AdminOrgnisationList = () => {
         {
             field: "email",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>email</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>E-mail</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5
         },
         {
             field: "address",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>address</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Address</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "contact",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>contact</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Contact</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
@@ -267,21 +282,21 @@ const AdminOrgnisationList = () => {
         {
             field: "stateName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>stateName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.2
         },
         {
             field: "cityName",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>cityName</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "createdAt",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>createdAt</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CreatedAt</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5,
             renderCell: (params) => (
@@ -334,15 +349,15 @@ const AdminOrgnisationList = () => {
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
                             style={{ color: 'black' }}
-
+                            // onClick={(e) => e.stopPropagation()}
                         >
                             <FormControlLabel
                                 checked={params.row.status}
                                 value={params.row.status}
-                                onChange={(e) => {
-                                    handleClick(e, params.row);
-                                }}
-                                control={<IOSSwitch />}
+                                control={<IOSSwitch
+                                    checked={switchStates[params.row.id] ?? params.row.status}
+                                    onChange={(e) => handleClick(e, params.row)}
+                                />}
                                 label=""
                             />
                         </IconButton>
@@ -393,7 +408,7 @@ const AdminOrgnisationList = () => {
                         },
                         "& .MuiDataGrid-columnHeaders": {
                             backgroundColor: "#ffb6b2",
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
@@ -411,7 +426,7 @@ const AdminOrgnisationList = () => {
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            fontWeight: "600",
+                            fontWeight: "500",
                         },
                         "& .MuiDataGrid-row": {
                             border: "1px solid #ffb6b2",

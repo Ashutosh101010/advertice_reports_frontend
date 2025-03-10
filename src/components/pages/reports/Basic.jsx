@@ -113,11 +113,10 @@ const BasicComponent = () => {
     const [switchChecked, setSwitchChecked] = useState(true);
     const [basicList, setBasicList] = useState([]);
 
-    useEffect(()=>{
-        fetchReportList();
-        console.log('aaaaaaaaa');
-        
-    }, [])
+    // useEffect(() => {
+    //     fetchReportList();
+    //     // console.log('aaaaaaaaa');
+    // }, []);
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -132,21 +131,21 @@ const BasicComponent = () => {
         setPageSize(newPageSize);
     };
 
-      const fetchReportList = async () => {
-            try {
-                const body = {
-                    "page": page,
-                    "pageSize": pageSize
-                }
-                console.log('body', body);
-                const response = await AdverticeNetwork.fetchReportListApi(auth);
-                if (response.errorCode === 0) {
-                    setBasicList(response.organisations);
-                }
-            } catch (error) {
-                console.log(error);
+    const fetchReportList = async () => {
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize
             }
+            console.log('body', body);
+            const response = await AdverticeNetwork.fetchReportListApi(auth);
+            if (response.errorCode === 0) {
+                setBasicList(response.organisations);
+            }
+        } catch (error) {
+            console.log(error);
         }
+    }
 
     const columns = [
         {
@@ -177,13 +176,13 @@ const BasicComponent = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        {
-            field: "conversions",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Conversions</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "conversions",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Conversions</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
         {
             field: "ctr",
             sortable: false,
@@ -201,24 +200,24 @@ const BasicComponent = () => {
         {
             field: "cpm",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPM</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
         {
             field: "cpc",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPC</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        {
-            field: "cpa",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPA</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "cpa",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CPA</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
     ];
 
     return (

@@ -1,9 +1,11 @@
 import React from "react";
-import { Box, Button, Grid, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginLogo from "../../assets/advertice-logo.png"
 import AdverticeNetwork from "../../Network";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const LoginForm = () => {
 
@@ -30,8 +32,12 @@ const LoginForm = () => {
             }
             // navigate('/')
         }
+    };
 
+    const [showPassword, setShowPassword] = useState(false);
 
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
     };
 
     return (
@@ -50,8 +56,8 @@ const LoginForm = () => {
                                             <Box>
                                                 <img src={loginLogo} className="logo login-logo" />
                                             </Box>
-                                            <Box justifyContent="center" alignItems="center" fontWeight={'bold'}>
-                                                <p>Advertiser Login</p>
+                                            <Box justifyContent="center" alignItems="center" fontWeight={'500'}>
+                                                <Typography sx={{ fontSize: '16px', fontWeight: '500', fontFamily: `"Roboto Condensed", sans-serif` }}>Advertiser Login</Typography>
                                             </Box>
                                         </Grid>
                                     </Grid>
@@ -63,15 +69,50 @@ const LoginForm = () => {
                                     }}>
                                         <TextField
                                             fullWidth
-                                            variant="outlined" type="text" label="Username"
+                                            variant="outlined"
+                                            type="text"
+                                            label={<Typography color={'#000'} fontFamily={`"Roboto Condensed", sans-serif`}>Username</Typography>}
                                             onChange={(e) => setUsername(e.target.value)}
                                             value={username}
                                             name="username"
-                                            sx={{ margin: "15px 0px 15px 0px" }}
+                                            sx={{
+                                                margin: "15px 0px 15px 0px",
+                                                "& .MuiOutlinedInput-root": {
+                                                    "&.Mui-focused fieldset": {
+                                                        borderColor: "black",
+                                                    },
+                                                },
+                                                py: 1
+                                            }}
                                         />
-                                        <TextField fullWidth variant="outlined" type="password" label="Password" name="Password" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ gridColumn: 'span 12' }} />
+                                        <TextField
+                                            fullWidth
+                                            variant="outlined"
+                                            type={showPassword ? "text" : "password"}
+                                            label={<Typography color={'#000'} fontFamily={`"Roboto Condensed", sans-serif`}>Password</Typography>}
+                                            name="Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            sx={{
+                                                gridColumn: 'span 12',
+                                                "& .MuiOutlinedInput-root": {
+                                                    "&.Mui-focused fieldset": {
+                                                        borderColor: "black",
+                                                    },
+                                                },
+                                            }}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton onClick={handleTogglePassword} edge="end">
+                                                            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
                                     </Box>
-                                    <Box sx={{ marginTop: "20px", textAlign: "end" }}>  <Link to={"#"} className="forget-password">Forgot Password ?</Link></Box>
+                                    {/* <Box sx={{ marginTop: "20px", textAlign: "end" }}>  <Link to={"#"} className="forget-password">Forgot Password ?</Link></Box> */}
                                     <Box display="flex" justifyContent="center" mt="20px">
                                         <Button
                                             disabled={!username || !password ? true : false}
@@ -82,12 +123,16 @@ const LoginForm = () => {
                                                 color: "#fff !important",
                                                 mb: 1,
                                                 backgroundColor: "#d64a43 !important",
+                                                textTransform: 'none',
+                                                fontFamily: `"Roboto Condensed", sans-serif`,
+                                                fontSize: '16px',
+                                                fontWeight: '500'
                                             }}
                                         >
                                             Sign in
                                         </Button>
                                     </Box>
-                                    <Box sx={{ textAlign: "center", margin: "0px 0px 20px 0px" }}>
+                                    {/* <Box sx={{ textAlign: "center", margin: "0px 0px 20px 0px" }}>
                                         <Grid container>
                                             <Grid item xs={12} sm={12} md={12} lg={12} sx={{
                                                 textAlign: 'center',
@@ -100,7 +145,7 @@ const LoginForm = () => {
                                                 <Link className="link-color"><span>FAQ's |&nbsp;</span><span>SSP List |&nbsp;</span><span>Products &nbsp;</span></Link>
                                             </Grid>
                                         </Grid>
-                                    </Box>
+                                    </Box> */}
                                 </form>
 
                             </Box>
