@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button, Stack, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
@@ -11,6 +11,9 @@ import { DesktopDatePicker, LocalizationProvider, DateTimePicker } from "@mui/x-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import AdverticeNetwork from "../../../Network";
 import AuthContext from "../authContext/AuthContext";
+import moment from "moment";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -129,8 +132,8 @@ const AdvanceComponent = () => {
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
     const [campaignList, setCampaignList] = useState([]);
     const [campiagnNameList, setCampiagnNameList] = useState([]);
-
-
+    const [totalImpressions, setTotalImpressions] = useState(0);
+    const [totalClicks, setTotalClicks] = useState(0);
 
     useEffect(() => {
         // fetchReportList();
@@ -142,7 +145,7 @@ const AdvanceComponent = () => {
             setSelectOrgnigation(organisationList[0])
             fetchCampaignList();
         }
-    }, [organisationList, selectOrgnigation, startDate, endDate, selectCampaign])
+    }, [organisationList, selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize])
 
     const fetchOrganisationList = async () => {
         try {
@@ -175,7 +178,9 @@ const AdvanceComponent = () => {
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
                 setCampiagnNameList(response?.campaignNames)
-                setRowCount(response.count)
+                setRowCount(response.count);
+                setTotalImpressions(response?.impressions);
+                setTotalImpressions(response?.clicks);
             }
         } catch (error) {
             console.log(error);
@@ -246,13 +251,17 @@ const AdvanceComponent = () => {
 
     const columns = [
         {
-            field: "id",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}></p>,
+            field: "date",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
-            flex: 0.5,
+            flex: 1,
             renderCell: (params) => {
-                return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
+                return (
+                    <>
+                        {moment(params?.row?.date).format('YYYY-MM-DD')}
+                    </>
+                )
             }
         },
         {
@@ -328,110 +337,40 @@ const AdvanceComponent = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1
         },
-        // {
-        //     field: "progress",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Progress</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
-        //     },
-
-        // },
-        // {
-        //     field: "status",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Status</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <Label
-        //                 color={
-        //                     (params.row.status === true &&
-        //                         "success") ||
-        //                     "error"
-        //                 }
-        //             >
-        //                 {sentenceCase(
-        //                     params.row.status === true
-        //                         ? "Active"
-        //                         : "Paused"
-        //                 )}
-        //             </Label>
-        //         );
-        //     },
-        //     flex: 1
-        // },
-        // {
-        //     field: "adminStatus",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Admin Status</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <Label
-        //                 color={
-        //                     (params.row.adminStatus === true &&
-        //                         "success") ||
-        //                     "error"
-        //                 }
-        //             >
-        //                 {sentenceCase(
-        //                     params.row.adminStatus === true
-        //                         ? "Active"
-        //                         : "Pending"
-        //                 )}
-        //             </Label>
-        //         );
-        //     },
-        //     flex: 1
-        // },
-        // {
-        //     field: "action",
-        //     flex: 2,
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <>
-        //                 {/* <IconButton
-        //                     aria-label="more"
-        //                     id={params.row.id}
-        //                     aria-controls={open ? "long-menu" : undefined}
-        //                     aria-expanded={open ? "true" : undefined}
-        //                     aria-haspopup="true"
-        //                     style={{ color: 'black' }}
-
-        //                 >
-        //                     <FormControlLabel
-        //                         sx={{ marginRight: 0 }}
-        //                         checked={switchChecked}
-        //                         value={switchChecked}
-        //                         onChange={(e) => {
-        //                             handleClick(e);
-        //                         }}
-        //                         control={<IOSSwitch />}
-        //                         label=""
-        //                     />
-        //                 </IconButton> */}
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     onClick={() => handleEditTable(params.row)}
-        //                 >
-        //                     <EditIcon />
-        //                 </IconButton>
-        //                 {/* <IconButton
-        //                     aria-label="more"
-        //                 >
-        //                     <ContentCopyIcon />
-        //                 </IconButton> */}
-        //             </>
-        //         );
-        //     },
-        // }
     ];
+
+    const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks }) => {
+        return (
+            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
+                {/* Left: Total Impressions & Clicks */}
+                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'center'} width={['100%', '70%']} marginLeft={[2, 0]} gap={[0, 35]} flexGrow={1}>
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                        Total Impressions: {totalImpressions}
+                    </Typography>
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                        CTR: {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
+                    </Typography>
+                </Stack>
+                <Stack direction="row" justifyContent={'center'} alignItems={'center'} spacing={2} py={[1, 0]}>
+                    <Typography variant="body2" color={'#000'}>Rows per page:</Typography>
+                    <Select value={pageSize} onChange={(e) => onPageSizeChange(e.target.value)} size="small">
+                        <MenuItem value={25}>25</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                        <MenuItem value={100}>100</MenuItem>
+                    </Select>
+                    <Typography variant="body2" color={'#000'} fontFamily={`"Poppins",sans-serif`}>
+                        {page * pageSize + 1} - {Math.min((page + 1) * pageSize, rowCount)} of {rowCount}
+                    </Typography>
+                    <IconButton onClick={() => onPageChange(page - 1)} disabled={page === 0}>
+                        <ArrowBackIosIcon />
+                    </IconButton>
+                    <IconButton onClick={() => onPageChange(page + 1)} disabled={(page + 1) * pageSize >= rowCount}>
+                        <ArrowForwardIosIcon />
+                    </IconButton>
+                </Stack>
+            </Stack>
+        );
+    };
 
     return (
         <React.Fragment>
@@ -628,7 +567,7 @@ const AdvanceComponent = () => {
                 </Box>
                 <Box
                     m="40px 0 0 0"
-                    height="75vh"
+                    height="70vh"
                     sx={{
                         '.MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
                             outline: 'none !important'
@@ -700,6 +639,19 @@ const AdvanceComponent = () => {
                             "& .MuiDataGrid-columnHeader .MuiDataGrid-columnSeparator": {
                                 display: "none",
                             },
+                        }}
+                        slots={{
+                            footer: () => (
+                                <CustomFooter
+                                    rowCount={rowCount}
+                                    page={page}
+                                    pageSize={pageSize}
+                                    onPageChange={setPage}
+                                    onPageSizeChange={setPageSize}
+                                    totalImpressions={totalImpressions}
+                                    totalClicks={totalClicks}
+                                />
+                            ),
                         }}
                     />
                 </Box>

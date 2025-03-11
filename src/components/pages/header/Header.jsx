@@ -78,7 +78,8 @@ function TopHeader() {
 
     function handleClick(event) {
         if (anchorEl !== event.currentTarget) {
-            setAnchorEl(event.currentTarget);
+            // setAnchorEl(event.currentTarget);
+            navigate('/reports/advance')
         }
     }
 
@@ -263,9 +264,10 @@ function TopHeader() {
                         aria-owns={anchorEl ? "simple-menu" : undefined}
                         aria-haspopup="true"
                         onClick={handleClick}
-                        onMouseOver={handleClick}
+                        // onMouseOver={handleClick}
                     >
-                        Reports <KeyboardArrowDownIcon color={active === "Basic" || active === "Billing" || active === "Advance" || active === "Video" ? "white" : 'action'} />
+                        Reports
+                         {/* <KeyboardArrowDownIcon color={active === "Basic" || active === "Billing" || active === "Advance" || active === "Video" ? "white" : 'action'} /> */}
                     </Button>
                     {/* <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
                         Pixel
