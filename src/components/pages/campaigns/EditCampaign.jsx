@@ -79,7 +79,10 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
 
     return (
         <React.Fragment>
-            <Typography variant="h6" sx={{ mt: "2rem", textAlign: "center", fontWeight: "bold" }}>Edit Organisation</Typography>
+            <Typography variant="h6" sx={{
+                mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Poppins", sans-serif`,
+                fontSize: '20px',
+            }}>Edit Campaign</Typography>
             <form
                 style={{
                     display: "flex",
@@ -119,7 +122,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                     }}
                 />
 
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="number"
                     label="Impressions"
@@ -132,8 +135,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="number"
                     label="Clicks"
@@ -146,8 +149,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="tel"
                     label="Conversions"
@@ -174,8 +177,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="tel"
                     label="Ctr"
@@ -188,8 +191,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="tel"
                     label="Cpm"
@@ -202,8 +205,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="tel"
                     label="Cpc"
@@ -216,8 +219,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="tel"
                     label="Cpa"
@@ -230,7 +233,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
-                />
+                /> */}
                 {/* <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
@@ -282,11 +285,13 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: "none",
+                            fontFamily: `"Poppins", sans-serif`,
                         }}
                         onClick={handleClose}
                     // color="error"
                     >
-                        CANCEL
+                        Cancel
                     </Button>
                     <Button
                         disabled={!title ? true : false}
@@ -296,6 +301,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         sx={{
                             padding: "1rem",
                             borderRadius: "0.8rem",
+                            textTransform: "none",
+                            fontFamily: `"Poppins", sans-serif`,
                         }}
                     >
                         Save

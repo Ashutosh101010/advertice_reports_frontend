@@ -21,6 +21,12 @@ import { SnackbarProvider } from 'notistack';
 
 function App() {
 
+  // SuperAdmin ID Passwor
+  // id: superadmin, password- advertice123
+
+  // Admin ID Password
+  // id: mayur, password- mayur@123
+
   return (
     <Router>
       <SnackbarProvider>
