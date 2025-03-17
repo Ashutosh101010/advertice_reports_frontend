@@ -1,8 +1,10 @@
-import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography, IconButton, InputAdornment, } from "@mui/material";
 import React, { useState } from "react";
 import AdverticeNetwork from "../../../Network";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
-export default function CreateAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, organisationId }) {
+export default function CreateAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, organisationId, onOpenDialog }) {
 
 
     const [address, setAddress] = useState("");
@@ -15,6 +17,11 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleChangeUserName = (e) =>{
+        setUserName(e.target.value)
+    };
 
     function handleStateChange(event) {
         setCityList(event.target.value.city);
@@ -51,6 +58,11 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
         }
     };
 
+
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
+
     return (
         <React.Fragment>
             <Typography variant="h6" sx={{
@@ -77,12 +89,22 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                 />
                 <TextField
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     label="Password"
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                    autoComplete="new-password"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword} edge="end">
+                                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
                     variant="outlined"
@@ -96,10 +118,10 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="UserName"
-                    name="UserName"
+                    label="User Name"
+                    name="User Name"
                     value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
+                    onChange={(e) => handleChangeUserName(e)}
                     sx={{
                         gridColumn: "span 12",
                         marginTop: "30px",
@@ -197,7 +219,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         onClick={handleClose}
                     // color="error"
                     >
-                        CANCEL
+                        Cancel
                     </Button>
                     <Button
                         disabled={!address || !email || !contact ? true : false}

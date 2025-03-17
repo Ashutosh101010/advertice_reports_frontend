@@ -105,7 +105,7 @@ const LoginForm = () => {
                                                 endAdornment: (
                                                     <InputAdornment position="end">
                                                         <IconButton onClick={handleTogglePassword} edge="end">
-                                                            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 ),

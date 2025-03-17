@@ -174,8 +174,13 @@ const Dashboard = () => {
                                 mb: !isMobile ? 2 : "",
                                 fontFamily: `"Poppins", sans-serif`,
                                 fontSize: '16px',
-                                px: 2
-                            }} onClick={ImportCampaign}>
+                                px: 2,
+                                ":hover": {
+                                    background: "#ee4036",
+                                }
+                            }}
+                            onClick={ImportCampaign}
+                        >
                             Import Campaign
                         </Button>
                         {

@@ -1,6 +1,10 @@
-import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+// import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AdverticeNetwork from "../../../Network";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography ,InputAdornment, IconButton} from "@mui/material";
+
 
 export default function EditAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, editTableData }) {
 
@@ -15,6 +19,11 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     useEffect(() => {
         if (editTableData) {
@@ -86,7 +95,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
             <Typography variant="h6" sx={{
                 mt: "2rem", textAlign: "center", fontWeight: "500", fontFamily: `"Roboto Condensed", sans-serif`,
                 fontSize: '20px'
-            }}>Edit Organisation</Typography>
+            }}>Edit Admin</Typography>
             <form
                 style={{
                     display: "flex",
@@ -108,12 +117,21 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                 />
                 <TextField
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     label="Password"
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleTogglePassword} edge="end">
+                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
                     variant="outlined"
@@ -227,7 +245,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                         onClick={handleClose}
                     // color="error"
                     >
-                        CANCEL
+                        Cancel
                     </Button>
                     <Button
                         disabled={!address || !email || !contact ? true : false}

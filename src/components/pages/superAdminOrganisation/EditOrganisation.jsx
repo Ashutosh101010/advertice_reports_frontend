@@ -12,6 +12,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
+    const [title, setTitle] = useState('');
 
     useEffect(() => {
         if (editTableData) {
@@ -37,6 +38,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
             setOwner(editTableData?.owner);
             setEmail(editTableData?.email);
             setContact(editTableData?.contact);
+            setTitle(editTableData?.title);
         }
     }, [editTableData])
 
@@ -57,7 +59,8 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     "cityId": selectedCity?.id,
                     "owner": owner,
                     "email": email,
-                    "contact": contact
+                    "contact": contact,
+                    "title": title
                 }
                 const response = await AdverticeNetwork.editOrganisationApi(body, auth, editTableData.id);
                 if (response.errorCode === 0) {
@@ -87,6 +90,20 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                     padding: "2rem",
                 }}
             >
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="Title"
+                    name="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
+                />
                 <TextField
                     variant="outlined"
                     type="text"

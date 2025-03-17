@@ -12,6 +12,7 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
     const [cityList, setCityList] = useState([]);
     const [selectedState, setSelectedState] = useState({});
     const [selectedCity, setSelectedCity] = useState({});
+    const [title, setTitle] = useState('');
 
     function handleStateChange(event) {
         setCityList(event.target.value.city);
@@ -30,7 +31,8 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                     "cityId": selectedCity?.id,
                     "owner": owner,
                     "email": email,
-                    "contact": contact
+                    "contact": contact,
+                    "title": title
                 }
                 const response = await AdverticeNetwork.createOrganisationApi(body, auth);
                 if (response.errorCode === 0) {
@@ -62,8 +64,22 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                 <TextField
                     variant="outlined"
                     type="text"
+                    label="Title"
+                    name="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    sx={{
+                        gridColumn: "span 12",
+                        marginTop: "10px",
+                        width: "100%",
+                        maxWidth: '390px'
+                    }}
+                />
+                <TextField
+                    variant="outlined"
+                    type="text"
                     label="Address"
-                    name="sddress"
+                    name="address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     sx={{

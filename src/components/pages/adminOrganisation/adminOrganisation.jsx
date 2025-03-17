@@ -349,7 +349,7 @@ const AdminOrgnisationList = () => {
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
                             style={{ color: 'black' }}
-                            // onClick={(e) => e.stopPropagation()}
+                        // onClick={(e) => e.stopPropagation()}
                         >
                             <FormControlLabel
                                 checked={params.row.status}
@@ -378,9 +378,16 @@ const AdminOrgnisationList = () => {
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end" }}>
-                        {/* <Button className='hearder-right-btn create-organisation' onClick={createForm}>
+                        <Button className='hearder-right-btn create-organisation' onClick={createForm}
+                            sx={{
+                                width: '100%',
+                                maxWidth: '200px',
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px',
+                            }}
+                        >
                             Create Admins
-                        </Button> */}
+                        </Button>
                     </Grid>
                 </Grid>
                 <Box

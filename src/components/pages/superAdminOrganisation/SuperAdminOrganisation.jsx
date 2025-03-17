@@ -174,13 +174,13 @@ const SuperAdminOrgnisationList = () => {
             },
             flex: 1.5,
         },
-        {
-            field: "domain",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Domain</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1.5,
-        },
+        // {
+        //     field: "domain",
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Domain</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     sortable: false,
+        //     flex: 1.5,
+        // },
         {
             field: "email",
             sortable: false,
@@ -222,15 +222,19 @@ const SuperAdminOrgnisationList = () => {
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CreatedAt</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5,
-            renderCell: (params) => (
-                new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }).format(params.row.createdAt)
-            )
+            renderCell: (params) => {
+                return (
+                    <>{params?.row?.createdAt ?
+                        new Intl.DateTimeFormat("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        }).format(params.row?.createdAt)
+                        : "N/A"}</>
+                )
+            }
         },
         {
             field: "status",

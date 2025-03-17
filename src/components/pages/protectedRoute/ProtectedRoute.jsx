@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
   const auth = localStorage.getItem("accessToken");
   const userType = localStorage.getItem("userType");
 
-  console.log('userType', userType);
+  // console.log('userType', userType);
   
   if (!auth && userType) {
     if (userType !== "superadmin") {
