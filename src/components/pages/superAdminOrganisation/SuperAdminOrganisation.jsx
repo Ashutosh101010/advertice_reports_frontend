@@ -136,7 +136,7 @@ const SuperAdminOrgnisationList = () => {
     function handleSectionClick(e, value) {
         // e.preventDefault();
         // e.stopPropagation();
-        navigate("/admin-organisation", { state: { orgId: value.id } });
+        navigate("/admin-organisation", { state: { orgId: e?.row?.id } });
     };
 
     const columns = [

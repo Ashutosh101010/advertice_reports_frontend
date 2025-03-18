@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import AdverticeNetwork from "../../../Network";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useSnackbar } from "notistack";
 
 export default function CreateAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, organisationId, onOpenDialog }) {
 
 
+    const { enqueueSnackbar } = useSnackbar();
     const [address, setAddress] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -50,7 +52,12 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                 if (response.errorCode === 0) {
                     fetchOrganisationList();
                     handleClose();
-                }
+                };
+                if (response.errorCode !== 0) {
+                    enqueueSnackbar(`${response.errorDescription}`, { variant: 'error', autoHideDuration: 3000 })
+                  } else if (response.errorCode === 0) {
+                    enqueueSnackbar(`${response.message !== undefined ? response.message : ""}`, { variant: 'success', autoHideDuration: 3000 })
+                  };
             }
 
         } catch (error) {
