@@ -38,7 +38,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
             setOwner(editTableData?.owner);
             setEmail(editTableData?.email);
             setContact(editTableData?.contact);
-            setTitle(editTableData?.title);
+            setTitle(editTableData?.organisation);
         }
     }, [editTableData])
 
@@ -93,8 +93,8 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="Title"
-                    name="Title"
+                    label="Organisation Name"
+                    name="Organisation Name"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     sx={{
@@ -104,7 +104,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         maxWidth: '390px'
                     }}
                 />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="text"
                     label="Address"
@@ -117,12 +117,12 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         width: "100%",
                         maxWidth: '390px'
                     }}
-                />
+                /> */}
 
                 <TextField
                     variant="outlined"
                     type="text"
-                    label="Owner"
+                    label="Contact Person/ Media Planner"
                     name="owner"
                     value={owner}
                     onChange={(e) => setOwner(e.target.value)}
@@ -161,7 +161,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                         maxWidth: '390px'
                     }}
                 />
-                <InputLabel id="state-label" sx={{ left: '0px', marginTop: "5px", }}>State</InputLabel>
+                {/* <InputLabel id="state-label" sx={{ left: '0px', marginTop: "5px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"
@@ -208,7 +208,7 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
                             })}
                         </Select>
                     </>
-                }
+                } */}
                 <Stack
                     width={"100%"}
                     justifyContent={"end"}

@@ -256,13 +256,13 @@ const Campaigns = () => {
         //     headerClassName: 'super-app-theme--header',
         //     flex: 1
         // },
-        // {
-        //     field: "todayBudget",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Total Budget</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1
-        // },
+        {
+            field: "currency",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Currency</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1
+        },
         {
             field: "mediaCost",
             sortable: false,
@@ -343,50 +343,50 @@ const Campaigns = () => {
         //     },
         //     flex: 1
         // },
-        {
-            field: "action",
-            flex: 1,
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-            headerClassName: 'super-app-theme--header',
-            renderCell: (params) => {
-                return (
-                    <>
-                        {/* <IconButton
-                            aria-label="more"
-                            id={params.row.id}
-                            aria-controls={open ? "long-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            style={{ color: 'black' }}
+        // {
+        //     field: "action",
+        //     flex: 1,
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <>
+        //                 {/* <IconButton
+        //                     aria-label="more"
+        //                     id={params.row.id}
+        //                     aria-controls={open ? "long-menu" : undefined}
+        //                     aria-expanded={open ? "true" : undefined}
+        //                     aria-haspopup="true"
+        //                     style={{ color: 'black' }}
 
-                        >
-                            <FormControlLabel
-                                sx={{ marginRight: 0 }}
-                                checked={switchChecked}
-                                value={switchChecked}
-                                onChange={(e) => {
-                                    handleClick(e);
-                                }}
-                                control={<IOSSwitch />}
-                                label=""
-                            />
-                        </IconButton> */}
-                        <IconButton
-                            aria-label="more"
-                            onClick={() => handleEditTable(params.row)}
-                        >
-                            <EditIcon />
-                        </IconButton>
-                        {/* <IconButton
-                            aria-label="more"
-                        >
-                            <ContentCopyIcon />
-                        </IconButton> */}
-                    </>
-                );
-            },
-        }
+        //                 >
+        //                     <FormControlLabel
+        //                         sx={{ marginRight: 0 }}
+        //                         checked={switchChecked}
+        //                         value={switchChecked}
+        //                         onChange={(e) => {
+        //                             handleClick(e);
+        //                         }}
+        //                         control={<IOSSwitch />}
+        //                         label=""
+        //                     />
+        //                 </IconButton> */}
+        //                 <IconButton
+        //                     aria-label="more"
+        //                     onClick={() => handleEditTable(params.row)}
+        //                 >
+        //                     <EditIcon />
+        //                 </IconButton>
+        //                 {/* <IconButton
+        //                     aria-label="more"
+        //                 >
+        //                     <ContentCopyIcon />
+        //                 </IconButton> */}
+        //             </>
+        //         );
+        //     },
+        // }
     ];
 
     return (

@@ -113,7 +113,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         ),
                     }}
                 />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="text"
                     label="Bio"
@@ -121,7 +121,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
-                />
+                /> */}
                 <TextField
                     variant="outlined"
                     type="text"
@@ -135,7 +135,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         width: "430px",
                     }}
                 />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="email"
                     label="Email"
@@ -147,8 +147,8 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         marginTop: "30px",
                         width: "430px",
                     }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                     variant="outlined"
                     type="text"
                     label="Address"
@@ -156,7 +156,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
-                />
+                /> */}
                 <TextField
                     variant="outlined"
                     type="tel"
@@ -170,7 +170,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         width: "430px",
                     }}
                 />
-                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
+                {/* <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"
@@ -207,7 +207,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                             })}
                         </Select>
                     </>
-                }
+                } */}
                 <Stack
                     width={"100%"}
                     justifyContent={"end"}

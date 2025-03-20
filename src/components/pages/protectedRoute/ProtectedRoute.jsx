@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
   
   if (!auth && userType) {
     if (userType !== "superadmin") {
-      return <Navigate to="/admin-login" />
+      return <Navigate to="/advertice-login" />
     }else{
       return <Navigate to="super-admin-login" />
     }

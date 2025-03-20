@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import AdverticeNetwork from "../../../Network";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography ,InputAdornment, IconButton} from "@mui/material";
+import { Button, InputLabel, MenuItem, Select, Stack, TextField, Typography, InputAdornment, IconButton } from "@mui/material";
 
 
 export default function EditAdminFormModal({ handleClose, fetchOrganisationList, auth, stateList, editTableData }) {
@@ -133,7 +133,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                         ),
                     }}
                 />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="text"
                     label="Bio"
@@ -141,7 +141,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
-                />
+                /> */}
                 <TextField
                     variant="outlined"
                     type="text"
@@ -155,7 +155,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                         width: "430px",
                     }}
                 />
-                <TextField
+                {/* <TextField
                     variant="outlined"
                     type="email"
                     label="Email"
@@ -176,7 +176,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     sx={{ gridColumn: "span 12", marginTop: "30px", width: "430px" }}
-                />
+                /> */}
                 <TextField
                     variant="outlined"
                     type="tel"
@@ -189,7 +189,8 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                         marginTop: "30px",
                         width: "430px",
                     }}
-                />                <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
+                />
+                {/* <InputLabel id="state-label" sx={{ left: '10px', marginTop: "15px", }}>State</InputLabel>
                 <Select
                     value={selectedState}
                     label="state"
@@ -226,7 +227,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                             })}
                         </Select>
                     </>
-                }
+                } */}
                 <Stack
                     width={"100%"}
                     justifyContent={"end"}
@@ -248,7 +249,7 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
                         Cancel
                     </Button>
                     <Button
-                        disabled={!address || !email || !contact ? true : false}
+                        disabled={!contact ? true : false}
                         variant="contained"
                         onClick={handleSubmit}
                         color="success"

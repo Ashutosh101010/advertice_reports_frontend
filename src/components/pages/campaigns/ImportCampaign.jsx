@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Papa from 'papaparse'
 import { useSnackbar } from "notistack";
 import AdverticeNetwork from "../../../Network";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 export default function ImportCampaignCsv({ handleClose, auth, organisationId, fetchCampaignList, selectOrgnigation }) {
 
@@ -30,6 +31,15 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
     const { enqueueSnackbar } = useSnackbar();
     const [csvFile, setCsvFile] = useState('');
     const [importQuestions, setImportQuestions] = useState([]);
+
+    const handleDownload = () => {
+        const link = document.createElement("a");
+        link.href = sampleFile;
+        link.setAttribute("download", "samplefile.csv"); // File name when downloaded
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     async function handleSubmit() {
         for (let listItem of importQuestions) {
@@ -130,6 +140,10 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
     return (
         <Box sx={{ padding: "25px" }}>
             <form>
+                <Stack marginBottom={'0.2rem'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} gap={'1rem'} textAlign={'start'} fontFamily={`"Poppins", sans-serif`}>
+                    <a href="/samplefile.csv" download><p>Download Sample File from here <AttachFileIcon onClick={handleDownload}
+                        sx={{ cursor: "pointer", color: "blue" }} /></p></a>
+                </Stack>
                 <Stack marginBottom={'1rem'} textAlign={'start'} fontFamily={`"Poppins", sans-serif`}>
                     <h3>Import Campaign Form</h3>
                 </Stack>
@@ -137,7 +151,6 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                     <h4>Upload only csv file</h4>
                 </Stack> */}
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }}>
-
                     <button
                         onClick={() => document.querySelector(".importCampaign").click()}
                         type="button"

@@ -144,7 +144,7 @@ const AdminOrgnisationList = () => {
     const [rowCount, setRowCount] = useState(0);
     const [switchChecked, setSwitchChecked] = useState(false);
     const [organisationList, setOrganisationList] = useState([]);
-    const { auth, stateList } = useContext(AuthContext)
+    const { auth, stateList, userType } = useContext(AuthContext)
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     const [editTableData, setEditTableData] = useState({});
@@ -333,44 +333,44 @@ const AdminOrgnisationList = () => {
             },
             flex: 1
         },
-        {
-            field: "action",
-            flex: 1.5,
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-            headerClassName: 'super-app-theme--header',
-            renderCell: (params) => {
-                return (
-                    <>
-                        <IconButton
-                            aria-label="more"
-                            id={params.row.id}
-                            aria-controls={open ? "long-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            style={{ color: 'black' }}
-                        // onClick={(e) => e.stopPropagation()}
-                        >
-                            <FormControlLabel
-                                checked={params.row.status}
-                                value={params.row.status}
-                                control={<IOSSwitch
-                                    checked={switchStates[params.row.id] ?? params.row.status}
-                                    onChange={(e) => handleClick(e, params.row)}
-                                />}
-                                label=""
-                            />
-                        </IconButton>
-                        <IconButton
-                            aria-label="more"
-                            onClick={() => handleEditTable(params.row)}
-                        >
-                            <EditIcon />
-                        </IconButton>
-                    </>
-                );
-            },
-        }
+        // {
+        //     field: "action",
+        //     flex: 1.5,
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <>
+        //                 <IconButton
+        //                     aria-label="more"
+        //                     id={params.row.id}
+        //                     aria-controls={open ? "long-menu" : undefined}
+        //                     aria-expanded={open ? "true" : undefined}
+        //                     aria-haspopup="true"
+        //                     style={{ color: 'black' }}
+        //                 // onClick={(e) => e.stopPropagation()}
+        //                 >
+        //                     <FormControlLabel
+        //                         checked={params.row.status}
+        //                         value={params.row.status}
+        //                         control={<IOSSwitch
+        //                             checked={switchStates[params.row.id] ?? params.row.status}
+        //                             onChange={(e) => handleClick(e, params.row)}
+        //                         />}
+        //                         label=""
+        //                     />
+        //                 </IconButton>
+        //                 <IconButton
+        //                     aria-label="more"
+        //                     onClick={() => handleEditTable(params.row)}
+        //                 >
+        //                     <EditIcon />
+        //                 </IconButton>
+        //             </>
+        //         );
+        //     },
+        // }
     ];
 
     return (
@@ -468,10 +468,10 @@ const AdminOrgnisationList = () => {
                     />
                 </Box>
                 <Dialog open={createFormModal} onClose={handleCloseModal}>
-                    <CreateAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} organisationId={organisationId} />
+                    <CreateAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} organisationId={organisationId} userType={userType} />
                 </Dialog>
                 <Dialog open={editFormModal} onClose={handleCloseModal}>
-                    <EditAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} />
+                    <EditAdminFormModal handleClose={handleCloseModal} fetchOrganisationList={fetchOrganisationList} auth={auth} stateList={stateList} editTableData={editTableData} userType={userType} />
                 </Dialog>
             </Card>
         </React.Fragment>

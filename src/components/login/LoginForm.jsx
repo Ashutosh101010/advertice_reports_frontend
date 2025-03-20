@@ -6,10 +6,12 @@ import loginLogo from "../../assets/advertice-logo.png"
 import AdverticeNetwork from "../../Network";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useSnackbar } from "notistack";
 
 const LoginForm = () => {
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const { enqueueSnackbar } = useSnackbar();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -29,8 +31,24 @@ const LoginForm = () => {
                 localStorage.setItem('organizationId', response.organizationId)
                 localStorage.setItem('userType', "admin");
                 navigate('/')
+                enqueueSnackbar("Login Successful", {
+                    variant: "success",
+                    autoHideDuration: 3000,
+                    anchorOrigin: { vertical: "top", horizontal: "right" }
+                });
+            } else {
+                enqueueSnackbar(response.errorDescription || "Something went wrong", {
+                    variant: "error",
+                    autoHideDuration: 3000,
+                    anchorOrigin: { vertical: "top", horizontal: "right" }
+                });
             }
-            // navigate('/')
+        } else {
+            enqueueSnackbar("Please enter both username and password", {
+                variant: "warning",
+                autoHideDuration: 3000,
+                anchorOrigin: { vertical: "top", horizontal: "right" }
+            });
         }
     };
 

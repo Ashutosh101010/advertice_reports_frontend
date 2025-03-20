@@ -47,7 +47,7 @@ const Dashboard = () => {
             }
             // console.log('auth', auth);
             const response = await AdverticeNetwork.fetchSuperAdminOrganisationApi(body, auth);
-            console.log('response', response);
+            // console.log('response', response);
 
             if (response.errorCode === 0) {
                 setOrganisationList(response.organisations);
@@ -156,15 +156,14 @@ const Dashboard = () => {
         setSelectOrgnigation(event.target.value);
     };
 
-
+// console.log('organisationList', organisationList)
 
     return (
         <React.Fragment>
             <Card className="card">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "" }}>
-
-                        <Button className=''
+                        {/* <Button className=''
                             sx={{
                                 height: "100%",
                                 background: "#ee4036",
@@ -182,7 +181,7 @@ const Dashboard = () => {
                             onClick={ImportCampaign}
                         >
                             Import Campaign
-                        </Button>
+                        </Button> */}
                         {
                             userType === "superadmin" && (
                                 <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
@@ -207,7 +206,7 @@ const Dashboard = () => {
                                                         fontFamily: `"Poppins", sans-serif`
                                                     }}
                                                 >
-                                                    {item.domain}
+                                                    {item.organisation}
                                                 </MenuItem>
                                             );
                                         })}

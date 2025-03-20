@@ -13,12 +13,12 @@ import { useNavigate } from 'react-router-dom';
 import loginLogo from "../../../assets/advertice-logo.png";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, IconButton, InputBase } from '@mui/material';
+import { Box, Dialog, DialogContent, IconButton, InputBase, Stack } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 
 const pages = ['Campaigns', 'Basic', 'Advance', 'Organisation'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -73,8 +73,16 @@ function TopHeader() {
     const [active, setActive] = useState('Dashboard');
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
-
     const [anchorEl, setAnchorEl] = useState(null);
+    const [openProfile, setOpenProfile] = useState(false);
+
+    const handleOpenProfile = () => {
+        setOpenProfile(true);
+    };
+
+    const handleCloseProfile = () => {
+        setOpenProfile(false);
+    };
 
     function handleClick(event) {
         if (anchorEl !== event.currentTarget) {
@@ -119,16 +127,16 @@ function TopHeader() {
             if (userType === "superadmin") {
                 navigate('/super-admin-login')
             } else {
-                navigate('/admin-login')
+                navigate('/advertice-login')
             }
-            // if (response.errorCode !== 0) {
             enqueueSnackbar(`${'Log Out Successfully'}`, { variant: 'success', autoHideDuration: 3000, anchorOrigin: { vertical: "top", horizontal: "right" } })
-            // } else if (response.errorCode === 0) {
-            //     enqueueSnackbar(`${response.message !== undefined ? response.message : ""}`, { variant: 'success', autoHideDuration: 3000 });
-            //     // tagsFetchFunction();
-            // }
-        }
-        localStorage.clear();
+        } else if (e.target.outerText === "Dashboard") {
+            navigate('/')
+        } 
+        // else if (e.target.outerText === "Profile") {
+        //     handleOpenProfile();
+        // }
+        // localStorage.clear();
         setAnchorElUser(null);
     };
 
@@ -143,9 +151,9 @@ function TopHeader() {
             navigate('/super-admin-organisation');
         } else if (values === "adminorganisation") {
             navigate('/admin-organisation');
-        } else if (values === 'Basic') {
-            navigate('/reports/basic')
-        } else if (values === 'Advance') {
+        } else if (values === 'Reports') {
+            navigate('/reports/advance')
+        } else if (values === 'Reports') {
             navigate('/reports/advance')
         }
         setActive(values);
@@ -153,205 +161,198 @@ function TopHeader() {
 
     const handleHome = () => {
         navigate('/');
-    }
-
+    };
 
     return (
-        <AppBar position="static" className='top-header'>
-
-            <Toolbar disableGutters sx={{ margin: "0px 25px" }}>
-                <Typography
-                    onClick={handleHome}
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                        mr: 2,
-                        display: { xs: 'none', md: 'flex' },
-                        fontFamily: 'monospace',
-                        fontWeight: 500,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    <img src={loginLogo} className='header-logo' />
-                </Typography>
-
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
-                    >
-                        <MenuIcon color='action' />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={() => handleCloseNavMenu()}
+        <>
+            <AppBar position="static" className='top-header'>
+                <Toolbar disableGutters sx={{ margin: "0px 25px" }}>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
                         sx={{
-                            display: { xs: 'block', md: 'none' },
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 500,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
                         }}
                     >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                                <Typography textAlign="center" fontFamily={`"Arial", sans-serif`} fontSize={'16px'}>{page}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
-                <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                <Typography
-                    onClick={handleHome}
-                    variant="h5"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                        mr: 2,
-                        display: { xs: 'flex', md: 'none' },
-                        flexGrow: 1,
-                        fontFamily: 'monospace',
-                        fontWeight: 500,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    <img src={loginLogo} className='header-logo' />
-                </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
-                    {/* <Button
+                        <img onClick={handleHome} src={loginLogo} className='header-logo' />
+                    </Typography>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon color='action' />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={() => handleCloseNavMenu()}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                                    <Typography textAlign="center" fontFamily={`"Arial", sans-serif`} fontSize={'16px'}>{page}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <Typography
+                        onClick={handleHome}
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex', md: 'none' },
+                            flexGrow: 1,
+                            fontFamily: 'monospace',
+                            fontWeight: 500,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <img src={loginLogo} className='header-logo' />
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
+                        {/* <Button
                         className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
                         onClick={() => handleHeaderMenu("Dashboard")}
                     >
                         Dashboard
                     </Button> */}
-                    <Button
-                        sx={{
-                            fontFamily: `"Poppins", sans-serif`,
-                            fontSize: '16px'
-                        }}
-                        className={active === "Campaigns" ? "hearder-left-btn-active" : 'hearder-btn'}
-                        onClick={() => handleHeaderMenu("Campaigns")}
-                    >
-                        Campaigns
-                    </Button>
-
-                    <Button
-                        // className='hearder-btn'
-                        className={active === "Basic" || active === "Billing" || active === "Advance" || active === "Video" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
-                        sx={{
-                            fontFamily: `"Poppins", sans-serif`,
-                            cursor: 'pointer',
-                            fontSize: '16px'
-                        }}
-                        aria-owns={anchorEl ? "simple-menu" : undefined}
-                        aria-haspopup="true"
-                        onClick={handleClick}
-                        // onMouseOver={handleClick}
-                    >
-                        Reports
-                         {/* <KeyboardArrowDownIcon color={active === "Basic" || active === "Billing" || active === "Advance" || active === "Video" ? "white" : 'action'} /> */}
-                    </Button>
-                    {/* <Button className={active === "Pixel" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("Pixel")}>
-                        Pixel
-                    </Button> */}
-                    {
-                        userType === "superadmin" ?
-                            <Button
-                                sx={{
-                                    fontFamily: `"Poppins", sans-serif`,
-                                    fontSize: '16px'
-                                }}
-                                className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'}
-                                onClick={() => handleHeaderMenu("superadminorganisation")}
-                            >
-                                Organisation
-                            </Button>
-                            : userType === "admin" ? ""
-                                // <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
-                                //     Organisation
-                                // </Button> 
-                                : ""
-                    }
-
-                    <Menu
-                        position="relative"
-                        slotProps={{
-                            paper: {
-                                sx: {
-                                    width: '100%',
-                                    maxWidth: '200px',
-                                },
-                            }
-                        }}
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                        MenuListProps={{ onMouseLeave: handleClose }}
-                    >
-                        <MenuItem
-                            className={active === "Basic" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
-                            onClick={(e) => {
-                                handleClose(e);
-                                handleHeaderMenu("Basic");
-                            }}
+                        <Button
                             sx={{
                                 fontFamily: `"Poppins", sans-serif`,
                                 fontSize: '16px'
                             }}
-                        >Basic
-                        </MenuItem>
-                        {/* <MenuItem
+                            className={active === "Campaigns" ? "hearder-left-btn-active" : 'hearder-btn'}
+                            onClick={() => handleHeaderMenu("Campaigns")}
+                        >
+                            Campaigns
+                        </Button>
+                        <Button
+                            // className='hearder-btn'
+                            className={active === "Reports" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
+                            sx={{
+                                fontFamily: `"Poppins", sans-serif`,
+                                cursor: 'pointer',
+                                fontSize: '16px'
+                            }}
+                            aria-owns={anchorEl ? "simple-menu" : undefined}
+                            aria-haspopup="true"
+                            onClick={() => handleHeaderMenu("Reports")}
+                        // onMouseOver={handleClick}
+                        >
+                            Reports
+                        </Button>
+                        {
+                            userType === "superadmin" ?
+                                <Button
+                                    sx={{
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px'
+                                    }}
+                                    className={active === "superadminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'}
+                                    onClick={() => handleHeaderMenu("superadminorganisation")}
+                                >
+                                    Organisation
+                                </Button>
+                                : userType === "admin" ? ""
+                                    // <Button className={active === "adminorganisation" ? "hearder-left-btn-active" : 'hearder-btn'} onClick={() => handleHeaderMenu("adminorganisation")}>
+                                    //     Organisation
+                                    // </Button> 
+                                    : ""
+                        }
+
+                        <Menu
+                            position="relative"
+                            slotProps={{
+                                paper: {
+                                    sx: {
+                                        width: '100%',
+                                        maxWidth: '200px',
+                                    },
+                                }
+                            }}
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            MenuListProps={{ onMouseLeave: handleClose }}
+                        >
+                            <MenuItem
+                                className={active === "Basic" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
+                                onClick={(e) => {
+                                    handleClose(e);
+                                    handleHeaderMenu("Basic");
+                                }}
+                                sx={{
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px'
+                                }}
+                            >Basic
+                            </MenuItem>
+                            {/* <MenuItem
                             className={active === "Billing" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
                             onClick={(e) => {
                                 handleClose(e);
                                 handleHeaderMenu("Billing");
                             }}>Billing
                         </MenuItem> */}
-                        <MenuItem
-                            className={active === "Advance" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
-                            onClick={(e) => {
-                                handleClose(e);
-                                handleHeaderMenu("Advance");
-                            }}
-                            sx={{
-                                fontFamily: `"Poppins", sans-serif`,
-                                fontSize: '16px'
-                            }}
-                        >
-                            Advance
-                        </MenuItem>
-                        {/* <MenuItem
+                            <MenuItem
+                                className={active === "Advance" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
+                                onClick={(e) => {
+                                    handleClose(e);
+                                    handleHeaderMenu("Advance");
+                                }}
+                                sx={{
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px'
+                                }}
+                            >
+                                Advance
+                            </MenuItem>
+                            {/* <MenuItem
                             className={active === "Video" ? "hearder-left-btn-menu-active" : 'hearder-btn'}
                             onClick={(e) => {
                                 handleClose(e);
                                 handleHeaderMenu("Video");
                             }}>Video Stats
                         </MenuItem> */}
-                    </Menu>
-                </Box>
+                        </Menu>
+                    </Box>
 
-                <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
 
-                    {/* <Search>
+                        {/* <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -360,42 +361,73 @@ function TopHeader() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search> */}
-                    {/* <Button className='hearder-right-btn'>
+                        {/* <Button className='hearder-right-btn'>
                         Create Campaign
                     </Button>
                     <Button className='hearder-right-btn'>
                         Add Funds
                     </Button> */}
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Hemlata Rajpoot" src="/static/images/avatar/2.jpg" />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {settings.map((setting) => (
-                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center" fontFamily={`"Roboto Condensed", sans-serif`} fontSize={'16px'}>{setting}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
-            </Toolbar>
-        </AppBar>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="Hemlata Rajpoot" src="/static/images/avatar/2.jpg" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center" fontFamily={`"Roboto Condensed", sans-serif`} fontSize={'16px'}>{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            {/* <Dialog
+                open={openProfile}
+                onClose={handleCloseProfile}
+                sx={{
+                    "& .MuiDialog-container": {
+                        "& .MuiPaper-root": {
+                            width: "100%",
+                            maxWidth: "500px",
+                            borderRadius: '10px',
+                            background: '#F5F5F5',
+                        },
+                    },
+                }}
+            >
+                <DialogContent>
+                    <Stack direction={'column'} spacing={2}>
+                        <Typography
+                            sx={{
+                                fontSize: '20px',
+                                fontWeight: '500',
+                                fontFamily: `"Poppins", sans-serif`,
+                                textAlign: 'center'
+                            }}
+                        >
+                            Admin Profile
+                        </Typography>
+                        <Avatar alt="Hemlata Rajpoot" src="/static/images/avatar/2.jpg" />
+                    </Stack>
+                </DialogContent>
+            </Dialog> */}
+        </>
     );
 }
 export default TopHeader;
