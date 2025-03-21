@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Dialog, DialogContent, IconButton, InputBase, Stack } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
+import UserProfile from './UserProfile';
 
 const pages = ['Campaigns', 'Basic', 'Advance', 'Organisation'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -68,6 +69,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function TopHeader() {
 
     const userType = localStorage.getItem("userType");
+    const profileData = localStorage.getItem('adminModal');
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [active, setActive] = useState('Dashboard');
@@ -75,7 +77,14 @@ function TopHeader() {
     const { enqueueSnackbar } = useSnackbar();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openProfile, setOpenProfile] = useState(false);
+    const [profileDetails, setProfileDetails] = useState('');
 
+    useEffect(() => {
+        if (profileData) {
+            const parseData = JSON.parse(profileData);
+            setProfileDetails(parseData)
+        }
+    }, [profileData])
     const handleOpenProfile = () => {
         setOpenProfile(true);
     };
@@ -132,10 +141,10 @@ function TopHeader() {
             enqueueSnackbar(`${'Log Out Successfully'}`, { variant: 'success', autoHideDuration: 3000, anchorOrigin: { vertical: "top", horizontal: "right" } })
         } else if (e.target.outerText === "Dashboard") {
             navigate('/')
-        } 
-        // else if (e.target.outerText === "Profile") {
-        //     handleOpenProfile();
-        // }
+        }
+        else if (e.target.outerText === "Profile") {
+            handleOpenProfile();
+        }
         // localStorage.clear();
         setAnchorElUser(null);
     };
@@ -397,7 +406,7 @@ function TopHeader() {
                     </Box>
                 </Toolbar>
             </AppBar>
-            {/* <Dialog
+            <Dialog
                 open={openProfile}
                 onClose={handleCloseProfile}
                 sx={{
@@ -423,10 +432,10 @@ function TopHeader() {
                         >
                             Admin Profile
                         </Typography>
-                        <Avatar alt="Hemlata Rajpoot" src="/static/images/avatar/2.jpg" />
+                        <UserProfile profileDetails={profileDetails} />
                     </Stack>
                 </DialogContent>
-            </Dialog> */}
+            </Dialog>
         </>
     );
 }

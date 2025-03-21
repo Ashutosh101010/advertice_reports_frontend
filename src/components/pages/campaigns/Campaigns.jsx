@@ -13,6 +13,7 @@ import AuthContext from "../authContext/AuthContext";
 import AdverticeNetwork from "../../../Network";
 import EditCampaignFormModal from "./EditCampaign";
 import ImportCampaignCsv from "./ImportCampaign";
+import Papa from "papaparse"
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -122,26 +123,37 @@ const Campaigns = () => {
     // console.log('organisationList', organisationList, selectOrgnigation);
 
     useEffect(() => {
-        fetchOrganisationList();
-    }, [])
+        if (userType === "superadmin") {
+            fetchOrganisationList();
+        }
+    }, [userType])
     useEffect(() => {
+        const body = {
+            "page": page,
+            "pageSize": pageSize,
+            "organizationId": selectOrgnigation?.id,
+        }
         if (organisationList?.length > 0) {
             setSelectOrgnigation(organisationList[0])
-            fetchCampaignList();
+            fetchCampaignList(body, false);
+        } else {
+            fetchCampaignList(body, false);
         }
     }, [organisationList])
 
-    const fetchCampaignList = async () => {
+    const fetchCampaignList = async (body, isExport = false) => {
         try {
-            const body = {
-                "page": page,
-                "pageSize": pageSize,
-                "organizationId": selectOrgnigation?.id,
+            if (isExport) {
+                body.export = true; // Add export flag only for export
             }
+
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
-                setRowCount(response.count)
+                setRowCount(response.count);
+                if (isExport) {
+                    generateCSV(response.campaigns); // Call CSV generation function
+                }
             }
         } catch (error) {
             console.log(error);
@@ -195,6 +207,58 @@ const Campaigns = () => {
     const ImportCampaign = () => {
         setImportModal(true)
     }
+
+    const generateCSV = (data) => {
+        if (!data || data.length === 0) {
+            console.warn("No data available for export.");
+            return;
+        }
+
+        // Format data for CSV
+        const csvData = data.map(item => ({
+            Date: new Date(item.date).toLocaleDateString("en-GB"), // Convert date to DD-MM-YYYY
+            Title: item.title,
+            Clicks: item.clicks,
+            Conversions: item.conversions,
+            CPA: item.cpa,
+            CPC: item.cpc,
+            CPM: item.cpm,
+            CTR: item.ctr,
+            Impressions: item.impressions,
+            MediaCost: `${item.currency}${item.mediaCost.toFixed(2)}`, // Format currency
+        }));
+
+        // Convert to CSV using PapaParse
+        const csv = Papa.unparse(csvData);
+
+        // Create a Blob and trigger download
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Campaign_Report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleExport = async() => {
+      const body = {
+            page: page,
+            pageSize: pageSize,
+            organizationId: selectOrgnigation?.id,
+        };
+
+        await fetchCampaignList(body, true);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
 
     function handleSelectOrgnigation(event) {
         setSelectOrgnigation(event.target.value);
@@ -295,30 +359,30 @@ const Campaigns = () => {
         //     },
 
         // },
-        {
-            field: "status",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Status</p>,
-            headerClassName: 'super-app-theme--header',
-            renderCell: (params) => {
-                return (
-                    <Label
-                        color={
-                            (params.row.status === true &&
-                                "success") ||
-                            "error"
-                        }
-                    >
-                        {sentenceCase(
-                            params.row.status === true
-                                ? "Active"
-                                : "Paused"
-                        )}
-                    </Label>
-                );
-            },
-            flex: 1
-        },
+        // {
+        //     field: "status",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Status</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     renderCell: (params) => {
+        //         return (
+        //             <Label
+        //                 color={
+        //                     (params.row.status === true &&
+        //                         "success") ||
+        //                     "error"
+        //                 }
+        //             >
+        //                 {sentenceCase(
+        //                     params.row.status === true
+        //                         ? "Active"
+        //                         : "Paused"
+        //                 )}
+        //             </Label>
+        //         );
+        //     },
+        //     flex: 1
+        // },
         // {
         //     field: "adminStatus",
         //     sortable: false,
@@ -389,6 +453,7 @@ const Campaigns = () => {
         // }
     ];
 
+
     return (
         <React.Fragment>
             <Card className="card">
@@ -419,17 +484,31 @@ const Campaigns = () => {
                         }
                     </Grid>
                     <Grid item xs={12} sm={8} md={8} lg={8} sx={{ display: "flex", justifyContent: 'flex-end' }}>
-                        <Button
-                            sx={{
-                                width: '100%',
-                                maxWidth: '300px',
-                                fontFamily: `"Poppins", sans-serif`,
-                                fontSize: '16px',
-                            }}
-                            className='hearder-right-btn create-organisation'
-                            onClick={ImportCampaign}>
-                            Import Campaign
-                        </Button>
+                        {
+                            userType === "superadmin" ? <Button
+                                sx={{
+                                    width: '100%',
+                                    maxWidth: '200px',
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px',
+                                }}
+                                className='hearder-right-btn create-organisation'
+                                onClick={ImportCampaign}>
+                                Import Campaign
+                            </Button>
+                                : <Button
+                                    sx={{
+                                        width: '100%',
+                                        maxWidth: '200px',
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px',
+                                    }}
+                                    className='hearder-right-btn create-organisation'
+                                    onClick={handleExport}>
+                                    Export Campaign
+                                </Button>
+                        }
+
                         {/* <Button
                             sx={{
                                 width: '100%',

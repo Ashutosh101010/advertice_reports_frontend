@@ -30,6 +30,8 @@ const LoginForm = () => {
                 localStorage.setItem('accessToken', response.authToken);
                 localStorage.setItem('organizationId', response.organizationId)
                 localStorage.setItem('userType', "admin");
+                localStorage.setItem('adminModal', JSON.stringify(response?.adminModal));
+
                 navigate('/')
                 enqueueSnackbar("Login Successful", {
                     variant: "success",
