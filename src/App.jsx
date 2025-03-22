@@ -39,7 +39,7 @@ function App() {
             <Route path="/reports/basic" element={<BasicComponent />} />
             <Route path="/reports/advance" element={<AdvanceComponent />} />
           </Route>
-          <Route path="/advertice-login" element={<LoginForm />} />
+          <Route path="/advertiser-login" element={<LoginForm />} />
           <Route path="/super-admin-login" element={<SuperAdminLoginForm />} />
         </Routes>
       </SnackbarProvider>

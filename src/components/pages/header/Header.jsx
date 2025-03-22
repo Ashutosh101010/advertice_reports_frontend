@@ -136,7 +136,7 @@ function TopHeader() {
             if (userType === "superadmin") {
                 navigate('/super-admin-login')
             } else {
-                navigate('/advertice-login')
+                navigate('/advertiser-login')
             }
             enqueueSnackbar(`${'Log Out Successfully'}`, { variant: 'success', autoHideDuration: 3000, anchorOrigin: { vertical: "top", horizontal: "right" } })
         } else if (e.target.outerText === "Dashboard") {

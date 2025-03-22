@@ -229,7 +229,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                         Cancel
                     </Button>
                     <Button
-                        disabled={!address || !email || !contact ? true : false}
+                        disabled={!contact ? true : false}
                         variant="contained"
                         onClick={handleSubmit}
                         color="success"

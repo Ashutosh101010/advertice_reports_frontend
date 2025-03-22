@@ -142,11 +142,19 @@ const AdvanceComponent = () => {
     }, [])
 
     useEffect(() => {
+        // if (organisationList?.length > 0) {
+        //     setSelectOrgnigation(organisationList[0])
+            fetchCampaignList();
+        // }
+    }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize]);
+
+    useEffect(() => {
         if (organisationList?.length > 0) {
-            setSelectOrgnigation(organisationList[0])
+            setSelectOrgnigation(organisationList[0]);
             fetchCampaignList();
         }
-    }, [organisationList, selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize])
+    }, [organisationList]);
+    
 
     const fetchOrganisationList = async () => {
         try {
