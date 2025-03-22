@@ -39,6 +39,8 @@ const SuperAdminLoginForm = () => {
             if (response.errorCode === 0 && response.authToken) {
                 localStorage.setItem('accessToken', response.authToken);
                 localStorage.setItem('userType', "superadmin");
+                console.log('response', response);
+                
                 setAuth(response.authToken);
                 setAuthenticated(true);
                 navigate('/');

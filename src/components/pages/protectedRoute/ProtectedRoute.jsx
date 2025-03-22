@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../authContext/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
@@ -9,8 +9,15 @@ const ProtectedRoute = ({ children }) => {
 
   const auth = localStorage.getItem("accessToken");
   const userType = localStorage.getItem("userType");
+  const navigate = useNavigate();
 
-  // console.log('userType', userType);
+  // console.log('auth', auth);
+  useEffect(()=>{
+      if (!auth) {
+        navigate('/advertiser-login')
+      }
+  
+  }, [auth])
   
   if (!auth && userType) {
     if (userType !== "superadmin") {
@@ -19,6 +26,7 @@ const ProtectedRoute = ({ children }) => {
       return <Navigate to="super-admin-login" />
     }
   }
+ 
   if (auth) {
 
     return children;

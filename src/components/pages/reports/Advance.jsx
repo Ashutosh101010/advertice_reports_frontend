@@ -372,9 +372,9 @@ const AdvanceComponent = () => {
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         CTR: {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
                     </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                    {/* <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         Count: {totalCount}
-                    </Typography>
+                    </Typography> */}
                     
                 </Stack>
                 <Stack direction="row" justifyContent={'center'} alignItems={'center'} spacing={2} py={[1, 0]}>

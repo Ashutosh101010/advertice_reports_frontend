@@ -180,7 +180,7 @@ function TopHeader() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        // href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -251,12 +251,12 @@ function TopHeader() {
                         <img src={loginLogo} className='header-logo' />
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
-                        {/* <Button
+                        <Button
                         className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
                         onClick={() => handleHeaderMenu("Dashboard")}
                     >
                         Dashboard
-                    </Button> */}
+                    </Button>
                         <Button
                             sx={{
                                 fontFamily: `"Poppins", sans-serif`,
