@@ -13,7 +13,8 @@ const Dashboard = () => {
     const isMobile = useMediaQuery("(min-width:600px)");
     const organisationId = localStorage.getItem("organizationId");
     const userType = localStorage.getItem("userType");
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
+    const auth = localStorage.getItem("accessToken");
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(500);
     const [campaignData, setCampaignData] = useState([]);

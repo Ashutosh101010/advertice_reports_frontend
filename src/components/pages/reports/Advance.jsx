@@ -113,7 +113,8 @@ const AdvanceComponent = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery("(min-width:600px)");
     const userType = localStorage.getItem("userType");
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
+    const auth = localStorage.getItem("accessToken");
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(0);
@@ -354,19 +355,27 @@ const AdvanceComponent = () => {
         return (
             <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
                 {/* Left: Total Impressions & Clicks */}
-                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 30]} flexGrow={1}>
+                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 10]} flexGrow={1}>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         Total
                     </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', visibility: "hidden" }}>
+                        Total
+                    </Typography>
+                    
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000'}}>
                         Impressions: {totalImpressions}
                     </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        Count: {totalCount}
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', marginLeft: "34px" }}>
+                        Clicks: {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
                     </Typography>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         CTR: {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
                     </Typography>
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                        Count: {totalCount}
+                    </Typography>
+                    
                 </Stack>
                 <Stack direction="row" justifyContent={'center'} alignItems={'center'} spacing={2} py={[1, 0]}>
                     <Typography variant="body2" color={'#000'}>Rows per page:</Typography>

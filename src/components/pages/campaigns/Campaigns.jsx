@@ -113,7 +113,8 @@ const Campaigns = () => {
     const [switchChecked, setSwitchChecked] = useState(true);
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
+    const auth = localStorage.getItem("accessToken");
     const [editTableData, setEditTableData] = useState({});
     const [campaignList, setCampaignList] = useState([]);
     const [importModal, setImportModal] = useState(false);
@@ -224,6 +225,7 @@ const Campaigns = () => {
             CPC: item.cpc,
             CPM: item.cpm,
             CTR: item.ctr,
+            Currency: item?.currency,
             Impressions: item.impressions,
             MediaCost: `${item.currency}${item.mediaCost.toFixed(2)}`, // Format currency
         }));
@@ -281,7 +283,7 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}><Link>{params.row.title}</Link></p>
+                return <p style={{ margin: "0px", color: "#00f" }}>{params.row.title}</p>
             },
             flex: 2,
         },

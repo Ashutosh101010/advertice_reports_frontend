@@ -145,7 +145,7 @@ function TopHeader() {
         else if (e.target.outerText === "Profile") {
             handleOpenProfile();
         }
-        // localStorage.clear();
+        localStorage.clear();
         setAnchorElUser(null);
     };
 

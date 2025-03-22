@@ -105,7 +105,8 @@ const CampaignData = [
 
 const BasicComponent = () => {
 
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
+    const auth = localStorage.getItem("accessToken");
     const theme = useTheme();
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);

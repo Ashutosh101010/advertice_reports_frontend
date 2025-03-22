@@ -42,54 +42,68 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
     };
 
     async function handleSubmit() {
+        let hasError = false;
+        let errorMessage = "";
+        let successMessage = "";
+    
         for (let listItem of importQuestions) {
-            // console.log('Raw listItem:', listItem);
-
             const ordId = selectOrgnigation?.id;
-
-            // Normalize and clean up keys (handles uppercase/lowercase and trims spaces)
+    
+            // Normalize and clean up keys
             const normalizedItem = Object.keys(listItem).reduce((acc, key) => {
-                const cleanKey = key.trim().toLowerCase().replace(/\s+/g, ""); // Normalize key names
-                acc[cleanKey] = typeof listItem[key] === "string" ? listItem[key].trim() : listItem[key]; // Trim string values
+                const cleanKey = key.trim().toLowerCase().replace(/\s+/g, "");
+                acc[cleanKey] = typeof listItem[key] === "string" ? listItem[key].trim() : listItem[key];
                 return acc;
             }, {});
-
-            // Function to clean numbers by removing ₹, %, and commas
+    
+            // Function to clean numbers
             const cleanNumber = (value) => {
                 if (!value) return 0;
                 return Number(value.toString().replace(/[₹,%]/g, "").replace(/,/g, "").trim()) || 0;
             };
-
+    
             try {
                 const body = {
-                    "date": normalizedItem?.date, // Ensure correct date format
-                    "title": normalizedItem?.title,
-                    "impressions": cleanNumber(normalizedItem?.impressions),
-                    "clicks": cleanNumber(normalizedItem?.clicks),
-                    "conversions": Number(normalizedItem?.conversions), // Keeping as string
-                    "mediaCost": cleanNumber(normalizedItem?.mediacost || normalizedItem?.mediacost), // Trims and normalizes "Media Cost"
-                    "ctr": cleanNumber(normalizedItem?.ctr),
-                    "cpm": cleanNumber(normalizedItem?.ecpm),
-                    "cpc": cleanNumber(normalizedItem?.ecpc),
-                    "cpa": cleanNumber(normalizedItem?.cpa),
-                    "organizationId": ordId,
-                    "currency": normalizedItem?.currency
+                    date: normalizedItem?.date,
+                    title: normalizedItem?.title,
+                    impressions: cleanNumber(normalizedItem?.impressions),
+                    clicks: cleanNumber(normalizedItem?.clicks),
+                    conversions: Number(normalizedItem?.conversions),
+                    mediaCost: cleanNumber(normalizedItem?.mediacost),
+                    ctr: cleanNumber(normalizedItem?.ctr),
+                    cpm: cleanNumber(normalizedItem?.ecpm),
+                    cpc: cleanNumber(normalizedItem?.ecpc),
+                    cpa: cleanNumber(normalizedItem?.cpa),
+                    organizationId: ordId,
+                    currency: normalizedItem?.currency,
                 };
+    
                 const response = await AdverticeNetwork.createCampaignApi(body, auth);
-                if (response.errorCode === 0) {
-                    fetchCampaignList();
-                }
+    
                 if (response.errorCode !== 0) {
-                    enqueueSnackbar(`${response.errorDescription}`, { variant: 'error', autoHideDuration: 3000 });
-                } else if (response.errorCode === 0) {
-                    enqueueSnackbar(`${response.message !== undefined ? response.message : ""}`, { variant: 'success', autoHideDuration: 3000 });
+                    hasError = true;
+                    errorMessage = response.errorDescription;
+                } else {
+                    successMessage = response.message || "Campaigns submitted successfully!";
                 }
             } catch (error) {
                 console.error("Error submitting campaign:", error);
+                hasError = true;
+                errorMessage = "An unexpected error occurred.";
             }
         }
+    
+        // Show message only once after all API calls are done
+        if (hasError) {
+            enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+        } else {
+            enqueueSnackbar(successMessage, { variant: "success", autoHideDuration: 3000 });
+        }
+    
+        fetchCampaignList(); // Refresh campaign list after API calls
         handleClose();
-    };
+    }
+    
 
     const handleFileUploadCsv = (event) => {
         const file = event.target.files[0];
