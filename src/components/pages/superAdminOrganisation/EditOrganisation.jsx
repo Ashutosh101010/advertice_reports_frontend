@@ -14,6 +14,9 @@ export default function EditFormModal({ handleClose, fetchOrganisationList, auth
     const [selectedCity, setSelectedCity] = useState({});
     const [title, setTitle] = useState('');
 
+    console.log('editTableData', editTableData);
+    
+
     useEffect(() => {
         if (editTableData) {
             const cityLists = []

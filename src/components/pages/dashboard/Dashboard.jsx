@@ -68,8 +68,8 @@ const Dashboard = () => {
     const fetchCampaignList = async () => {
         try {
             const body = {
-                "page": 0,
-                "pageSize": 100,
+                "page": page,
+                "pageSize": pageSize,
                 "from": selectedDate !== null ? selectedDate.format('DD-MM-YYYY') : null,
                 "to": toDate !== null ? toDate.format('DD-MM-YYYY') : null,
                 // "organizationId": selectOrgnigation?.id

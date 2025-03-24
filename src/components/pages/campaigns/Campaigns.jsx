@@ -128,21 +128,35 @@ const Campaigns = () => {
             fetchOrganisationList();
         }
     }, [userType])
+
     useEffect(() => {
-        const body = {
-            "page": page,
-            "pageSize": pageSize,
-            "organizationId": selectOrgnigation?.id,
+        if (userType === "admin") {
+            fetchCampaignList();
         }
+    }, [userType])
+
+    useEffect(() => {
         if (organisationList?.length > 0) {
             setSelectOrgnigation(organisationList[0])
-            fetchCampaignList(body, false);
-        } else {
-            fetchCampaignList(body, false);
         }
     }, [organisationList])
 
-    const fetchCampaignList = async (body, isExport = false) => {
+    useEffect(() => {
+        if (userType === "superadmin" && selectOrgnigation?.id) {
+
+            fetchCampaignList();
+        }
+    }, [selectOrgnigation, userType])
+
+    const fetchCampaignList = async (isExport = false) => {
+
+        const body = {
+            "page": page,
+            "pageSize": pageSize,
+        }
+        if (userType === "superadmin") {
+            body.organizationId = selectOrgnigation?.id
+        }
         try {
             if (isExport) {
                 body.export = true; // Add export flag only for export
@@ -153,7 +167,7 @@ const Campaigns = () => {
                 setCampaignList(response.campaigns);
                 setRowCount(response.count);
                 if (isExport) {
-                    generateCSV(response.campaigns); // Call CSV generation function
+                    generateCSV(response.campaigns);
                 }
             }
         } catch (error) {
@@ -215,25 +229,22 @@ const Campaigns = () => {
             return;
         }
 
-        // Format data for CSV
         const csvData = data.map(item => ({
-            Date: new Date(item.date).toLocaleDateString("en-GB"), // Convert date to DD-MM-YYYY
+            Date: new Date(item.date).toLocaleDateString("en-GB"),
             Title: item.title,
             Clicks: item.clicks,
             Conversions: item.conversions,
             CPA: item.cpa,
             CPC: item.cpc,
             CPM: item.cpm,
-            CTR: item.ctr,
+            "CTR%": item.ctr,
             Currency: item?.currency,
             Impressions: item.impressions,
-            MediaCost: `${item.currency}${item.mediaCost.toFixed(2)}`, // Format currency
+            MediaCost: `${item.mediaCost.toFixed(2)}`,
         }));
 
-        // Convert to CSV using PapaParse
         const csv = Papa.unparse(csvData);
 
-        // Create a Blob and trigger download
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -244,8 +255,8 @@ const Campaigns = () => {
         document.body.removeChild(link);
     };
 
-    const handleExport = async() => {
-      const body = {
+    const handleExport = async () => {
+        const body = {
             page: page,
             pageSize: pageSize,
             organizationId: selectOrgnigation?.id,
@@ -304,7 +315,7 @@ const Campaigns = () => {
         {
             field: "ctr",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
         },

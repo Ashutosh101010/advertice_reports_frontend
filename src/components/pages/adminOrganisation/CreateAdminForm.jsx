@@ -36,16 +36,16 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
 
     async function handleSubmit() {
         try {
-            if (address && email && contact) {
+           
                 const body = {
-                    "address": address,
-                    "bio": bio,
+                    // "address": address,
+                    // "bio": bio,
                     "contact": contact,
-                    "email": email,
+                    // "email": email,
                     "name": name,
                     "password": password,
                     "userName": userName,
-                    "cityId": selectedCity?.id,
+                    // "cityId": selectedCity?.id,
                     "organisationId": organisationId
                 }
                 const response = await AdverticeNetwork.createAdminOrganisationApi(body, auth);
@@ -58,7 +58,7 @@ export default function CreateAdminFormModal({ handleClose, fetchOrganisationLis
                   } else if (response.errorCode === 0) {
                     enqueueSnackbar(`${response.message !== undefined ? response.message : ""}`, { variant: 'success', autoHideDuration: 3000 })
                   };
-            }
+            
 
         } catch (error) {
 

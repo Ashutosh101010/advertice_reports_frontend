@@ -175,23 +175,24 @@ const AdminOrgnisationList = () => {
         e.stopPropagation();
 
         // Optimistically update UI before API call
-        setSwitchStates((prev) => ({
-            ...prev,
-            [data.id]: !prev[data.id],
-        }));
+        // setSwitchStates((prev) => ({
+        //     ...prev,
+        //     [data.id]: !prev[data.id],
+        // }));
 
         // API call to change status
-        const response = await AdverticeNetwork.changeStatusApi(auth, data?.id);
+        const response = await AdverticeNetwork.changeStatusAdminApi(auth, data?.id);
 
         if (response?.errorCode === 0) {
             fetchOrganisationList(); // Refresh data if API succeeds
-        } else {
-            // Revert UI if API fails
-            setSwitchStates((prev) => ({
-                ...prev,
-                [data.id]: prev[data.id], // Reset to previous state
-            }));
-        }
+        } 
+        // else {
+        //     // Revert UI if API fails
+        //     setSwitchStates((prev) => ({
+        //         ...prev,
+        //         [data.id]: prev[data.id],
+        //     }));
+        // }
     };
 
     function handlePageChange(newPage) {
@@ -258,13 +259,13 @@ const AdminOrgnisationList = () => {
             sortable: false,
             flex: 1.5,
         },
-        {
-            field: "email",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>E-mail</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1.5
-        },
+        // {
+        //     field: "email",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>E-mail</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1.5
+        // },
         {
             field: "address",
             sortable: false,
@@ -279,20 +280,20 @@ const AdminOrgnisationList = () => {
             sortable: false,
             flex: 1,
         },
-        {
-            field: "stateName",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1.2
-        },
-        {
-            field: "cityName",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "stateName",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1.2
+        // },
+        // {
+        //     field: "cityName",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
         {
             field: "createdAt",
             sortable: false,
@@ -317,6 +318,7 @@ const AdminOrgnisationList = () => {
             renderCell: (params) => {
                 return (
                     <Label
+                    onClick={(e) => handleClick(e, params.row)}
                         color={
                             (params.row.status === true &&
                                 "success") ||
@@ -333,44 +335,44 @@ const AdminOrgnisationList = () => {
             },
             flex: 1
         },
-        // {
-        //     field: "action",
-        //     flex: 1.5,
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <>
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     id={params.row.id}
-        //                     aria-controls={open ? "long-menu" : undefined}
-        //                     aria-expanded={open ? "true" : undefined}
-        //                     aria-haspopup="true"
-        //                     style={{ color: 'black' }}
-        //                 // onClick={(e) => e.stopPropagation()}
-        //                 >
-        //                     <FormControlLabel
-        //                         checked={params.row.status}
-        //                         value={params.row.status}
-        //                         control={<IOSSwitch
-        //                             checked={switchStates[params.row.id] ?? params.row.status}
-        //                             onChange={(e) => handleClick(e, params.row)}
-        //                         />}
-        //                         label=""
-        //                     />
-        //                 </IconButton>
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     onClick={() => handleEditTable(params.row)}
-        //                 >
-        //                     <EditIcon />
-        //                 </IconButton>
-        //             </>
-        //         );
-        //     },
-        // }
+        {
+            field: "action",
+            flex: 1.5,
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params) => {
+                return (
+                    <>
+                        {/* <IconButton
+                            aria-label="more"
+                            id={params.row.id}
+                            aria-controls={open ? "long-menu" : undefined}
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            style={{ color: 'black' }}
+                        // onClick={(e) => e.stopPropagation()}
+                        >
+                            <FormControlLabel
+                                checked={params.row.status}
+                                value={params.row.status}
+                                control={<IOSSwitch
+                                    checked={switchStates[params.row.id] ?? params.row.status}
+                                    onChange={(e) => handleClick(e, params.row)}
+                                />}
+                                label=""
+                            />
+                        </IconButton> */}
+                        <IconButton
+                            aria-label="more"
+                            onClick={() => handleEditTable(params.row)}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </>
+                );
+            },
+        }
     ];
 
     return (

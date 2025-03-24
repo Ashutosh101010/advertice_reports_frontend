@@ -69,16 +69,17 @@ export default function EditAdminFormModal({ handleClose, fetchOrganisationList,
             if (address && email && contact) {
 
                 const body = {
-                    "address": address,
-                    "bio": bio,
+                    // "address": address,
+                    // "bio": bio,
                     "contact": contact,
-                    "email": email,
+                    // "email": email,
                     "name": name,
                     "password": password,
                     "userName": userName,
-                    "cityId": selectedCity?.id,
+                    "adminId" : editTableData.id
+                    // "cityId": selectedCity?.id,
                 }
-                const response = await AdverticeNetwork.editAdminOrganisationApi(body, auth, editTableData.id);
+                const response = await AdverticeNetwork.editAdminOrganisationApi(body, auth);
                 if (response.errorCode === 0) {
                     fetchOrganisationList();
                     handleClose();

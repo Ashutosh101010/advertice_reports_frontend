@@ -25,10 +25,10 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
 
     async function handleSubmit() {
         try {
-            if (address && email && contact) {
+            if (email && contact) {
                 const body = {
-                    "address": address,
-                    "cityId": selectedCity?.id,
+                    // "address": address,
+                    // "cityId": selectedCity?.id,
                     "owner": owner,
                     "email": email,
                     "contact": contact,
@@ -202,7 +202,7 @@ export default function CreateFormModal({ handleClose, fetchOrganisationList, au
                         Cancel
                     </Button>
                     <Button
-                        disabled={!owner || !address || !email || !contact ? true : false}
+                        disabled={owner && title && email && contact ? false : true}
                         variant="contained"
                         onClick={handleSubmit}
                         color="success"

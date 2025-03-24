@@ -41,6 +41,9 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         document.body.removeChild(link);
     };
 
+    // console.log('importQuestions', importQuestions);
+    
+
     async function handleSubmit() {
         let hasError = false;
         let errorMessage = "";
@@ -103,6 +106,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         fetchCampaignList(); // Refresh campaign list after API calls
         handleClose();
     }
+    
     
 
     const handleFileUploadCsv = (event) => {

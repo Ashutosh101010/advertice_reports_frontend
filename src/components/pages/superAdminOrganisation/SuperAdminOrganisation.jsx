@@ -202,20 +202,20 @@ const SuperAdminOrgnisationList = () => {
             sortable: false,
             flex: 1,
         },
-        {
-            field: "stateName",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1.2
-        },
-        {
-            field: "cityName",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
+        // {
+        //     field: "stateName",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>State Name</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1.2
+        // },
+        // {
+        //     field: "cityName",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>City Name</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1
+        // },
         {
             field: "createdAt",
             sortable: false,
@@ -244,6 +244,10 @@ const SuperAdminOrgnisationList = () => {
             renderCell: (params) => {
                 return (
                     <Label
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleClick(e, params.row)
+                    }}
                         color={
                             (params.row.status === true &&
                                 "success") ||
@@ -260,48 +264,48 @@ const SuperAdminOrgnisationList = () => {
             },
             flex: 1
         },
-        // {
-        //     field: "action",
-        //     flex: 1.5,
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <Stack direction={'row'} justifyContent={'flex-start'} alignItems={'center'}>
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     id={params.row.id}
-        //                     aria-controls={open ? "long-menu" : undefined}
-        //                     aria-expanded={open ? "true" : undefined}
-        //                     aria-haspopup="true"
-        //                     style={{ color: 'black' }}
-        //                     onClick={(e) => e.stopPropagation()}
-        //                 >
-        //                     <FormControlLabel
-        //                         checked={params.row.status}
-        //                         value={params.row.status}
-        //                         control={<IOSSwitch />}
-        //                         label=""
-        //                         onChange={(e) => {
-        //                             e.stopPropagation();
-        //                             handleClick(e, params.row);
-        //                         }}
-        //                     />
-        //                 </IconButton>
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     onClick={(e) => {
-        //                         e.stopPropagation();
-        //                         handleEditTable(e, params.row)
-        //                     }}
-        //                 >
-        //                     <EditIcon />
-        //                 </IconButton>
-        //             </Stack>
-        //         );
-        //     },
-        // }
+        {
+            field: "action",
+            flex: 1.5,
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params) => {
+                return (
+                    <Stack direction={'row'} justifyContent={'flex-start'} alignItems={'center'}>
+                        {/* <IconButton
+                            aria-label="more"
+                            id={params.row.id}
+                            aria-controls={open ? "long-menu" : undefined}
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            style={{ color: 'black' }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FormControlLabel
+                                checked={params.row.status}
+                                value={params.row.status}
+                                control={<IOSSwitch />}
+                                label=""
+                                onChange={(e) => {
+                                    e.stopPropagation();
+                                    handleClick(e, params.row);
+                                }}
+                            />
+                        </IconButton> */}
+                        <IconButton
+                            aria-label="more"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditTable(e, params.row)
+                            }}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </Stack>
+                );
+            },
+        }
     ];
 
     return (

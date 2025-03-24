@@ -13,12 +13,13 @@ export default class AdverticeNetwork {
     static EDIT_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/edit-organisation/";
     static EDIT_ADMIN_ORGANISATION_URL = Endpoints.baseURL + "/admin/edit-profile";
     static CHANGE_STATUS_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/change-status/";
+    static CHANGE_STATUS_ADMIN_URL = Endpoints.baseURL + "/admin/change-status/";
     static CREATE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/create";
 
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
     static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign";
-    static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "/campaign/create";
-    static FETCH_REPORT_URL = Endpoints.baseURL + "/campaign/create";    
+    static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "";
+    static FETCH_REPORT_URL = Endpoints.baseURL + "";    
 
 
     // static async fetchReportApi(auth) {
@@ -172,6 +173,19 @@ export default class AdverticeNetwork {
         });
         return response.data;
     }
+
+    static async changeStatusAdminApi(auth, adminId) {
+        let response = await axios.get(this.CHANGE_STATUS_ADMIN_URL + adminId, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+
+    
 
     static async importCsvDashboard(body, auth) {
         let response = await axios.post(this.IMPORT_DASHBOARD_CSV, body, {
