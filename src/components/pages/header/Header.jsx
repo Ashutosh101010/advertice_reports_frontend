@@ -20,6 +20,7 @@ import UserProfile from './UserProfile';
 
 const pages = ['Campaigns', 'Basic', 'Advance', 'Organisation'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
+const settingsSper = ['Dashboard','Logout'];
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -135,8 +136,10 @@ function TopHeader() {
         if (e.target.outerText === "Logout") {
             if (userType === "superadmin") {
                 navigate('/super-admin-login')
+                localStorage.clear();
             } else {
                 navigate('/advertiser-login')
+                localStorage.clear();
             }
             enqueueSnackbar(`${'Log Out Successfully'}`, { variant: 'success', autoHideDuration: 3000, anchorOrigin: { vertical: "top", horizontal: "right" } })
         } else if (e.target.outerText === "Dashboard") {
@@ -145,7 +148,6 @@ function TopHeader() {
         else if (e.target.outerText === "Profile") {
             handleOpenProfile();
         }
-        localStorage.clear();
         setAnchorElUser(null);
     };
 
@@ -252,11 +254,11 @@ function TopHeader() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
                         <Button
-                        className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
-                        onClick={() => handleHeaderMenu("Dashboard")}
-                    >
-                        Dashboard
-                    </Button>
+                            className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
+                            onClick={() => handleHeaderMenu("Dashboard")}
+                        >
+                            Dashboard
+                        </Button>
                         <Button
                             sx={{
                                 fontFamily: `"Poppins", sans-serif`,
@@ -397,11 +399,20 @@ function TopHeader() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center" fontFamily={`"Roboto Condensed", sans-serif`} fontSize={'16px'}>{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            {userType === "superadmin" ?
+                                settingsSper.map((setting) => {
+
+                                    return <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" fontFamily={`"Roboto Condensed", sans-serif`} fontSize={'16px'}>{setting}</Typography>
+                                    </MenuItem>
+                                })
+                                : settings.map((setting) => {
+
+                                    return <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" fontFamily={`"Roboto Condensed", sans-serif`} fontSize={'16px'}>{setting}</Typography>
+                                    </MenuItem>
+                                })}
+
                         </Menu>
                     </Box>
                 </Toolbar>
