@@ -14,6 +14,7 @@ import AuthContext from "../authContext/AuthContext";
 import moment from "moment";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Papa from "papaparse";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -136,6 +137,8 @@ const AdvanceComponent = () => {
     const [totalImpressions, setTotalImpressions] = useState(0);
     const [totalClicks, setTotalClicks] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
+    const [totalMediaCost, setTotalMediaCost] = useState(0);
+
 
     useEffect(() => {
         // fetchReportList();
@@ -145,7 +148,7 @@ const AdvanceComponent = () => {
     useEffect(() => {
         // if (organisationList?.length > 0) {
         //     setSelectOrgnigation(organisationList[0])
-            fetchCampaignList();
+        fetchCampaignList();
         // }
     }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize]);
 
@@ -155,7 +158,7 @@ const AdvanceComponent = () => {
             fetchCampaignList();
         }
     }, [organisationList]);
-    
+
 
     const fetchOrganisationList = async () => {
         try {
@@ -174,7 +177,7 @@ const AdvanceComponent = () => {
         }
     }
 
-    const fetchCampaignList = async () => {
+    const fetchCampaignList = async (isExport = false) => {
         try {
             const body = {
                 "page": page,
@@ -184,6 +187,9 @@ const AdvanceComponent = () => {
                 "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
                 "campaignName": selectCampaign
             }
+            if (isExport) {
+                body.export = true; // Add export flag only for export
+            }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
@@ -192,6 +198,10 @@ const AdvanceComponent = () => {
                 setTotalImpressions(response?.impressions);
                 setTotalClicks(response?.clicks);
                 setTotalCount(response?.count);
+                setTotalMediaCost(response?.mediaCost)
+                if (isExport) {
+                    generateCSV(response.campaigns);
+                }
             }
             // exportCsv(response.campaigns);
         } catch (error) {
@@ -214,6 +224,43 @@ const AdvanceComponent = () => {
             console.log(error);
         }
     }
+
+    const generateCSV = (data) => {
+        if (!data || data.length === 0) {
+            console.warn("No data available for export.");
+            return;
+        }
+
+        const csvData = data.map(item => ({
+            Date: new Date(item.date).toLocaleDateString("en-GB"),
+            Title: item.title,
+            Clicks: item.clicks,
+            Conversions: item.conversions,
+            CPA: item.cpa,
+            CPC: item.cpc,
+            CPM: item.cpm,
+            "CTR%": item.ctr,
+            Currency: item?.currency,
+            Impressions: item.impressions,
+            MediaCost: `${item.mediaCost.toFixed(2)}`,
+        }));
+
+        const csv = Papa.unparse(csvData);
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Campaign_Report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleExport = async () => {
+
+        await fetchCampaignList(true);
+    };
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -303,9 +350,12 @@ const AdvanceComponent = () => {
         {
             field: "ctr",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px" }}>{(params.row.ctr)?.toFixed(2)}</p>
+            },
         },
         // {
         //     field: "dailyCap",
@@ -355,30 +405,33 @@ const AdvanceComponent = () => {
         return (
             <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
                 {/* Left: Total Impressions & Clicks */}
-                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 11]} flexGrow={1}>
+                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 12]} flexGrow={1}>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         Total
                     </Typography>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', visibility: "hidden" }}>
                         Total
                     </Typography>
-                    
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000'}}>
+
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         {totalImpressions}
                     </Typography>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', marginLeft: "34px" }}>
-                        {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
+                        {totalClicks}
                     </Typography>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
                         {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
                     </Typography>
-                    {/* <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        Count: {totalCount}
-                    </Typography> */}
-                    
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', visibility: "hidden" }}>
+                        {totalMediaCost}
+                    </Typography>
+                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
+                        {totalMediaCost}
+                    </Typography>
+
                 </Stack>
                 <Stack direction="row" justifyContent={'center'} alignItems={'center'} spacing={2} py={[1, 0]}>
-                    <Typography variant="body2" color={'#000'}>Rows per page:</Typography>
+                    {/* <Typography variant="body2" color={'#000'}>Rows per page:</Typography> */}
                     <Select value={pageSize} onChange={(e) => onPageSizeChange(e.target.value)} size="small">
                         <MenuItem value={25}>25</MenuItem>
                         <MenuItem value={50}>50</MenuItem>
@@ -656,6 +709,21 @@ const AdvanceComponent = () => {
                                             </Select>
                                         </FormControl>
                                     </Box> */}
+                                    {userType === 'admin' && (
+                                        <Button
+                                            sx={{
+                                                mt: 2.5,
+                                                width: '100%',
+                                                maxWidth: '200px',
+                                                fontFamily: `"Poppins", sans-serif`,
+                                                fontSize: '16px',
+                                            }}
+                                            className='hearder-right-btn'
+                                            onClick={handleExport}
+                                        >
+                                            Export Report
+                                        </Button>
+                                    )}
 
                                 </Grid>
                             </Grid>

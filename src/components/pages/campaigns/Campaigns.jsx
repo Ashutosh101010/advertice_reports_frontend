@@ -317,7 +317,10 @@ const Campaigns = () => {
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px" }}>{(params.row.ctr)?.toFixed(2)}</p>
+            },
         },
         // {
         //     field: "dailyCap",
@@ -509,17 +512,7 @@ const Campaigns = () => {
                                 onClick={ImportCampaign}>
                                 Import Campaign
                             </Button>
-                                : <Button
-                                    sx={{
-                                        width: '100%',
-                                        maxWidth: '200px',
-                                        fontFamily: `"Poppins", sans-serif`,
-                                        fontSize: '16px',
-                                    }}
-                                    className='hearder-right-btn create-organisation'
-                                    onClick={handleExport}>
-                                    Export Campaign
-                                </Button>
+                                : ""
                         }
 
                         {/* <Button

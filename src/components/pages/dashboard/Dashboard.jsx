@@ -23,22 +23,25 @@ const Dashboard = () => {
     const [importModal, setImportModal] = useState(false);
     const [organisationList, setOrganisationList] = useState([]);
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
+    const [campiagnNameList, setCampiagnNameList] = useState([]);
+    const [selectCampaign, setSelectCampaign] = useState('');
 
     useEffect(() => {
         if (userType === "superadmin") {
-            if (selectOrgnigation?.id) {
+            if (selectOrgnigation?.id || selectCampaign?.id) {
                 fetchCampaignList();
             }
         } else if (userType === "admin") {
             fetchCampaignList();
         }
-    }, [selectedDate, toDate, selectOrgnigation, userType])
+    }, [selectedDate, toDate, selectOrgnigation, userType, selectCampaign])
 
     useEffect(() => {
         if (auth) {
             fetchOrganisationList();
         }
     }, [auth])
+
 
     const fetchOrganisationList = async () => {
         try {
@@ -77,9 +80,13 @@ const Dashboard = () => {
             if (selectOrgnigation?.id && userType === "superadmin") {
                 body.organizationId = selectOrgnigation?.id
             }
+            if (selectCampaign && userType === "superadmin") {
+                body.campaignName = selectCampaign
+            }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignData(response.campaigns);
+                setCampiagnNameList(response?.campaignNames)
             }
         } catch (error) {
             console.log(error);
@@ -145,6 +152,10 @@ const Dashboard = () => {
         }
     ];
 
+    function handleSelectOrgnigation(event) {
+        setSelectOrgnigation(event.target.value);
+    };
+
     const handleCloseModal = () => {
         setImportModal(false)
     }
@@ -153,11 +164,11 @@ const Dashboard = () => {
         setImportModal(true)
     }
 
-    function handleSelectOrgnigation(event) {
-        setSelectOrgnigation(event.target.value);
+    const handleSlectCampaign = (e) => {
+        setSelectCampaign(e.target.value);
     };
 
-// console.log('organisationList', organisationList)
+    // console.log('organisationList', organisationList)
 
     return (
         <React.Fragment>
@@ -185,34 +196,59 @@ const Dashboard = () => {
                         </Button> */}
                         {
                             userType === "superadmin" && (
-                                <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
-                                    <InputLabel id="state-label"
-                                        sx={{
+                                <>
+                                    <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
+                                        <InputLabel id="state-label"
+                                            sx={{
+                                                fontFamily: `"Poppins", sans-serif`,
+                                                fontSize: '16px'
+                                            }}
+                                        >Organisation</InputLabel>
+                                        <Select
+                                            value={selectOrgnigation}
+                                            label="Organisation"
+                                            labelId='state-label'
+                                            onChange={handleSelectOrgnigation}
+                                            sx={{ minWidth: 250, mr: isMobile ? 2 : '' }}
+                                            disableUnderline
+                                        >
+                                            {organisationList.map((item) => {
+                                                return (
+                                                    <MenuItem value={item} key={item.id}
+                                                        sx={{
+                                                            fontFamily: `"Poppins", sans-serif`
+                                                        }}
+                                                    >
+                                                        {item.organisation}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl>
+                                        <InputLabel id="demo-simple-select-label" sx={{
                                             fontFamily: `"Poppins", sans-serif`,
                                             fontSize: '16px'
-                                        }}
-                                    >Organisation</InputLabel>
-                                    <Select
-                                        value={selectOrgnigation}
-                                        label="Organisation"
-                                        labelId='state-label'
-                                        onChange={handleSelectOrgnigation}
-                                        sx={{ minWidth: 250, mr: isMobile ? 2 : '' }}
-                                        disableUnderline
-                                    >
-                                        {organisationList.map((item) => {
-                                            return (
-                                                <MenuItem value={item} key={item.id}
-                                                    sx={{
-                                                        fontFamily: `"Poppins", sans-serif`
-                                                    }}
-                                                >
-                                                    {item.organisation}
-                                                </MenuItem>
-                                            );
-                                        })}
-                                    </Select>
-                                </FormControl>
+                                        }}>Campaign</InputLabel>
+                                        <Select
+                                            sx={{ width: isMobile ? "250px" : "360px", mr: isMobile ? 2 : '' }}
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={selectCampaign}
+                                            label="Headers"
+                                            onChange={handleSlectCampaign}
+                                        >
+
+                                            {campiagnNameList.map((item) => {
+                                                return (
+                                                    <MenuItem value={item} key={item}>
+                                                        {item}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                </>
                             )
                         }
 
