@@ -230,7 +230,8 @@ const AdvanceComponent = () => {
             console.warn("No data available for export.");
             return;
         }
-
+    
+        // Convert campaign data to CSV-friendly format
         const csvData = data.map(item => ({
             Date: new Date(item.date).toLocaleDateString("en-GB"),
             Title: item.title,
@@ -244,9 +245,28 @@ const AdvanceComponent = () => {
             Impressions: item.impressions,
             MediaCost: `${item.mediaCost.toFixed(2)}`,
         }));
-
+    
+        // Append Total Row
+        const totalCTR = totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0";
+    
+        csvData.push({
+            Date: "Total",
+            Title: "", // Empty since it's a total row
+            Clicks: totalClicks,
+            Conversions: "", // Leave empty or sum if applicable
+            CPA: "", // Leave empty or calculate if needed
+            CPC: "", // Leave empty or calculate if needed
+            CPM: "", // Leave empty or calculate if needed
+            "CTR%": totalCTR,
+            Currency: "", // Leave empty
+            Impressions: totalImpressions,
+            MediaCost: totalMediaCost.toFixed(2),
+        });
+    
+        // Convert to CSV format
         const csv = Papa.unparse(csvData);
-
+    
+        // Create and download the CSV file
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -256,11 +276,13 @@ const AdvanceComponent = () => {
         link.click();
         document.body.removeChild(link);
     };
+    
 
     const handleExport = async () => {
 
         await fetchCampaignList(true);
     };
+
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -401,7 +423,7 @@ const AdvanceComponent = () => {
         },
     ];
 
-    const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks, totalCount }) => {
+    const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks, totalCount, totalMediaCost }) => {
         return (
             <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
                 {/* Left: Total Impressions & Clicks */}
@@ -820,6 +842,7 @@ const AdvanceComponent = () => {
                                     totalImpressions={totalImpressions}
                                     totalClicks={totalClicks}
                                     totalCount={totalCount}
+                                    totalMediaCost={totalMediaCost}
                                 />
                             ),
                         }}
