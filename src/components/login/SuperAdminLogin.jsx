@@ -88,7 +88,7 @@ const SuperAdminLoginForm = () => {
                                         <img src={loginLogo} className="logo login-logo" />
                                     </Box>
                                     <Box justifyContent="center" alignItems="center">
-                                        <Typography fontWeight={'500'} fontSize={'18px'} fontFamily={`"Arial", sans-serif`}>Advertiser Login</Typography>
+                                        <Typography fontWeight={'500'} fontSize={'18px'} fontFamily={`"Arial", sans-serif`}>Admin Login</Typography>
                                     </Box>
                                 </Grid>
                             </Grid>

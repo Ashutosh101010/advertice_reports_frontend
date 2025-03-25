@@ -77,7 +77,7 @@ const LoginForm = () => {
                                                 <img src={loginLogo} className="logo login-logo" />
                                             </Box>
                                             <Box justifyContent="center" alignItems="center" fontWeight={'500'}>
-                                                <Typography sx={{ fontSize: '16px', fontWeight: '500', fontFamily: `"Roboto Condensed", sans-serif` }}>Advertiser Login</Typography>
+                                                <Typography sx={{ fontSize: '16px', fontWeight: '500', fontFamily: `"Roboto Condensed", sans-serif` }}>Login</Typography>
                                             </Box>
                                         </Grid>
                                     </Grid>
