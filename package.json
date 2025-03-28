@@ -30,6 +30,7 @@
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
+    "react-sticky-table": "^5.1.11",
     "sentence-case": "^4.0.0",
     "styled-components": "^6.1.8"
   },
