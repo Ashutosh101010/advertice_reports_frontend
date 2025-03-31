@@ -792,8 +792,8 @@ const AdvanceComponent = () => {
                                 <Cell>CTR (%)</Cell>
                                 <Cell>Currency</Cell>
                                 <Cell>Media Cost</Cell>
-                                <Cell>CPM</Cell>
-                                <Cell>CPC</Cell>
+                                <Cell>eCPM</Cell>
+                                <Cell>eCPC</Cell>
                             </Row>
 
                             {/* Paginated Rows */}
@@ -803,13 +803,13 @@ const AdvanceComponent = () => {
                                 }}>
                                     <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
                                     <Cell style={{ color: "#0061ff" }}>{row.title}</Cell>
-                                    <Cell>{row.impressions}</Cell>
-                                    <Cell>{row.clicks}</Cell>
+                                    <Cell>{row.impressions.toLocaleString("en-IN")}</Cell>
+                                    <Cell>{row.clicks.toLocaleString("en-IN")}</Cell>
                                     <Cell>{row.ctr}</Cell>
                                     <Cell>{row.currency}</Cell>
-                                    <Cell>{row.mediaCost}</Cell>
-                                    <Cell>{row.cpm}</Cell>
-                                    <Cell>{row.cpc}</Cell>
+                                    <Cell>{row.mediaCost.toLocaleString("en-IN")}</Cell>
+                                    <Cell>{row.cpm.toLocaleString("en-IN")}</Cell>
+                                    <Cell>{row.cpc.toLocaleString("en-IN")}</Cell>
                                 </Row>
                             ))}
 
@@ -824,11 +824,11 @@ const AdvanceComponent = () => {
                             }}>
                                 <Cell>{totalRow.date}</Cell>
                                 <Cell>{totalRow.title}</Cell>
-                                <Cell>{totalRow.impressions}</Cell>
-                                <Cell>{totalRow.clicks}</Cell>
-                                <Cell>{totalRow.ctr}%</Cell>
+                                <Cell>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
+                                <Cell>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
+                                <Cell>{parseFloat(totalRow.ctr).toFixed(2)}%</Cell>
                                 <Cell>{totalRow.currency}</Cell>
-                                <Cell>{totalRow.mediaCost}</Cell>
+                                <Cell>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
                                 <Cell>{totalRow.cpm}</Cell>
                                 <Cell>{totalRow.cpc}</Cell>
                             </Row>
@@ -848,7 +848,7 @@ const AdvanceComponent = () => {
                         background: "#fff",
                     }}>
                         <Select
-                        sx={{fontSize: "10px"}}
+                            sx={{ fontSize: "10px" }}
                             value={pageSize}
                             onChange={(e) => setPageSize(e.target.value)}
                             size="small"
@@ -867,7 +867,7 @@ const AdvanceComponent = () => {
                                 disabled={page === 0}
                                 style={{ color: page === 0 ? "#aaa" : "#000" }}
                             >
-                                <ArrowBackIosIcon fontSize={'small'} sx={{fontSize: "15px"}} />
+                                <ArrowBackIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
                             </IconButton>
 
                             <IconButton
@@ -875,7 +875,7 @@ const AdvanceComponent = () => {
                                 disabled={startIndex + pageSize >= rowCount}
                                 style={{ color: startIndex + pageSize >= rowCount ? "#aaa" : "#000" }}
                             >
-                                <ArrowForwardIosIcon  fontSize={'small'} sx={{fontSize: "15px"}} />
+                                <ArrowForwardIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
                             </IconButton>
                         </div>
                     </div>

@@ -300,26 +300,32 @@ const Campaigns = () => {
         },
         {
             field: "impressions",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Impressions</p>,
+            headerName: 'Impressions',
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.impressions.toLocaleString("en-IN")}</p>
+            },
         },
         {
             field: "clicks",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Clicks</p>,
+            headerName: 'Clicks',
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.clicks.toLocaleString("en-IN")}</p>
+            },
         },
         {
             field: "ctr",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR %</p>,
+            headerName: 'CTR %',
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}>{(params.row.ctr)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{(params.row?.clicks / params.row?.impressions)?.toFixed(2)}</p>
             },
         },
         // {
@@ -341,28 +347,40 @@ const Campaigns = () => {
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Currency</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.currency}</p>
+            },
         },
         {
             field: "mediaCost",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Media Cost</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 0px 10px 10px" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
+            },
         },
         {
             field: "cpm",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpm.toLocaleString("en-IN")}</p>
+            },
         },
         {
             field: "cpc",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
+            },
         },
         // {
         //     field: "progress",
