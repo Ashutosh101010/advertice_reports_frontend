@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -136,6 +136,7 @@ const OrganisationList = [
 
 const AdminOrgnisationList = () => {
 
+    const isMobile = useMediaQuery("(min-width:600px)");
     const theme = useTheme();
     const location = useLocation();
     const organisationId = location?.state?.orgId ? location?.state?.orgId : 0;
@@ -185,7 +186,7 @@ const AdminOrgnisationList = () => {
 
         if (response?.errorCode === 0) {
             fetchOrganisationList(); // Refresh data if API succeeds
-        } 
+        }
         // else {
         //     // Revert UI if API fails
         //     setSwitchStates((prev) => ({
@@ -275,10 +276,15 @@ const AdminOrgnisationList = () => {
         },
         {
             field: "contact",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Contact</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 45 : 0 }}>Contact</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
+            renderCell: (params) => {
+                return (
+                    <p style={{ textAlign: 'center', margin: "0px 10px 10px 10px", }}>{params?.row?.contact ? params.row?.contact : "N/A"}</p>
+                )
+            }
         },
         // {
         //     field: "stateName",
@@ -297,17 +303,21 @@ const AdminOrgnisationList = () => {
         {
             field: "createdAt",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CreatedAt</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 75 : 0 }}>CreatedAt</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5,
             renderCell: (params) => (
-                new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }).format(params.row.createdAt)
+                <p
+                    style={{ textAlign: 'center', margin: "0px 10px 10px 10px", }}
+                >
+                    {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    }).format(params.row.createdAt)}
+                </p>
             )
         },
         {
@@ -318,7 +328,7 @@ const AdminOrgnisationList = () => {
             renderCell: (params) => {
                 return (
                     <Label
-                    onClick={(e) => handleClick(e, params.row)}
+                        onClick={(e) => handleClick(e, params.row)}
                         color={
                             (params.row.status === true &&
                                 "success") ||
@@ -337,7 +347,7 @@ const AdminOrgnisationList = () => {
         },
         {
             field: "action",
-            flex: 1.5,
+            flex: 1,
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
             headerClassName: 'super-app-theme--header',

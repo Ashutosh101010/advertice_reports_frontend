@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -67,6 +67,7 @@ const IOSSwitch = styled((props) => (
 
 const SuperAdminOrgnisationList = () => {
 
+    const isMobile = useMediaQuery("(min-width:600px)");
     const theme = useTheme();
     const navigate = useNavigate();
     const [page, setPage] = useState(0);
@@ -197,10 +198,15 @@ const SuperAdminOrgnisationList = () => {
         },
         {
             field: "contact",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Contact</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 40 : 0 }}>Contact</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
+            renderCell: (params) => {
+                return (
+                    <p style={{ textAlign: 'center', margin: "0px 10px 10px 10px", }}>{params?.row?.contact ? params?.row?.contact : "N/A"}</p>
+                )
+            }
         },
         // {
         //     field: "stateName",
@@ -219,12 +225,12 @@ const SuperAdminOrgnisationList = () => {
         {
             field: "createdAt",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CreatedAt</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 75 : 0 }}>CreatedAt</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1.5,
             renderCell: (params) => {
                 return (
-                    <>{params?.row?.createdAt ?
+                    <p style={{ textAlign: 'center', margin: "0px 10px 10px 10px", }}>{params?.row?.createdAt ?
                         new Intl.DateTimeFormat("en-US", {
                             year: "numeric",
                             month: "2-digit",
@@ -232,7 +238,7 @@ const SuperAdminOrgnisationList = () => {
                             hour: "2-digit",
                             minute: "2-digit",
                         }).format(params.row?.createdAt)
-                        : "N/A"}</>
+                        : "N/A"}</p>
                 )
             }
         },
@@ -244,10 +250,10 @@ const SuperAdminOrgnisationList = () => {
             renderCell: (params) => {
                 return (
                     <Label
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleClick(e, params.row)
-                    }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleClick(e, params.row)
+                        }}
                         color={
                             (params.row.status === true &&
                                 "success") ||
@@ -266,7 +272,7 @@ const SuperAdminOrgnisationList = () => {
         },
         {
             field: "action",
-            flex: 1.5,
+            flex: 1,
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
             headerClassName: 'super-app-theme--header',

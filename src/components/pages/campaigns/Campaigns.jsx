@@ -290,7 +290,7 @@ const Campaigns = () => {
         },
         {
             field: "title",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Campaign</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center' }}>Campaign</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
@@ -300,18 +300,18 @@ const Campaigns = () => {
         },
         {
             field: "impressions",
-            headerName: 'Impressions',
+            headerName: <p style={{ marginLeft: isMobile ? 30 : 0 }}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.impressions.toLocaleString("en-IN")}</p>
+                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.impressions.toLocaleString("en-IN")}</p>
             },
         },
         {
             field: "clicks",
             sortable: false,
-            headerName: 'Clicks',
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>Clicks</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
@@ -321,11 +321,11 @@ const Campaigns = () => {
         {
             field: "ctr",
             sortable: false,
-            headerName: 'CTR %',
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{(params.row?.clicks / params.row?.impressions)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px 10px 10px 10px", }}>{(params.row?.clicks / params.row?.impressions)?.toFixed(2)}</p>
             },
         },
         // {
@@ -345,21 +345,21 @@ const Campaigns = () => {
         {
             field: "currency",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Currency</p>,
+            headerName: <p>Currency</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.currency}</p>
+                return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
             },
         },
         {
             field: "mediaCost",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Media Cost</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 30 : 0 }}>Media Cost</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 0px 10px 10px" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
+                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
             },
         },
         {

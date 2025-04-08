@@ -783,33 +783,34 @@ const AdvanceComponent = () => {
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 10,
-                                borderBottom: "2px solid #ddd", // Border for header
+                                borderBottom: "2px solid #ddd", // Border for header,
+                                // textAlign: "center",
                             }}>
                                 <Cell>Date</Cell>
                                 <Cell>Title</Cell>
-                                <Cell>Impressions</Cell>
-                                <Cell>Clicks</Cell>
-                                <Cell>CTR (%)</Cell>
-                                <Cell>Currency</Cell>
-                                <Cell>Media Cost</Cell>
-                                <Cell>eCPM</Cell>
-                                <Cell>eCPC</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
+                                <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Currency</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
+                                <Cell style={{ textAlign: 'center' }}>eCPM</Cell>
+                                <Cell style={{ textAlign: 'center' }}>eCPC</Cell>
                             </Row>
 
                             {/* Paginated Rows */}
                             {campaignList.map((row, index) => (
                                 <Row key={index} className="table-row" style={{
-                                    borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px"
+                                    borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                 }}>
                                     <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
                                     <Cell style={{ color: "#0061ff" }}>{row.title}</Cell>
-                                    <Cell>{row.impressions.toLocaleString("en-IN")}</Cell>
-                                    <Cell>{row.clicks.toLocaleString("en-IN")}</Cell>
-                                    <Cell>{row.ctr}</Cell>
-                                    <Cell>{row.currency}</Cell>
-                                    <Cell>{row.mediaCost.toLocaleString("en-IN")}</Cell>
-                                    <Cell>{row.cpm.toLocaleString("en-IN")}</Cell>
-                                    <Cell>{row.cpc.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.clicks.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell>
                                 </Row>
                             ))}
 
@@ -822,15 +823,15 @@ const AdvanceComponent = () => {
                                 zIndex: 10,
                                 borderTop: "2px solid #ddd",
                             }}>
-                                <Cell>{totalRow.date}</Cell>
-                                <Cell>{totalRow.title}</Cell>
-                                <Cell>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
-                                <Cell>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
-                                <Cell>{parseFloat(totalRow.ctr).toFixed(2)}%</Cell>
-                                <Cell>{totalRow.currency}</Cell>
-                                <Cell>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
-                                <Cell>{totalRow.cpm}</Cell>
-                                <Cell>{totalRow.cpc}</Cell>
+                                <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{parseFloat(totalRow.ctr).toFixed(2)}%</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell>
                             </Row>
 
 
