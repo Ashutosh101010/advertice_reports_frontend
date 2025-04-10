@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
@@ -64,7 +64,6 @@ const IOSSwitch = styled((props) => (
     },
 }));
 
-
 const SuperAdminOrgnisationList = () => {
 
     const isMobile = useMediaQuery("(min-width:600px)");
@@ -73,7 +72,7 @@ const SuperAdminOrgnisationList = () => {
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(0);
-    const [switchChecked, setSwitchChecked] = useState(false);
+    // const [switchChecked, setSwitchChecked] = useState(false);
     const [organisationList, setOrganisationList] = useState([]);
     const { auth, stateList } = useContext(AuthContext);
     const [createFormModal, setCreateFormModal] = useState(false);
@@ -107,7 +106,7 @@ const SuperAdminOrgnisationList = () => {
         if (response?.errorCode === 0) {
             fetchOrganisationList();
         }
-        setSwitchChecked(e.target.checked);
+        // setSwitchChecked(e.target.checked);
     };
 
     function handlePageChange(newPage) {
@@ -140,7 +139,10 @@ const SuperAdminOrgnisationList = () => {
         navigate("/admin-organisation", { state: { orgId: e?.row?.id } });
     };
 
-    const columns = [
+    const data = useMemo(() => organisationList, [organisationList]);
+
+
+    const columns = useMemo(() => [
         {
             field: "id",
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}></p>,
@@ -312,7 +314,8 @@ const SuperAdminOrgnisationList = () => {
                 );
             },
         }
-    ];
+    ], []);
+
 
     return (
         <React.Fragment>
@@ -332,15 +335,16 @@ const SuperAdminOrgnisationList = () => {
                     </Grid>
                 </Grid>
                 <Box
-                    m="10px 0 0 0"
-                    height="75vh"
+                    // m="10px 0 0 0"
+                    // height="75vh"
                     sx={{
-                        '.MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
-                            outline: 'none !important'
-                        },
-                        '& > .MuiDataGrid-columnSeparator': {
-                            visibility: 'hidden',
-                        },
+                        // '.MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
+                        //     outline: 'none !important'
+                        // },
+                        // '& > .MuiDataGrid-columnSeparator': {
+                        //     visibility: 'hidden',
+                        // },
+                        height: 'calc(100vh - 120px)', width: '100%',
                         "& .MuiDataGrid-root": {
                             border: "none",
                             boxShadow:
@@ -387,20 +391,23 @@ const SuperAdminOrgnisationList = () => {
                     }}
                 >
                     <DataGrid
-                        paginationMode="server"
+                        disableVirtualization
+                        rows={data}
+                        getRowId={(row) => row?.id}
+                        columns={columns}
                         rowCount={rowCount}
+                        paginationMode="server"
                         page={page}
                         onPageChange={handlePageChange}
                         pageSize={pageSize}
                         onPageSizeChange={handlePageSizeChange}
                         rowsPerPageOptions={[25, 50, 100]}
-                        rows={organisationList}
-                        columns={columns}
                         pagination
                         onCellClick={handleSectionClick}
                         disableColumnMenu
                         disableColumnFilter
-                        disableColumnSelector={false}
+                        disableColumnSelector
+                        autoHeight={false}
                         sx={{
                             "& .MuiDataGrid-columnHeader .MuiDataGrid-columnSeparator": {
                                 display: "none",
