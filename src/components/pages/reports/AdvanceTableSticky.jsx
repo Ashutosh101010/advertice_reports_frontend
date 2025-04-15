@@ -816,7 +816,7 @@ const AdvanceComponent = () => {
 
 
                             <Row className="sticky-row" style={{
-                                background: "#b2c3ff",
+                                // background: "#b2c3ff",
                                 // fontWeight: "bold",
                                 position: "sticky",
                                 bottom: "10px",

@@ -441,8 +441,8 @@ const AdminOrgnisationList = () => {
                             // color: "red"
                         },
                         '& .super-app-theme--header': {
-                            backgroundColor: '#b2c3ff',
-                            color: 'black',
+                            backgroundColor: 'var(--primary-color)',
+                            color: 'var(--background-color)', //' 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "500",

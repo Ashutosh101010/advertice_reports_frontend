@@ -19,11 +19,13 @@ import SuperAdminLoginForm from './components/login/SuperAdminLogin';
 import AdvanceComponent from './components/pages/reports/Advance';
 import { SnackbarProvider } from 'notistack';
 import TableComponent from './components/pages/reports/AdvanceTableSticky';
+import theme from './theme';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 
 function App() {
 
   // SuperAdmin ID Passwor
-  // id: superadmin, password- advertice123
+  // id: contendigitaladmin , password- cda123@admin
 
   // Admin ID Password
   // id: mayur, password- mayur@123

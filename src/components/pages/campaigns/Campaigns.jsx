@@ -14,6 +14,7 @@ import AdverticeNetwork from "../../../Network";
 import EditCampaignFormModal from "./EditCampaign";
 import ImportCampaignCsv from "./ImportCampaign";
 import Papa from "papaparse"
+import '../../../index.css'
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -153,7 +154,7 @@ const Campaigns = () => {
         const body = {
             "page": page,
             "pageSize": pageSize,
-            "group":true
+            "group": true
         }
         if (userType === "superadmin") {
             body.organizationId = selectOrgnigation?.id
@@ -326,7 +327,7 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions)*100)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
             },
         },
         // {
@@ -586,8 +587,8 @@ const Campaigns = () => {
                             // color: "red"
                         },
                         '& .super-app-theme--header': {
-                            backgroundColor: '#b2c3ff',
-                            color: 'black',
+                            backgroundColor: 'var(--primary-color)',
+                            color: 'var(--background-color)', //' 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "500",

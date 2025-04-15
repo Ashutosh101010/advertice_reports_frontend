@@ -40,7 +40,7 @@ const SuperAdminLoginForm = () => {
                 localStorage.setItem('accessToken', response.authToken);
                 localStorage.setItem('userType', "superadmin");
                 console.log('response', response);
-                
+
                 setAuth(response.authToken);
                 setAuthenticated(true);
                 navigate('/');
@@ -152,7 +152,8 @@ const SuperAdminLoginForm = () => {
                                         sx={{
                                             color: "#fff !important",
                                             mb: 1,
-                                            backgroundColor: "#45679F  !important",
+                                            backgroundColor: "var(--primary-color)  !important",
+                                            // backgroundColor: "#45679F  !important",
                                             textTransform: 'none',
                                             fontSize: '16px',
                                             fontWeight: '500',

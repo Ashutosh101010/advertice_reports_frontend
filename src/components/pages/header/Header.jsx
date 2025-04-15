@@ -17,10 +17,11 @@ import { Box, Dialog, DialogContent, IconButton, InputBase, Stack } from '@mui/m
 import { styled, alpha } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import UserProfile from './UserProfile';
+import '../../../index.css'
 
 const pages = ['Campaigns', 'Basic', 'Advance', 'Organisation'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
-const settingsSper = ['Dashboard','Logout'];
+const settingsSper = ['Dashboard', 'Logout'];
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -193,7 +194,7 @@ function TopHeader() {
                             textDecoration: 'none',
                         }}
                     >
-                        <img onClick={handleHome} src={loginLogo} className='header-logo' style={{height:'100px'}} />
+                        <img onClick={handleHome} src={loginLogo} className='header-logo' style={{ height: '100px' }} />
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

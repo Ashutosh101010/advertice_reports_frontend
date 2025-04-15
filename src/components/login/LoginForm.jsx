@@ -142,7 +142,7 @@ const LoginForm = () => {
                                             sx={{
                                                 color: "#fff !important",
                                                 mb: 1,
-                                                backgroundColor: "#45679F  !important",
+                                                backgroundColor: "var(--primary-color)  !important",
                                                 textTransform: 'none',
                                                 fontFamily: `"Roboto Condensed", sans-serif`,
                                                 fontSize: '16px',

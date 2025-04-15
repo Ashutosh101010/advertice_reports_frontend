@@ -379,9 +379,11 @@ const SuperAdminOrgnisationList = () => {
 
                             {/* Paginated Rows */}
                             {organisationList.map((row, index) => (
-                                <Row key={index} className="table-row" style={{
-                                    borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
-                                }}>
+                                <Row key={index}
+                                    onClick={() => navigate('/admin-organisation')}
+                                    className="table-row" style={{
+                                        borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
+                                    }}>
                                     <Cell><PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} /></Cell>
                                     {/* <Cell style={{ color: "#0061ff" }}>{row?.title}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row?.impressions?.toLocaleString("en-IN")}</Cell> */}
@@ -444,8 +446,8 @@ const SuperAdminOrgnisationList = () => {
                                             <IconButton
                                                 aria-label="more"
                                                 onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEditTable(e, row)
+                                                    e.stopPropagation(); // prevents row click
+                                                    handleEditTable(e, row);
                                                 }}
                                             >
                                                 <EditIcon />
@@ -542,10 +544,10 @@ const SuperAdminOrgnisationList = () => {
                             borderBottom: "1px solid rgba(241, 243, 244, 1) !important",
                         },
                         "& .name-column--cell": {
-                            color: "#b2c3ff",
+                            color: "#ffb6b2",
                         },
                         "& .MuiDataGrid-columnHeaders": {
-                            backgroundColor: "#b2c3ff",
+                            backgroundColor: "#ffb6b2",
                             fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
@@ -553,26 +555,26 @@ const SuperAdminOrgnisationList = () => {
                             overflowX: "hidden !important", // Prevent horizontal flicker
                         },
                         "& .MuiCheckbox-root": {
-                            color: `#b2c3ff !important`,
+                            color: `#ffb6b2 !important`,
                         },
                         "& .MuiDataGrid-row:hover": {
                             backgroundColor: "#f5f5f5 !important",
-                            borderColor: "#45679F ",
+                            borderColor: "#d64a43",
                             // color: "red"
                         },
                         '& .super-app-theme--header': {
-                            backgroundColor: '#b2c3ff',
+                            backgroundColor: '#ffb6b2',
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "500",
                         },
                         "& .MuiDataGrid-row": {
-                            border: "1px solid #b2c3ff",
+                            border: "1px solid #ffb6b2",
                             borderRadius: "5px",
                             backgroundColor: "#fff !important",
                             boxShadow: "0 0 10px 4px hsla(0,0%,96.1%,.3333333333333333) !important",
-                            borderColor: "#b2c3ff",
+                            borderColor: "#ffb6b2",
                             marginTop: 1,
                         },
                     }}

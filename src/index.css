@@ -5,6 +5,12 @@
   width: 100%;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+  --primary-color: #45679F;
+  /* Primary Color */
+  --secondary-color: #0859db;
+  /* Secondary Color (Red) */
+  --background-color: #FFF5F5;
+  /* Example Background Color */
 }
 
 .table-container {
@@ -15,7 +21,8 @@
 }
 
 .table-header {
-  background-color: #b2c3ff !important;
+  background-color: var(--primary-color) !important;
+  color: var(--background-color) !important;
   /* font-weight: bold; */
 }
 
@@ -30,8 +37,11 @@
   /* font-weight: bold; */
   z-index: 2;
   border-top: 2px solid #000;
+  background-color: var(--primary-color) !important;
+  color: var(--background-color) !important;
 }
-.sticky-table-cell{
+
+.sticky-table-cell {
   background-color: unset !important;
 }
 
@@ -66,11 +76,11 @@
 a {
   /* color: #45679F !important; */
   text-decoration: none;
-  color: #45679F  !important;
+  color: #45679F !important;
 }
 
 .link-color {
-  color: #45679F  !important;
+  color: #45679F !important;
 }
 
 .forget-password {
@@ -107,7 +117,7 @@ a {
 
 
 .hearder-right-btn {
-  background: #45679F  !important;
+  background: var(--primary-color) !important;
   padding: .5rem .75rem !important;
   color: #fff !important;
   border-radius: 4px;
@@ -123,7 +133,7 @@ a {
 }
 
 .hearder-left-btn-active {
-  background: #45679F  !important;
+  background: var(--primary-color) !important;
   color: #fff !important;
   border-radius: 4px;
   font-weight: 500 !important;
@@ -133,12 +143,16 @@ a {
 }
 
 .hearder-left-btn-menu-active {
-  background: #45679F  !important;
+  background: var(--primary-color) !important;
   color: #fff !important;
   border-radius: 4px;
   font-weight: 500 !important;
   text-transform: none !important;
   padding: .5rem .75rem !important;
+}
+
+.css-1nni8rs .MuiDataGrid-columnHeaders {
+  background-color: var(--primary-color);
 }
 
 .card {
