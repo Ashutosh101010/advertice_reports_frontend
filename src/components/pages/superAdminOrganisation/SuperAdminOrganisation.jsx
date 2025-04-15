@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack, useMediaQuery } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Button, Dialog, Avatar, Stack, useMediaQuery, MenuItem, Select } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -12,6 +12,10 @@ import AdverticeNetwork from "../../../Network";
 import AuthContext from "../authContext/AuthContext";
 import CreateFormModal from "./CreateOrganisationForm";
 import EditFormModal from "./EditOrganisation";
+import { Table, Row, Cell } from "react-sticky-table";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import moment from "moment";
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -81,7 +85,7 @@ const SuperAdminOrgnisationList = () => {
 
     useEffect(() => {
         fetchOrganisationList();
-    }, [])
+    }, [page, pageSize])
 
     const fetchOrganisationList = async () => {
         try {
@@ -316,6 +320,19 @@ const SuperAdminOrgnisationList = () => {
         }
     ], []);
 
+    const startIndex = page * pageSize; // Page starts from 0
+
+    // const totalRow = {
+    //     date: "Total",
+    //     title: "",
+    //     impressions: "totalImpressions",
+    //     clicks: 'totalClicks',
+    //     ctr: "0",
+    //     currency: "",
+    //     mediaCost: 'totalMediaCost',
+    //     cpm: "",
+    //     cpc: "",
+    // };
 
     return (
         <React.Fragment>
@@ -334,7 +351,174 @@ const SuperAdminOrgnisationList = () => {
                         </Button>
                     </Grid>
                 </Grid>
-                <Box
+                <div style={{ height: "70vh", display: "flex", flexDirection: "column", position: "relative" }}>
+                    {/* Table with Scrollable Rows */}
+                    <div style={{ flex: 1, overflowY: "auto", border: "1px solid #ddd", marginBottom: "0px" }}>
+                        <Table style={{ width: '100%', borderCollapse: "collapse" }}>
+                            {/* Header Row */}
+                            <Row className="table-header" style={{
+                                background: "#ffb6b2",
+                                // fontWeight: "bold",
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 10,
+                                borderBottom: "2px solid #ddd", // Border for header,
+                                // textAlign: "center",
+                            }}>
+                                <Cell></Cell>
+                                {/* <Cell>Title</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Impressions</Cell> */}
+                                <Cell style={{ textAlign: 'start' }}>Organisation</Cell>
+                                <Cell style={{ textAlign: 'start' }}>E-Mail</Cell>
+                                <Cell style={{ textAlign: 'start' }}>Address</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Contact</Cell>
+                                <Cell style={{ textAlign: 'center' }}>CreatedAt</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Status</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Action</Cell>
+                            </Row>
+
+                            {/* Paginated Rows */}
+                            {organisationList.map((row, index) => (
+                                <Row key={index} className="table-row" style={{
+                                    borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
+                                }}>
+                                    <Cell><PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} /></Cell>
+                                    {/* <Cell style={{ color: "#0061ff" }}>{row?.title}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row?.impressions?.toLocaleString("en-IN")}</Cell> */}
+                                    <Cell style={{ textAlign: 'start' }}>{row?.organisation ? row?.organisation : "N/A"}</Cell>
+                                    <Cell style={{ textAlign: 'start' }}>{row?.email ? row?.email : "N/A"}</Cell>
+                                    <Cell style={{ textAlign: 'start' }}>{row?.address ? row?.address : "N/A"}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row?.contact ? row?.contact : "N/A"}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>
+                                        {row?.createdAt ?
+                                            new Intl.DateTimeFormat("en-US", {
+                                                year: "numeric",
+                                                month: "2-digit",
+                                                day: "2-digit",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            }).format(row?.createdAt)
+                                            : "N/A"}
+                                    </Cell>
+                                    <Cell style={{ textAlign: 'center' }}>
+                                        <Label
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleClick(e, row)
+                                            }}
+                                            color={
+                                                (row.status === true &&
+                                                    "success") ||
+                                                "error"
+                                            }
+                                        >
+                                            {sentenceCase(
+                                                row.status === true
+                                                    ? "Active"
+                                                    : "Paused"
+                                            )}
+                                        </Label>
+                                    </Cell>
+                                    <Cell style={{ textAlign: 'center' }}>
+                                        <Stack direction={'row'} justifyContent={'center'} alignItems={'center'}>
+                                            {/* <IconButton
+                            aria-label="more"
+                            id={params.row.id}
+                            aria-controls={open ? "long-menu" : undefined}
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            style={{ color: 'black' }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FormControlLabel
+                                checked={params.row.status}
+                                value={params.row.status}
+                                control={<IOSSwitch />}
+                                label=""
+                                onChange={(e) => {
+                                    e.stopPropagation();
+                                    handleClick(e, params.row);
+                                }}
+                            />
+                        </IconButton> */}
+                                            <IconButton
+                                                aria-label="more"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleEditTable(e, row)
+                                                }}
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Stack>
+                                    </Cell>
+                                </Row>
+                            ))}
+                            {/* <Row className="sticky-row" style={{
+                                background: "#ffb6b2",
+                                // fontWeight: "bold",
+                                position: "sticky",
+                                bottom: "10px",
+                                zIndex: 10,
+                                borderTop: "2px solid #ddd",
+                            }}>
+                                <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{parseFloat(totalRow.ctr).toFixed(2)}%</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell>
+                            </Row> */}
+                        </Table>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        // position: "absolute",
+                        // bottom: 0,
+                        // left: 0,
+                        // right: 0,
+                        background: "#fff",
+                    }}>
+                        <Select
+                            sx={{ fontSize: "10px" }}
+                            value={pageSize}
+                            onChange={(e) => setPageSize(e.target.value)}
+                            size="small"
+                        >
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={15}>15</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <span style={{ color: "#000", marginLeft: "15px", marginRight: "15px", fontSize: "12px" }}>
+                            {startIndex + 1} - {Math.min(startIndex + pageSize, rowCount)} of {rowCount}
+                        </span>
+                        <div>
+                            <IconButton
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 0}
+                                style={{ color: page === 0 ? "#aaa" : "#000" }}
+                            >
+                                <ArrowBackIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
+                            </IconButton>
+
+                            <IconButton
+                                onClick={() => setPage(page + 1)}
+                                disabled={startIndex + pageSize >= rowCount}
+                                style={{ color: startIndex + pageSize >= rowCount ? "#aaa" : "#000" }}
+                            >
+                                <ArrowForwardIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
+                            </IconButton>
+                        </div>
+                    </div>
+                </div>
+                {/* <Box
                     // m="10px 0 0 0"
                     // height="75vh"
                     sx={{
@@ -344,7 +528,9 @@ const SuperAdminOrgnisationList = () => {
                         // '& > .MuiDataGrid-columnSeparator': {
                         //     visibility: 'hidden',
                         // },
-                        height: 'calc(100vh - 120px)', width: '100%',
+                        height: "calc(100vh - 100px)", // Adjust based on your layout
+                        width: "100%",
+                        overflow: "hidden", // No outer scrollbars
                         "& .MuiDataGrid-root": {
                             border: "none",
                             boxShadow:
@@ -364,6 +550,7 @@ const SuperAdminOrgnisationList = () => {
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
+                            overflowX: "hidden !important", // Prevent horizontal flicker
                         },
                         "& .MuiCheckbox-root": {
                             color: `#b2c3ff !important`,
@@ -392,6 +579,10 @@ const SuperAdminOrgnisationList = () => {
                 >
                     <DataGrid
                         disableVirtualization
+                        // rowHeight={52} // or whatever your average height is
+                        // headerHeight={56}
+                        columnBuffer={2}
+                        rowBuffer={5}
                         rows={data}
                         getRowId={(row) => row?.id}
                         columns={columns}
@@ -414,7 +605,7 @@ const SuperAdminOrgnisationList = () => {
                             },
                         }}
                     />
-                </Box>
+                </Box> */}
                 <Dialog open={createFormModal} onClose={handleCloseModal}
                     sx={{
                         "& .MuiDialog-paper": {
