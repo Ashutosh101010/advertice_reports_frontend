@@ -153,6 +153,7 @@ const Campaigns = () => {
         const body = {
             "page": page,
             "pageSize": pageSize,
+            "group":true
         }
         if (userType === "superadmin") {
             body.organizationId = selectOrgnigation?.id
@@ -325,7 +326,7 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", }}>{(params.row?.clicks / params.row?.impressions)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions)*100)?.toFixed(2)}</p>
             },
         },
         // {
@@ -567,36 +568,36 @@ const Campaigns = () => {
                             borderBottom: "1px solid rgba(241, 243, 244, 1) !important",
                         },
                         "& .name-column--cell": {
-                            color: "#ffb6b2",
+                            color: "#b2c3ff",
                         },
                         "& .MuiDataGrid-columnHeaders": {
-                            backgroundColor: "#ffb6b2",
+                            backgroundColor: "#b2c3ff",
                             fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
                         },
                         "& .MuiCheckbox-root": {
-                            color: `#ffb6b2 !important`,
+                            color: `#b2c3ff !important`,
                         },
                         "& .MuiDataGrid-row:hover": {
                             backgroundColor: "#f5f5f5 !important",
-                            borderColor: "#d64a43",
+                            borderColor: "#45679F ",
                             // color: "red"
                         },
                         '& .super-app-theme--header': {
-                            backgroundColor: '#ffb6b2',
+                            backgroundColor: '#b2c3ff',
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "500",
                         },
                         "& .MuiDataGrid-row": {
-                            border: "1px solid #ffb6b2",
+                            border: "1px solid #b2c3ff",
                             borderRadius: "5px",
                             backgroundColor: "#fff !important",
                             boxShadow: "0 0 10px 4px hsla(0,0%,96.1%,.3333333333333333) !important",
-                            borderColor: "#ffb6b2",
+                            borderColor: "#b2c3ff",
                             marginTop: 1,
                         },
                     }}

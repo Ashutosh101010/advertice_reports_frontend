@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import loginLogo from "../../assets/advertice-logo.png"
+import loginLogo from "../../assets/logo.png"
 import AdverticeNetwork from "../../Network";
 import AuthContext from "../pages/authContext/AuthContext";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -152,7 +152,7 @@ const SuperAdminLoginForm = () => {
                                         sx={{
                                             color: "#fff !important",
                                             mb: 1,
-                                            backgroundColor: "#d64a43 !important",
+                                            backgroundColor: "#45679F  !important",
                                             textTransform: 'none',
                                             fontSize: '16px',
                                             fontWeight: '500',

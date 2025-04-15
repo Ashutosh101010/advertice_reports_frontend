@@ -119,17 +119,17 @@ const Dashboard = () => {
             categories: formattedDates
         },
         fill: {
-            colors: ['#ee4036']
+            colors: ['#45679F']
         },
         stroke: {
             width: 2,
-            colors: ['#ee4036']
+            colors: ['#45679F']
         },
         markers: {
             size: 4,
-            colors: ['#ee4036'],
+            colors: ['#45679F'],
             strokeWidth: 1,
-            strokeColors: ['#ee4036'],
+            strokeColors: ['#45679F'],
             shape: 'circle',
             dataLabels: {
                 enabled: true,
@@ -178,7 +178,7 @@ const Dashboard = () => {
                         {/* <Button className=''
                             sx={{
                                 height: "100%",
-                                background: "#ee4036",
+                                background: "#45679F ",
                                 color: "#fff",
                                 textTransform: "capitalize",
                                 mr: 2,
@@ -187,7 +187,7 @@ const Dashboard = () => {
                                 fontSize: '16px',
                                 px: 2,
                                 ":hover": {
-                                    background: "#ee4036",
+                                    background: "#45679F ",
                                 }
                             }}
                             onClick={ImportCampaign}

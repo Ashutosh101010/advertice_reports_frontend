@@ -15,7 +15,7 @@
 }
 
 .table-header {
-  background-color: #ffb6b2 !important;
+  background-color: #b2c3ff !important;
   /* font-weight: bold; */
 }
 
@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: space-between;
   /* padding: 10px; */
-  /* background-color: #ffb6b2; */
+  /* background-color: #b2c3ff; */
   border-top: 1px solid #ddd;
 }
 
@@ -64,13 +64,13 @@
 }
 
 a {
-  /* color: #0061ff!important; */
+  /* color: #45679F !important; */
   text-decoration: none;
-  color: #00f !important;
+  color: #45679F  !important;
 }
 
 .link-color {
-  color: #0061ff !important;
+  color: #45679F  !important;
 }
 
 .forget-password {
@@ -107,7 +107,7 @@ a {
 
 
 .hearder-right-btn {
-  background: #ee4036 !important;
+  background: #45679F  !important;
   padding: .5rem .75rem !important;
   color: #fff !important;
   border-radius: 4px;
@@ -123,7 +123,7 @@ a {
 }
 
 .hearder-left-btn-active {
-  background: #ee4036 !important;
+  background: #45679F  !important;
   color: #fff !important;
   border-radius: 4px;
   font-weight: 500 !important;
@@ -133,7 +133,7 @@ a {
 }
 
 .hearder-left-btn-menu-active {
-  background: #ee4036 !important;
+  background: #45679F  !important;
   color: #fff !important;
   border-radius: 4px;
   font-weight: 500 !important;

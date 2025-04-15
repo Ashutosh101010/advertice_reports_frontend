@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import loginLogo from "../../assets/advertice-logo.png"
+import loginLogo from "../../assets/logo.png"
 import AdverticeNetwork from "../../Network";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -142,7 +142,7 @@ const LoginForm = () => {
                                             sx={{
                                                 color: "#fff !important",
                                                 mb: 1,
-                                                backgroundColor: "#d64a43 !important",
+                                                backgroundColor: "#45679F  !important",
                                                 textTransform: 'none',
                                                 fontFamily: `"Roboto Condensed", sans-serif`,
                                                 fontSize: '16px',

@@ -392,7 +392,7 @@ const AdvanceComponent = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}>{(params.row.ctr)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px" }}>{((params.row?.clicks / params.row?.impressions)*100)?.toFixed(2)}</p>
             },
         },
         // {
@@ -441,7 +441,7 @@ const AdvanceComponent = () => {
 
     const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks, totalCount, totalMediaCost }) => {
         return (
-            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
+            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#b2c3ff' }}>
                 {/* Left: Total Impressions & Clicks */}
                 <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 12]} flexGrow={1}>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
@@ -778,7 +778,7 @@ const AdvanceComponent = () => {
                         <Table style={{ width: '100%', borderCollapse: "collapse" }}>
                             {/* Header Row */}
                             <Row className="table-header" style={{
-                                background: "#ffb6b2",
+                                background: "#b2c3ff",
                                 // fontWeight: "bold",
                                 position: "sticky",
                                 top: 0,
@@ -803,7 +803,7 @@ const AdvanceComponent = () => {
                                     borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                 }}>
                                     <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
-                                    <Cell style={{ color: "#0061ff" }}>{row.title}</Cell>
+                                    <Cell style={{ color: "#45679F " }}>{row.title}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row.clicks.toLocaleString("en-IN")}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
@@ -816,7 +816,7 @@ const AdvanceComponent = () => {
 
 
                             <Row className="sticky-row" style={{
-                                background: "#ffb6b2",
+                                background: "#b2c3ff",
                                 // fontWeight: "bold",
                                 position: "sticky",
                                 bottom: "10px",
@@ -827,7 +827,7 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
-                                <Cell style={{ textAlign: 'center' }}>{parseFloat(totalRow.ctr).toFixed(2)}%</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks/totalRow?.impressions)*100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>

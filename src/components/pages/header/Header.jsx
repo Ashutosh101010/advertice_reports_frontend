@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
-import loginLogo from "../../../assets/advertice-logo.png";
+import loginLogo from "../../../assets/logo.png";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Dialog, DialogContent, IconButton, InputBase, Stack } from '@mui/material';
@@ -193,7 +193,7 @@ function TopHeader() {
                             textDecoration: 'none',
                         }}
                     >
-                        <img onClick={handleHome} src={loginLogo} className='header-logo' />
+                        <img onClick={handleHome} src={loginLogo} className='header-logo' style={{height:'100px'}} />
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

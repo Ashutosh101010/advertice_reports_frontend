@@ -376,7 +376,7 @@ const AdvanceComponent = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}>{(params.row.ctr)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px" }}>{((params.row?.clicks / params.row?.impressions)*100)?.toFixed(2)}</p>
             },
         },
         // {
@@ -405,7 +405,10 @@ const AdvanceComponent = () => {
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Media Cost</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px" }}>{(params.row.mediaCost)?.toFixed(2)}</p>
+            },
         },
         {
             field: "cpm",
@@ -425,7 +428,7 @@ const AdvanceComponent = () => {
 
     const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks, totalCount, totalMediaCost }) => {
         return (
-            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#ffb6b2' }}>
+            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#b2c3ff' }}>
                 {/* Left: Total Impressions & Clicks */}
                 <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 12]} flexGrow={1}>
                     <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
@@ -767,7 +770,7 @@ const AdvanceComponent = () => {
                             visibility: 'hidden',
                         },
                         "& .MuiDataGrid-root": {
-                            border: "1px solid #ffb6b2",
+                            border: "1px solid #b2c3ff",
                             boxShadow:
                                 "0 0 2px 0 rgba(145, 158, 171, 0.4), 0 12px 24px -4px rgba(145, 158, 171, 0.12)",
                             color: "#637381",
@@ -777,36 +780,36 @@ const AdvanceComponent = () => {
                             borderBottom: "1px solid rgba(241, 243, 244, 1) !important",
                         },
                         "& .name-column--cell": {
-                            color: "#ffb6b2",
+                            color: "#b2c3ff",
                         },
                         "& .MuiDataGrid-columnHeaders": {
-                            backgroundColor: "#ffb6b2",
+                            backgroundColor: "#b2c3ff",
                             fontWeight: "500",
                         },
                         "& .MuiDataGrid-virtualScroller": {
                             backgroundColor: "#fff",
                         },
                         "& .MuiCheckbox-root": {
-                            color: `#ffb6b2 !important`,
+                            color: `#b2c3ff !important`,
                         },
                         "& .MuiDataGrid-row:hover": {
                             backgroundColor: "#f5f5f5 !important",
-                            borderColor: "#d64a43",
+                            borderColor: "#45679F ",
                             // color: "red"
                         },
                         '& .super-app-theme--header': {
-                            backgroundColor: '#ffb6b2',
+                            backgroundColor: '#b2c3ff',
                             color: 'black',
                         },
                         "& .MuiDataGrid-columnHeaderTitle": {
                             fontWeight: "500",
                         },
                         // "& .MuiDataGrid-row": {
-                        //     border: "1px solid #ffb6b2",
+                        //     border: "1px solid #b2c3ff",
                         //     borderRadius: "5px",
                         //     backgroundColor: "#fff !important",
                         //     boxShadow : "0 0 10px 4px hsla(0,0%,96.1%,.3333333333333333) !important",
-                        //     borderColor: "#ffb6b2",
+                        //     borderColor: "#b2c3ff",
                         //     marginTop:1,
                         //   },
                     }}
