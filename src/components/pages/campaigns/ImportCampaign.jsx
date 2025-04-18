@@ -25,6 +25,12 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         'eCPC',
         'Date',
         'Currency',
+        "Start Date",
+        "End Date",
+        "Country Name",
+        "Platform Name",
+        "Leads",
+        "Reach"
     ];
 
     const [isLoading, setLoading] = useState(false);
@@ -42,29 +48,29 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
     };
 
     // console.log('importQuestions', importQuestions);
-    
+
 
     async function handleSubmit() {
         let hasError = false;
         let errorMessage = "";
         let successMessage = "";
-    
+
         for (let listItem of importQuestions) {
             const ordId = selectOrgnigation?.id;
-    
+
             // Normalize and clean up keys
             const normalizedItem = Object.keys(listItem).reduce((acc, key) => {
                 const cleanKey = key.trim().toLowerCase().replace(/\s+/g, "");
                 acc[cleanKey] = typeof listItem[key] === "string" ? listItem[key].trim() : listItem[key];
                 return acc;
             }, {});
-    
+
             // Function to clean numbers
             const cleanNumber = (value) => {
                 if (!value) return 0;
                 return Number(value.toString().replace(/[₹,%]/g, "").replace(/,/g, "").trim()) || 0;
             };
-    
+
             try {
                 const body = {
                     date: normalizedItem?.date,
@@ -79,35 +85,39 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                     cpa: cleanNumber(normalizedItem?.cpa),
                     organizationId: ordId,
                     currency: normalizedItem?.currency,
+                    startDate: normalizedItem?.startdate,
+                    endDate: normalizedItem?.enddate,
+                    country: normalizedItem?.countryname,
+                    platform: normalizedItem?.platformname,
+                    leads: Number(normalizedItem?.leads),
+                    reach: Number(normalizedItem?.reach)
                 };
-    
+
                 const response = await AdverticeNetwork.createCampaignApi(body, auth);
-    
+
                 if (response.errorCode !== 0) {
                     hasError = true;
                     errorMessage = response.errorDescription;
                 } else {
                     successMessage = response.message || "Campaigns submitted successfully!";
-                }
+                };
             } catch (error) {
                 console.error("Error submitting campaign:", error);
                 hasError = true;
                 errorMessage = "An unexpected error occurred.";
             }
         }
-    
+
         // Show message only once after all API calls are done
         if (hasError) {
             enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
         } else {
             enqueueSnackbar(successMessage, { variant: "success", autoHideDuration: 3000 });
         }
-    
+
         fetchCampaignList(); // Refresh campaign list after API calls
         handleClose();
     }
-    
-    
 
     const handleFileUploadCsv = (event) => {
         const file = event.target.files[0];
@@ -117,6 +127,8 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                 const csvData = e.target.result;
                 Papa.parse(csvData, {
                     complete: (result) => {
+                        // console.log("Raw CSV Result:", result); // 🔍 See if header keys look fine
+
                         const validationError = validateHeader(result.meta.fields);
                         if (validationError) {
                             enqueueSnackbar(`Invalid header: ${validationError}`, { variant: 'error', autoHideDuration: 3000 });
@@ -125,16 +137,17 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
 
                         setCsvFile(file);
 
-                        // Filter out empty rows
-                        const questions = result.data.filter(row => {
-                            return Object.values(row).some(value => value !== null && value !== undefined && value.toString().trim() !== '');
-                        });
+                        const questions = result.data.filter(row =>
+                            Object.values(row).some(value => value !== null && value !== undefined && value.toString().trim() !== '')
+                        );
 
+                        // console.log("Parsed Questions:", questions); // 👀 Check what gets parsed
                         setImportQuestions(questions);
                     },
                     header: true,
-                    skipEmptyLines: true // Ensures empty rows are skipped
+                    skipEmptyLines: true
                 });
+
             };
             reader.readAsText(file);
         }

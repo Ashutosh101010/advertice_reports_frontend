@@ -100,6 +100,9 @@ const Dashboard = () => {
 
     const formattedDates = campaignData.map(campaign => formatDate(campaign.date));
     const impressions = campaignData.map(campaign => campaign.impressions);
+    const clicks = campaignData.map(campaign => campaign.clicks);
+    const eCPM = campaignData.map(campaign => campaign?.reach);
+    const leads = campaignData.map(campaign => campaign?.leads);
 
     const chartOptions = {
         chart: {
@@ -119,17 +122,17 @@ const Dashboard = () => {
             categories: formattedDates
         },
         fill: {
-            colors: ['#45679F']
+            colors: ['#45679F', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)']
         },
         stroke: {
             width: 2,
-            colors: ['#45679F']
+            colors: ['#45679F', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)']
         },
         markers: {
             size: 4,
-            colors: ['#45679F'],
+            colors: ['#45679F', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)'],
             strokeWidth: 1,
-            strokeColors: ['#45679F'],
+            strokeColors: ['#45679F', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)'],
             shape: 'circle',
             dataLabels: {
                 enabled: true,
@@ -149,7 +152,19 @@ const Dashboard = () => {
         {
             name: 'Impressions',
             data: impressions
-        }
+        },
+        {
+            name: 'Clicks',
+            data: clicks
+        },
+        {
+            name: 'Reach',
+            data: eCPM
+        },
+        {
+            name: 'Leads',
+            data: leads
+        },
     ];
 
     function handleSelectOrgnigation(event) {

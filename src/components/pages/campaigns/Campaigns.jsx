@@ -167,7 +167,7 @@ const Campaigns = () => {
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
-                setRowCount(response.count);
+                setRowCount(response.count === 0 ? response?.campaigns.length : response.count);
                 if (isExport) {
                     generateCSV(response.campaigns);
                 }
@@ -243,7 +243,15 @@ const Campaigns = () => {
             Currency: item?.currency,
             Impressions: item.impressions,
             MediaCost: `${item.mediaCost.toFixed(2)}`,
+            "StartDate": new Date(item?.startDate).toLocaleDateString("en-GB"),
+            "EndDate": new Date(item?.endDate).toLocaleDateString("en-GB"),
+            "countryNames": item?.countryNames,
+            "platformNames": item?.platformNames,
+            "lead": item?.leads,
+            "reach": item?.reach
         }));
+
+        // Start Date , End Date , PLatform, Country, Lead , Reach
 
         const csv = Papa.unparse(csvData);
 
@@ -330,20 +338,20 @@ const Campaigns = () => {
                 return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
             },
         },
-        // {
-        //     field: "dailyCap",
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Daily Cap</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     sortable: false,
-        //     flex: 1,
-        // },
-        // {
-        //     field: "todayCost",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Today's Cost</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1
-        // },
+        {
+            field: "leads",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Leads</p>,
+            headerClassName: 'super-app-theme--header',
+            sortable: false,
+            flex: 1,
+        },
+        {
+            field: "reach",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Reach</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1
+        },
         {
             field: "currency",
             sortable: false,
@@ -384,109 +392,6 @@ const Campaigns = () => {
                 return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
             },
         },
-        // {
-        //     field: "progress",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Progress</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <CircularProgress variant="determinate" value={params.row.progress} sx={{ mt: 0.8 }} />
-        //     },
-
-        // },
-        // {
-        //     field: "status",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Status</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <Label
-        //                 color={
-        //                     (params.row.status === true &&
-        //                         "success") ||
-        //                     "error"
-        //                 }
-        //             >
-        //                 {sentenceCase(
-        //                     params.row.status === true
-        //                         ? "Active"
-        //                         : "Paused"
-        //                 )}
-        //             </Label>
-        //         );
-        //     },
-        //     flex: 1
-        // },
-        // {
-        //     field: "adminStatus",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Admin Status</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <Label
-        //                 color={
-        //                     (params.row.adminStatus === true &&
-        //                         "success") ||
-        //                     "error"
-        //                 }
-        //             >
-        //                 {sentenceCase(
-        //                     params.row.adminStatus === true
-        //                         ? "Active"
-        //                         : "Pending"
-        //                 )}
-        //             </Label>
-        //         );
-        //     },
-        //     flex: 1
-        // },
-        // {
-        //     field: "action",
-        //     flex: 1,
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Action</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     renderCell: (params) => {
-        //         return (
-        //             <>
-        //                 {/* <IconButton
-        //                     aria-label="more"
-        //                     id={params.row.id}
-        //                     aria-controls={open ? "long-menu" : undefined}
-        //                     aria-expanded={open ? "true" : undefined}
-        //                     aria-haspopup="true"
-        //                     style={{ color: 'black' }}
-
-        //                 >
-        //                     <FormControlLabel
-        //                         sx={{ marginRight: 0 }}
-        //                         checked={switchChecked}
-        //                         value={switchChecked}
-        //                         onChange={(e) => {
-        //                             handleClick(e);
-        //                         }}
-        //                         control={<IOSSwitch />}
-        //                         label=""
-        //                     />
-        //                 </IconButton> */}
-        //                 <IconButton
-        //                     aria-label="more"
-        //                     onClick={() => handleEditTable(params.row)}
-        //                 >
-        //                     <EditIcon />
-        //                 </IconButton>
-        //                 {/* <IconButton
-        //                     aria-label="more"
-        //                 >
-        //                     <ContentCopyIcon />
-        //                 </IconButton> */}
-        //             </>
-        //         );
-        //     },
-        // }
     ];
 
 

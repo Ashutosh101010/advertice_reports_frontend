@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button, Stack, useMediaQuery, Pagination, colors } from '@mui/material';
+import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Grid, Typography, TextField, InputLabel, FormLabel, RadioGroup, Radio, FormControl, Checkbox, FormGroup, Select, MenuItem, Divider, Button, Stack, useMediaQuery, Pagination, colors, ListItemText } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../label/Label";
 import { sentenceCase } from "change-case";
@@ -139,6 +139,10 @@ const AdvanceComponent = () => {
     const [totalClicks, setTotalClicks] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
     const [totalMediaCost, setTotalMediaCost] = useState(0);
+    const [platformList, setPlatformList] = useState([]);
+    const [selectPlatform, setSelectPlatform] = useState([]);
+    const [countryList, setCountryList] = useState([]);
+    const [selectCountry, setSelectCountry] = useState([]);
 
     const totalPages = Math.ceil(campaignList.length / pageSize);
     const startIndex = page * pageSize; // Page starts from 0
@@ -166,7 +170,7 @@ const AdvanceComponent = () => {
         //     setSelectOrgnigation(organisationList[0])
         fetchCampaignList();
         // }
-    }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize]);
+    }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize, selectPlatform, selectCountry]);
 
     useEffect(() => {
         if (organisationList?.length > 0) {
@@ -201,7 +205,9 @@ const AdvanceComponent = () => {
                 "organizationId": selectOrgnigation?.id,
                 "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
                 "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
-                "campaignName": selectCampaign
+                "campaignName": selectCampaign,
+                "countryNames": selectCountry,
+                "platformNames": selectPlatform
             }
             if (isExport) {
                 body.export = true; // Add export flag only for export
@@ -214,10 +220,12 @@ const AdvanceComponent = () => {
                 setTotalImpressions(response?.impressions);
                 setTotalClicks(response?.clicks);
                 setTotalCount(response?.count);
-                setTotalMediaCost(response?.mediaCost)
+                setTotalMediaCost(response?.mediaCost);
+                setPlatformList(response?.platformNames);
+                setCountryList(response?.countryNames);
                 if (isExport) {
                     generateCSV(response.campaigns);
-                }
+                };
             }
             // exportCsv(response.campaigns);
         } catch (error) {
@@ -338,9 +346,23 @@ const AdvanceComponent = () => {
         setSelectCampaign(e.target.value);
     };
 
-    const handleInterval = (event) => {
-        setIntervalSelect(event.target.value)
-    }
+    const handleSelectPlatfrom = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
+    };
+
+    const handleSelectCountry = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectCountry(typeof value === 'string' ? value.split(',') : value);
+    };
 
     function handleSelectOrgnigation(event) {
         setSelectOrgnigation(event.target.value);
@@ -392,7 +414,7 @@ const AdvanceComponent = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px" }}>{((params.row?.clicks / params.row?.impressions)*100)?.toFixed(2)}</p>
+                return <p style={{ margin: "0px" }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
             },
         },
         // {
@@ -559,60 +581,59 @@ const AdvanceComponent = () => {
                         Advance Report Filters
                     </Typography> */}
                     <Grid container>
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Grid container>
-                                <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'end'} gap={2}>
-                                    {
-                                        userType === "superadmin" && (
-                                            <FormControl sx={{ textAlign: "start", mt: 0 }}>
-                                                <InputLabel id="state-label" sx={{
-                                                    fontFamily: `"Poppins", sans-serif`,
-                                                    fontSize: '16px'
-                                                }}>Organisation</InputLabel>
-                                                <Select
-                                                    value={selectOrgnigation}
-                                                    label="Organisation"
-                                                    labelId='state-label'
-                                                    onChange={handleSelectOrgnigation}
-                                                    sx={{ width: isMobile ? "250px" : "360px" }}
-                                                    disableUnderline
-                                                >
-                                                    {organisationList.map((item) => {
-                                                        return (
-                                                            <MenuItem value={item} key={item.id}>
-                                                                {item.organisation}
-                                                            </MenuItem>
-                                                        );
-                                                    })}
-                                                </Select>
-                                            </FormControl>
-                                        )
-                                    }
-                                    <FormControl>
-                                        <InputLabel id="demo-simple-select-label" sx={{
-                                            fontFamily: `"Poppins", sans-serif`,
-                                            fontSize: '16px'
-                                        }}>Campaign</InputLabel>
-                                        <Select
-                                            sx={{ width: isMobile ? "250px" : "360px" }}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={selectCampaign}
-                                            label="Headers"
-                                            onChange={handleSlectCampaign}
-                                        >
+                        <Grid item xs={12} sm={12} md={12} lg={12} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'center'} gap={2} p={2}>
+                            {/* <Grid container> */}
+                            <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                {
+                                    userType === "superadmin" && (
+                                        <FormControl sx={{ textAlign: "start", mt: 0 }}>
+                                            <InputLabel id="state-label" sx={{
+                                                fontFamily: `"Poppins", sans-serif`,
+                                                fontSize: '16px'
+                                            }}>Organisation</InputLabel>
+                                            <Select
+                                                value={selectOrgnigation}
+                                                label="Organisation"
+                                                labelId='state-label'
+                                                onChange={handleSelectOrgnigation}
+                                                sx={{ width: isMobile ? "250px" : "360px" }}
+                                                disableUnderline
+                                            >
+                                                {organisationList.map((item) => {
+                                                    return (
+                                                        <MenuItem value={item} key={item.id}>
+                                                            {item.organisation}
+                                                        </MenuItem>
+                                                    );
+                                                })}
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                }
+                                <FormControl>
+                                    <InputLabel id="demo-simple-select-label" sx={{
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px'
+                                    }}>Campaign</InputLabel>
+                                    <Select
+                                        sx={{ width: isMobile ? "250px" : "360px" }}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectCampaign}
+                                        label="Headers"
+                                        onChange={handleSlectCampaign}
+                                    >
 
-                                            {campiagnNameList.map((item) => {
-                                                return (
-                                                    <MenuItem value={item} key={item}>
-                                                        {item}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Select>
-                                    </FormControl>
-
-                                    {/* <Box>
+                                        {campiagnNameList.map((item) => {
+                                            return (
+                                                <MenuItem value={item} key={item}>
+                                                    {item}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                                {/* <Box>
                                         <FormControl sx={{ mt: 2 }}>
                                             <FormLabel id="demo-row-radio-buttons-group-label">Interval</FormLabel>
                                             <RadioGroup
@@ -659,41 +680,101 @@ const AdvanceComponent = () => {
                                             />
                                         </FormGroup>
                                     </FormControl></Box> */}
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
-                                    <Stack direction={'column'} spacing={1}>
-                                        <InputLabel sx={{
-                                            fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
-                                        }}>Start Date</InputLabel>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DesktopDatePicker
-                                                // label="Start Date"
-                                                inputFormat="YYYY-MM-DD"
-                                                value={startDate ? startDate : null}
-                                                variant="outlined"
-                                                id="startDate"
-                                                onChange={handleStartDate}
-                                                renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
-                                            />
-                                        </LocalizationProvider>
-                                    </Stack>
-                                    <Stack direction={'column'} spacing={1} mt={[2, 0]}>
-                                        <InputLabel sx={{
-                                            fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
-                                        }}>End Date</InputLabel>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DesktopDatePicker
-                                                // label="End Date"
-                                                inputFormat="YYYY-MM-DD"
-                                                value={endDate ? endDate : null}
-                                                variant="outlined"
-                                                id="endDate"
-                                                onChange={handleEndDate}
-                                                renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
-                                            />
-                                        </LocalizationProvider>
-                                    </Stack>
-                                    {/* <Stack direction={'column'} spacing={1} mt={[2, 4]}>
+                            </Stack>
+                            <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                {/* {
+                                    userType === "superadmin" && ( */}
+                                <FormControl>
+                                    <InputLabel
+                                        id="state-label"
+                                        sx={{
+                                            fontFamily: `"Poppins", sans-serif`,
+                                            fontSize: '16px'
+                                        }}
+                                    >
+                                        Platform
+                                    </InputLabel>
+                                    <Select
+                                        multiple
+                                        value={selectPlatform}
+                                        label="Platform"
+                                        labelId="state-label"
+                                        onChange={handleSelectPlatfrom}
+                                        sx={{ width: isMobile ? '250px' : '360px' }}
+                                        renderValue={(selected) => selected.join(', ')}
+                                    >
+                                        {platformList.map((item) => (
+                                            <MenuItem key={item?.id} value={item}>
+                                                <Checkbox checked={selectPlatform.indexOf(item) > -1} />
+                                                <ListItemText primary={item} />
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                {/* )
+                                } */}
+                                <FormControl>
+                                    <InputLabel
+                                        id="demo-simple-select-label"
+                                        sx={{
+                                            fontFamily: `"Poppins", sans-serif`,
+                                            fontSize: '16px'
+                                        }}>
+                                        Country
+                                    </InputLabel>
+                                    <Select
+                                        multiple
+                                        value={selectCountry}
+                                        onChange={handleSelectCountry}
+                                        renderValue={(selected) => selected.join(', ')}
+                                        sx={{ width: isMobile ? "250px" : "360px" }}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                    >
+                                        {countryList.map((item) => (
+                                            <MenuItem key={item} value={item}>
+                                                <Checkbox checked={selectCountry.indexOf(item) > -1} />
+                                                <ListItemText primary={item} />
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+
+                                </FormControl>
+                            </Stack>
+                            <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                <Stack direction={'column'} spacing={1}>
+                                    {/* <InputLabel sx={{
+                                        fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
+                                    }}>Start Date</InputLabel> */}
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DesktopDatePicker
+                                            label="Start Date"
+                                            inputFormat="YYYY-MM-DD"
+                                            value={startDate ? startDate : null}
+                                            variant="outlined"
+                                            id="startDate"
+                                            onChange={handleStartDate}
+                                            renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </Stack>
+                                <Stack direction={'column'} spacing={1} mt={[2, 0]}>
+                                    {/* <InputLabel sx={{
+                                        fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
+                                    }}>End Date</InputLabel> */}
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DesktopDatePicker
+                                            label="End Date"
+                                            inputFormat="YYYY-MM-DD"
+                                            value={endDate ? endDate : null}
+                                            variant="outlined"
+                                            id="endDate"
+                                            onChange={handleEndDate}
+                                            renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </Stack>
+                                {/* <Stack direction={'column'} spacing={1} mt={[2, 4]}>
                                         <Button
                                             onClick={handleExport}
                                             sx={{
@@ -707,7 +788,7 @@ const AdvanceComponent = () => {
                                             Export Table
                                         </Button>
                                     </Stack> */}
-                                    {/* <Box>
+                                {/* <Box>
                                         <FormControl sx={{ mt: 2 }} component="fieldset" variant="standard">
                                         <FormLabel component="legend">Date By</FormLabel>
                                         <FormGroup aria-label="position" row>
@@ -731,7 +812,7 @@ const AdvanceComponent = () => {
                                             />
                                         </FormGroup>
                                     </FormControl></Box> */}
-                                    {/* <Box sx={{position: "absolute", bottom: 0}}>
+                                {/* <Box sx={{position: "absolute", bottom: 0}}>
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Source</InputLabel>
                                             <Select
@@ -747,24 +828,24 @@ const AdvanceComponent = () => {
                                             </Select>
                                         </FormControl>
                                     </Box> */}
-                                    {userType === 'admin' && (
-                                        <Button
-                                            sx={{
-                                                mt: 2.5,
-                                                width: '100%',
-                                                maxWidth: '200px',
-                                                fontFamily: `"Poppins", sans-serif`,
-                                                fontSize: '16px',
-                                            }}
-                                            className='hearder-right-btn'
-                                            onClick={handleExport}
-                                        >
-                                            Export Report
-                                        </Button>
-                                    )}
+                                {userType === 'admin' && (
+                                    <Button
+                                        sx={{
+                                            mt: 2.5,
+                                            width: '100%',
+                                            maxWidth: '200px',
+                                            fontFamily: `"Poppins", sans-serif`,
+                                            fontSize: '16px',
+                                        }}
+                                        className='hearder-right-btn'
+                                        onClick={handleExport}
+                                    >
+                                        Export Report
+                                    </Button>
+                                )}
 
-                                </Grid>
-                            </Grid>
+                            </Stack>
+                            {/* </Grid> */}
                         </Grid>
                     </Grid>
                     <Divider sx={{ mt: 2.5 }} />
@@ -827,7 +908,7 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
-                                <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks/totalRow?.impressions)*100).toFixed(2)}%</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
