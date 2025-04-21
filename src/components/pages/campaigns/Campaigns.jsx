@@ -1,106 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Card, Box, IconButton, Switch, styled, useTheme, FormControlLabel, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
-import Label from "../label/Label";
-import { sentenceCase } from "change-case";
+// import Label from "../label/Label";
+// import { sentenceCase } from "change-case";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import EditIcon from '@mui/icons-material/Edit';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Link } from "react-router-dom";
-import CircularProgress from '@mui/material/CircularProgress';
+// import EditIcon from '@mui/icons-material/Edit';
+// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+// import { Link } from "react-router-dom";
+// import CircularProgress from '@mui/material/CircularProgress';
 import CreateCampaignFormModal from "./CreateCampaignForm";
-import AuthContext from "../authContext/AuthContext";
+// import AuthContext from "../authContext/AuthContext";
 import AdverticeNetwork from "../../../Network";
 import EditCampaignFormModal from "./EditCampaign";
 import ImportCampaignCsv from "./ImportCampaign";
 import Papa from "papaparse"
 import '../../../index.css'
-
-const IOSSwitch = styled((props) => (
-    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    '& .MuiSwitch-switchBase': {
-        padding: 0,
-        margin: 2,
-        transitionDuration: '300ms',
-        '&.Mui-checked': {
-            transform: 'translateX(16px)',
-            color: '#fff',
-            '& + .MuiSwitch-track': {
-                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-                opacity: 1,
-                border: 0,
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: 0.5,
-            },
-        },
-        '&.Mui-focusVisible .MuiSwitch-thumb': {
-            color: '#33cf4d',
-            border: '6px solid #fff',
-        },
-        '&.Mui-disabled .MuiSwitch-thumb': {
-            color:
-                theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[600],
-        },
-        '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-        },
-    },
-    '& .MuiSwitch-thumb': {
-        boxSizing: 'border-box',
-        width: 22,
-        height: 22,
-    },
-    '& .MuiSwitch-track': {
-        borderRadius: 26 / 2,
-        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-        opacity: 1,
-        transition: theme.transitions.create(['background-color'], {
-            duration: 500,
-        }),
-    },
-}));
-
-const CampaignData = [
-    {
-        id: 1,
-        campaigns: "(7953) new test",
-        impression: "0",
-        clicks: "0",
-        ctr: '0%',
-        dailyCap: "111",
-        todayCost: "0",
-        todayBudget: "212",
-        mediaCost: "0",
-        eCpm: "0",
-        eCpc: "0",
-        progress: 0,
-        status: true,
-        adminStatus: true,
-    },
-    {
-        id: 2,
-        campaigns: "(7953) new test",
-        impression: "0",
-        clicks: "0",
-        ctr: '0%',
-        dailyCap: "111",
-        todayCost: "0",
-        todayBudget: "212",
-        mediaCost: "0",
-        eCpm: "0",
-        eCpc: "0",
-        progress: 85,
-        status: true,
-        adminStatus: true,
-    }
-]
 
 const Campaigns = () => {
 

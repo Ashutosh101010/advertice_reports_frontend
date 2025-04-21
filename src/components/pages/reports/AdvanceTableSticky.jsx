@@ -206,8 +206,8 @@ const AdvanceComponent = () => {
                 "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
                 "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
                 "campaignName": selectCampaign,
-                "countryNames": selectCountry,
-                "platformNames": selectPlatform
+                "country": selectCountry.length === 0 ? null : selectCountry,
+                "platform": selectPlatform.length === 0 ? null : selectPlatform
             }
             if (isExport) {
                 body.export = true; // Add export flag only for export
@@ -368,221 +368,12 @@ const AdvanceComponent = () => {
         setSelectOrgnigation(event.target.value);
     };
 
-    const columns = [
-        {
-            field: "date",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1,
-            renderCell: (params) => {
-                return (
-                    <>
-                        {moment(params?.row?.date).format('YYYY-MM-DD')}
-                    </>
-                )
-            }
-        },
-        {
-            field: "title",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Campaign</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px" }}><Link>{params.row.title}</Link></p>
-            },
-            flex: 1,
-        },
-        {
-            field: "impressions",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Impressions</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1,
-        },
-        {
-            field: "clicks",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Clicks</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
-            field: "ctr",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>CTR %</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px" }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
-            },
-        },
-        // {
-        //     field: "dailyCap",
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Daily Cap</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     sortable: false,
-        //     flex: 1,
-        // },
-        // {
-        //     field: "todayCost",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Today's Cost</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1
-        // },
-        {
-            field: "currency",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Currency</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
-            field: "mediaCost",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Media Cost</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
-            field: "cpm",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-        {
-            field: "cpc",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1
-        },
-    ];
-
-    const CustomFooter = ({ rowCount, page, pageSize, onPageChange, onPageSizeChange, totalImpressions, totalClicks, totalCount, totalMediaCost }) => {
-        return (
-            <Stack direction={isMobile ? 'row' : 'column'} justifyContent="space-between" alignItems="center" py={1} sx={{ borderTop: '2px solid #0000000f', background: '#b2c3ff' }}>
-                {/* Left: Total Impressions & Clicks */}
-                <Stack direction={isMobile ? 'row' : 'column'} spacing={2} justifyContent={'flex-start'} width={['100%', '70%']} marginLeft={[2, 1]} gap={[0, 12]} flexGrow={1}>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        Total
-                    </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', visibility: "hidden" }}>
-                        Total
-                    </Typography>
-
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        {totalImpressions}
-                    </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', marginLeft: "34px" }}>
-                        {totalClicks}
-                    </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        {totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0"}
-                    </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000', visibility: "hidden" }}>
-                        {totalMediaCost}
-                    </Typography>
-                    <Typography sx={{ fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '16px', color: '#000' }}>
-                        {totalMediaCost}
-                    </Typography>
-
-                </Stack>
-                <Stack direction="row" justifyContent={'center'} alignItems={'center'} spacing={2} py={[1, 0]}>
-                    {/* <Typography variant="body2" color={'#000'}>Rows per page:</Typography> */}
-                    <Select value={pageSize} onChange={(e) => onPageSizeChange(e.target.value)} size="small">
-                        <MenuItem value={25}>25</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                        <MenuItem value={100}>100</MenuItem>
-                    </Select>
-                    <Typography variant="body2" color={'#000'} fontFamily={`"Poppins",sans-serif`}>
-                        {page * pageSize + 1} - {Math.min((page + 1) * pageSize, rowCount)} of {rowCount}
-                    </Typography>
-                    <IconButton onClick={() => onPageChange(page - 1)} disabled={page === 0}>
-                        <ArrowBackIosIcon />
-                    </IconButton>
-                    <IconButton onClick={() => onPageChange(page + 1)} disabled={(page + 1) * pageSize >= rowCount}>
-                        <ArrowForwardIosIcon />
-                    </IconButton>
-                </Stack>
-            </Stack>
-        );
-    };
-
-    // const exportCsv = (allData) => {
-    //     // Define CSV headers
-    //     const headers = [
-    //         "Date",
-    //         "Campaign",
-    //         "Imporessions",
-    //         "Click",
-    //         "CTR",
-    //         "Currency",
-    //         "Media Cost",
-    //         "eCPM",
-    //         "eCPC",
-    //     ];
-
-    //     // Map transactionsData to rows
-    //     const rows = allData.map((data) => [
-    //         data.date,
-    //         data.title,
-    //         data.impressions,
-    //         data.clicks,
-    //         data.ctr,
-    //         data?.currency,
-    //         data.mediaCost,
-    //         data.cpm,
-    //         data.cpc,
-    //     ]);
-
-    //     // Combine headers and rows
-    //     const csvContent = [
-    //         headers.join(","), // Convert headers to CSV
-    //         ...rows.map((row) => row.map((field) => `"${field}"`).join(",")), // Convert each row to CSV
-    //     ].join("\n"); // Join rows with newline
-
-    //     // Create a Blob from the CSV content
-    //     const blob = new Blob([csvContent], { type: "text/csv" });
-
-    //     // Create a link element
-    //     const link = document.createElement("a");
-
-    //     // Set the download attribute with a filename
-    //     link.download = "report.csv";
-
-    //     // Create a URL for the Blob and set it as the href
-    //     link.href = URL.createObjectURL(blob);
-
-    //     // Append link to the body
-    //     document.body.appendChild(link);
-
-    //     // Simulate a click to download the file
-    //     link.click();
-
-    //     // Remove the link after downloading
-    //     document.body.removeChild(link);
-    // }
-
-    // const handleExport = () => {
-    //     fetchCampaignList();
-    // };
-
     return (
         <React.Fragment>
             <Card className="card">
                 <Box>
-                    {/* <Typography variant="h6" sx={{
-                        mb: 2, fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
-                    }}
-                    >
-                        Advance Report Filters
-                    </Typography> */}
                     <Grid container>
                         <Grid item xs={12} sm={12} md={12} lg={12} display={['grid', 'flex']} justifyContent={'flex-start'} alignItems={'center'} gap={2} p={2}>
-                            {/* <Grid container> */}
                             <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                                 {
                                     userType === "superadmin" && (
@@ -682,8 +473,6 @@ const AdvanceComponent = () => {
                                     </FormControl></Box> */}
                             </Stack>
                             <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                {/* {
-                                    userType === "superadmin" && ( */}
                                 <FormControl>
                                     <InputLabel
                                         id="state-label"
@@ -711,8 +500,6 @@ const AdvanceComponent = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                {/* )
-                                } */}
                                 <FormControl>
                                     <InputLabel
                                         id="demo-simple-select-label"
@@ -738,7 +525,6 @@ const AdvanceComponent = () => {
                                             </MenuItem>
                                         ))}
                                     </Select>
-
                                 </FormControl>
                             </Stack>
                             <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -845,27 +631,19 @@ const AdvanceComponent = () => {
                                 )}
 
                             </Stack>
-                            {/* </Grid> */}
                         </Grid>
                     </Grid>
                     <Divider sx={{ mt: 2.5 }} />
-                    {/* <Box>
-                        <Button sx={{ mt: 2, background: "#4f46e5", color: "#fff" }}>Get Rreport</Button>
-                    </Box> */}
                 </Box>
                 <div style={{ height: "70vh", display: "flex", flexDirection: "column", position: "relative" }}>
-                    {/* Table with Scrollable Rows */}
                     <div style={{ flex: 1, overflowY: "auto", border: "1px solid #ddd", marginBottom: "40px" }}>
                         <Table style={{ width: '100%', borderCollapse: "collapse" }}>
-                            {/* Header Row */}
                             <Row className="table-header" style={{
                                 background: "#b2c3ff",
-                                // fontWeight: "bold",
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 10,
-                                borderBottom: "2px solid #ddd", // Border for header,
-                                // textAlign: "center",
+                                borderBottom: "2px solid #ddd",
                             }}>
                                 <Cell>Date</Cell>
                                 <Cell>Title</Cell>
@@ -876,9 +654,9 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
                                 <Cell style={{ textAlign: 'center' }}>eCPM</Cell>
                                 <Cell style={{ textAlign: 'center' }}>eCPC</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Country</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Platform</Cell>
                             </Row>
-
-                            {/* Paginated Rows */}
                             {campaignList.map((row, index) => (
                                 <Row key={index} className="table-row" style={{
                                     borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
@@ -892,18 +670,17 @@ const AdvanceComponent = () => {
                                     <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row?.country}</Cell>
+                                    <Cell style={{ textAlign: 'center' }}>{row?.platform}</Cell>
                                 </Row>
                             ))}
-
-
-                            <Row className="sticky-row" style={{
-                                // background: "#b2c3ff",
-                                // fontWeight: "bold",
-                                position: "sticky",
-                                bottom: "10px",
-                                zIndex: 10,
-                                borderTop: "2px solid #ddd",
-                            }}>
+                            <Row className="sticky-row"
+                                style={{
+                                    position: "sticky",
+                                    bottom: "10px",
+                                    zIndex: 10,
+                                    borderTop: "2px solid #ddd",
+                                }}>
                                 <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
@@ -913,9 +690,9 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                             </Row>
-
-
                         </Table>
                     </div>
                     <div style={{
