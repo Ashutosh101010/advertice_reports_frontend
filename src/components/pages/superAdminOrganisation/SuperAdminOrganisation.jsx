@@ -140,7 +140,7 @@ const SuperAdminOrgnisationList = () => {
     function handleSectionClick(e, value) {
         // e.preventDefault();
         // e.stopPropagation();
-        navigate("/admin-organisation", { state: { orgId: e?.row?.id } });
+        navigate("/admin-organisation", { state: { orgId: value?.id } });
     };
 
     const data = useMemo(() => organisationList, [organisationList]);
@@ -380,7 +380,8 @@ const SuperAdminOrgnisationList = () => {
                             {/* Paginated Rows */}
                             {organisationList.map((row, index) => (
                                 <Row key={index}
-                                    onClick={() => navigate('/admin-organisation')}
+                                    // onClick={() => navigate('/admin-organisation')}
+                                    onClick={(e) => handleSectionClick(e, row)}
                                     className="table-row" style={{
                                         borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                     }}>

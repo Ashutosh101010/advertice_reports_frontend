@@ -149,7 +149,7 @@ const AdminOrgnisationList = () => {
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     const [editTableData, setEditTableData] = useState({});
-    const [switchStates, setSwitchStates] = useState({});
+    // const [switchStates, setSwitchStates] = useState({});
 
     useEffect(() => {
         fetchOrganisationList();
