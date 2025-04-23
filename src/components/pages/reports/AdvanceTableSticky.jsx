@@ -645,35 +645,62 @@ const AdvanceComponent = () => {
                                 zIndex: 10,
                                 borderBottom: "2px solid #ddd",
                             }}>
-                                <Cell>Date</Cell>
+                                {/* <Cell>Date</Cell> */}
                                 <Cell>Title</Cell>
+                                <Cell>Leads</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Planned Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Currency</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Planned Media Spends</Cell>
                                 <Cell style={{ textAlign: 'center' }}>eCPM</Cell>
                                 <Cell style={{ textAlign: 'center' }}>eCPC</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Country</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Platform</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>End Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell>
                             </Row>
-                            {campaignList.map((row, index) => (
-                                <Row key={index} className="table-row" style={{
-                                    borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
-                                }}>
-                                    <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
-                                    <Cell style={{ color: "#45679F " }}>{row.title}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.clicks.toLocaleString("en-IN")}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row?.country}</Cell>
-                                    <Cell style={{ textAlign: 'center' }}>{row?.platform}</Cell>
-                                </Row>
-                            ))}
+                            {campaignList.map((row, index) => {
+
+                                function daysBetween(start, end) {
+                                    const startDate = new Date(start);
+                                    const endDate = new Date(end);
+                                    const diffTime = endDate.getTime() - startDate.getTime();
+                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    return diffDays;
+                                }
+                                const startDate = new Date(row.startDate);
+                                const endDate = new Date(row.endDate);
+                                const daysRemaining = daysBetween(startDate, endDate);
+
+                                return (
+                                    <Row key={index} className="table-row" style={{
+                                        borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
+                                    }}>
+                                        {/* <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell> */}
+                                        <Cell style={{ color: "#45679F" }}>{row.title}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining === 0 ? "-" : daysRemaining}</Cell>
+                                    </Row>
+                                )
+                            })
+                            }
                             <Row className="sticky-row"
                                 style={{
                                     position: "sticky",
@@ -681,15 +708,21 @@ const AdvanceComponent = () => {
                                     zIndex: 10,
                                     borderTop: "2px solid #ddd",
                                 }}>
-                                <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
+                                {/* <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                             </Row>

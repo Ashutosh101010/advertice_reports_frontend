@@ -30,10 +30,12 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         "Country Name",
         "Platform Name",
         "Leads",
-        "Reach"
+        "Reach",
+        "⁠Planned Media Spends",
+        'Planned Clicks',
     ];
 
-    const [isLoading, setLoading] = useState(false);
+    // const [isLoading, setLoading] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
     const [csvFile, setCsvFile] = useState('');
     const [importQuestions, setImportQuestions] = useState([]);
@@ -49,7 +51,6 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
 
     // console.log('importQuestions', importQuestions);
 
-
     async function handleSubmit() {
         let hasError = false;
         let errorMessage = "";
@@ -59,13 +60,19 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
             const ordId = selectOrgnigation?.id;
 
             // Normalize and clean up keys
-            const normalizedItem = Object.keys(listItem).reduce((acc, key) => {
-                const cleanKey = key.trim().toLowerCase().replace(/\s+/g, "");
-                acc[cleanKey] = typeof listItem[key] === "string" ? listItem[key].trim() : listItem[key];
+            const normalizedItem = Object.keys(listItem).reduce((acc, rawKey) => {
+                const cleanKey = rawKey
+                    .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width characters
+                    .replace(/[^\x20-\x7E]/g, '') // Remove non-ASCII characters
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, ""); // Remove all spaces
+                acc[cleanKey] = typeof listItem[rawKey] === "string" ? listItem[rawKey].trim() : listItem[rawKey];
                 return acc;
             }, {});
 
-            // Function to clean numbers
+
+            // Clean number fields
             const cleanNumber = (value) => {
                 if (!value) return 0;
                 return Number(value.toString().replace(/[₹,%]/g, "").replace(/,/g, "").trim()) || 0;
@@ -90,7 +97,9 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                     country: normalizedItem?.countryname,
                     platform: normalizedItem?.platformname,
                     leads: Number(normalizedItem?.leads),
-                    reach: Number(normalizedItem?.reach)
+                    reach: Number(normalizedItem?.reach),
+                    plannedMediaCost: Number(normalizedItem?.plannedmediaspends),
+                    plannedClicks: Number(normalizedItem?.plannedclicks),
                 };
 
                 const response = await AdverticeNetwork.createCampaignApi(body, auth);
@@ -100,7 +109,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                     errorMessage = response.errorDescription;
                 } else {
                     successMessage = response.message || "Campaigns submitted successfully!";
-                };
+                }
             } catch (error) {
                 console.error("Error submitting campaign:", error);
                 hasError = true;
@@ -108,16 +117,90 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
             }
         }
 
-        // Show message only once after all API calls are done
+        // Show notification
         if (hasError) {
             enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
         } else {
             enqueueSnackbar(successMessage, { variant: "success", autoHideDuration: 3000 });
+            fetchCampaignList(); // Refresh campaign list
+            handleClose(); // Close modal
         }
 
-        fetchCampaignList(); // Refresh campaign list after API calls
-        handleClose();
-    }
+    };
+
+    // async function handleSubmit() {
+    //     let hasError = false;
+    //     let errorMessage = "";
+    //     let successMessage = "";
+
+    //     for (let listItem of importQuestions) {
+    //         const ordId = selectOrgnigation?.id;
+
+    //         // Normalize and clean up keys
+    //         const normalizedItem = Object.keys(listItem).reduce((acc, key) => {
+    //             const cleanKey = key
+    //                 .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove invisible characters
+    //                 .trim()
+    //                 .toLowerCase()
+    //                 .replace(/\s+/g, "");
+    //             acc[cleanKey] = typeof listItem[key] === "string" ? listItem[key].trim() : listItem[key];
+    //             return acc;
+    //         }, {});
+
+    //         // Function to clean numbers
+    //         const cleanKey = key.trim().toLowerCase().replace(/\s+/g, "");
+
+
+    //         console.log('normalizedItem', cleanNumber(normalizedItem?.plannedmediaspends))
+
+    //         // try {
+    //         //     const body = {
+    //         //         date: normalizedItem?.date,
+    //         //         title: normalizedItem?.title,
+    //         //         impressions: cleanNumber(normalizedItem?.impressions),
+    //         //         clicks: cleanNumber(normalizedItem?.clicks),
+    //         //         conversions: Number(normalizedItem?.conversions),
+    //         //         mediaCost: cleanNumber(normalizedItem?.mediacost),
+    //         //         ctr: cleanNumber(normalizedItem?.ctr),
+    //         //         cpm: cleanNumber(normalizedItem?.ecpm),
+    //         //         cpc: cleanNumber(normalizedItem?.ecpc),
+    //         //         cpa: cleanNumber(normalizedItem?.cpa),
+    //         //         organizationId: ordId,
+    //         //         currency: normalizedItem?.currency,
+    //         //         startDate: normalizedItem?.startdate,
+    //         //         endDate: normalizedItem?.enddate,
+    //         //         country: normalizedItem?.countryname,
+    //         //         platform: normalizedItem?.platformname,
+    //         //         leads: Number(normalizedItem?.leads),
+    //         //         reach: Number(normalizedItem?.reach),
+    //         //         planeMediaSpends: Number(normalizedItem?.plannedmediaspends),
+    //         //     };
+
+    //         //     const response = await AdverticeNetwork.createCampaignApi(body, auth);
+
+    //         //     if (response.errorCode !== 0) {
+    //         //         hasError = true;
+    //         //         errorMessage = response.errorDescription;
+    //         //     } else {
+    //         //         successMessage = response.message || "Campaigns submitted successfully!";
+    //         //     };
+    //         // } catch (error) {
+    //         //     console.error("Error submitting campaign:", error);
+    //         //     hasError = true;
+    //         //     errorMessage = "An unexpected error occurred.";
+    //         // }
+    //     }
+
+    //     // Show message only once after all API calls are done
+    //     if (hasError) {
+    //         enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+    //     } else {
+    //         enqueueSnackbar(successMessage, { variant: "success", autoHideDuration: 3000 });
+    //     }
+
+    //     fetchCampaignList(); // Refresh campaign list after API calls
+    //     handleClose();
+    // }
 
     const handleFileUploadCsv = (event) => {
         const file = event.target.files[0];

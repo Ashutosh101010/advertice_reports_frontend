@@ -15,6 +15,7 @@ import EditCampaignFormModal from "./EditCampaign";
 import ImportCampaignCsv from "./ImportCampaign";
 import Papa from "papaparse"
 import '../../../index.css'
+import moment from "moment";
 
 const Campaigns = () => {
 
@@ -243,6 +244,16 @@ const Campaigns = () => {
             },
         },
         {
+            field: "plannedClicks",
+            sortable: false,
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>Planned Clicks</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
+            },
+        },
+        {
             field: "ctr",
             sortable: false,
             headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>CTR %</p>,
@@ -279,11 +290,21 @@ const Campaigns = () => {
         {
             field: "mediaCost",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 30 : 0 }}>Media Cost</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Media Cost</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
+            },
+        },
+        {
+            field: "plannedMediaSpends",
+            sortable: false,
+            headerName: <p>Planned Media Spends</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
             },
         },
         {
@@ -305,6 +326,53 @@ const Campaigns = () => {
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
             },
+        },
+        {
+            field: "startDate",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Start Date</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
+            },
+        },
+        {
+            field: "endDate",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>End Date</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
+            },
+        },
+        {
+            field: "daysRemaining",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Days Remaining</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                function daysBetween(date1, date2) {
+                    const timeDiff = new Date(date2).getTime() - new Date(date1).getTime();
+                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    return daysDiff;
+                }
+
+                const { startDate, endDate } = params.row;
+
+                if (!startDate || !endDate) return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
+
+                const remainingDays = daysBetween(startDate, endDate);
+
+                return (
+                    <p style={{ margin: "0px 10px 10px 10px" }}>
+                        {remainingDays} days
+                    </p>
+                );
+            }
+
         },
     ];
 
