@@ -202,6 +202,14 @@ const Campaigns = () => {
         setSelectOrgnigation(event.target.value);
     };
 
+    const daysBetween = (start, end) => {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const diffTime = endDate.getTime() - startDate.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
+
     const columns = [
         {
             field: "id",
@@ -226,6 +234,16 @@ const Campaigns = () => {
             flex: 1,
         },
         {
+            field: "date",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.date === null ? "-" : moment(params?.row?.date).format('YYYY-MM-DD')}</p>
+            },
+        },
+        {
             field: "impressions",
             headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
@@ -246,16 +264,6 @@ const Campaigns = () => {
             },
         },
         {
-            field: "plannedClicks",
-            sortable: false,
-            headerName: <p>Planned Clicks</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
-            },
-        },
-        {
             field: "ctr",
             sortable: false,
             headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>CTR %</p>,
@@ -266,18 +274,18 @@ const Campaigns = () => {
             },
         },
         {
-            field: "leads",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Leads</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1,
-        },
-        {
             field: "reach",
             sortable: false,
             headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Reach</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1
+        },
+        {
+            field: "leads",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Leads</p>,
+            headerClassName: 'super-app-theme--header',
+            sortable: false,
+            flex: 1,
         },
         {
             field: "currency",
@@ -289,6 +297,27 @@ const Campaigns = () => {
                 return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
             },
         },
+        {
+            field: "plannedClicks",
+            sortable: false,
+            headerName: <p>Planned Clicks</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
+            },
+        },
+        {
+            field: "plannedMediaSpends",
+            sortable: false,
+            headerName: <p>Planned Media Cost</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
+            },
+        },
+
         // {
         //     field: "mediaCost",
         //     sortable: false,
@@ -299,16 +328,7 @@ const Campaigns = () => {
         //         return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
         //     },
         // },
-        {
-            field: "plannedMediaSpends",
-            sortable: false,
-            headerName: <p>Planned Media Spends</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
-            },
-        },
+
         // {
         //     field: "cpm",
         //     sortable: false,
@@ -360,20 +380,13 @@ const Campaigns = () => {
             headerClassName: "super-app-theme--header",
             flex: 1,
             renderCell: (params) => {
-                const { endDate } = params.row;
+                const { updatedAt, endDate } = params.row;
 
-                function daysBetween(today, end) {
-                    const timeDiff = new Date(end).getTime() - new Date(today).getTime();
-                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                    return daysDiff;
-                }
-
-                if (!endDate) {
+                if (!updatedAt || !endDate) {
                     return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
                 }
 
-                const today = new Date();
-                const remainingDays = daysBetween(today, endDate);
+                const remainingDays = daysBetween(updatedAt, endDate);
 
                 return (
                     <p style={{ margin: "0px 10px 10px 10px" }}>

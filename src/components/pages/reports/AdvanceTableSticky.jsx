@@ -527,40 +527,41 @@ const AdvanceComponent = () => {
                                     </Select>
                                 </FormControl>
                             </Stack>
-                            <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                <Stack direction={'column'} spacing={1}>
-                                    {/* <InputLabel sx={{
+                        </Grid>
+                        <Stack  p={2} direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            <Stack direction={'column'} spacing={1}>
+                                {/* <InputLabel sx={{
                                         fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
                                     }}>Start Date</InputLabel> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DesktopDatePicker
-                                            label="From"
-                                            inputFormat="YYYY-MM-DD"
-                                            value={startDate ? startDate : null}
-                                            variant="outlined"
-                                            id="startDate"
-                                            onChange={handleStartDate}
-                                            renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                </Stack>
-                                <Stack direction={'column'} spacing={1} mt={[2, 0]}>
-                                    {/* <InputLabel sx={{
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        label="From"
+                                        inputFormat="YYYY-MM-DD"
+                                        value={startDate ? startDate : null}
+                                        variant="outlined"
+                                        id="startDate"
+                                        onChange={handleStartDate}
+                                        renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </Stack>
+                            <Stack direction={'column'} spacing={1} mt={[2, 0]}>
+                                {/* <InputLabel sx={{
                                         fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
                                     }}>End Date</InputLabel> */}
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DesktopDatePicker
-                                            label="To"
-                                            inputFormat="YYYY-MM-DD"
-                                            value={endDate ? endDate : null}
-                                            variant="outlined"
-                                            id="endDate"
-                                            onChange={handleEndDate}
-                                            renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                </Stack>
-                                {/* <Stack direction={'column'} spacing={1} mt={[2, 4]}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        label="To"
+                                        inputFormat="YYYY-MM-DD"
+                                        value={endDate ? endDate : null}
+                                        variant="outlined"
+                                        id="endDate"
+                                        onChange={handleEndDate}
+                                        renderInput={(params) => <TextField sx={{ width: isMobile ? "250px" : "360px" }} variant="outlined" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </Stack>
+                            {/* <Stack direction={'column'} spacing={1} mt={[2, 4]}>
                                         <Button
                                             onClick={handleExport}
                                             sx={{
@@ -574,7 +575,7 @@ const AdvanceComponent = () => {
                                             Export Table
                                         </Button>
                                     </Stack> */}
-                                {/* <Box>
+                            {/* <Box>
                                         <FormControl sx={{ mt: 2 }} component="fieldset" variant="standard">
                                         <FormLabel component="legend">Date By</FormLabel>
                                         <FormGroup aria-label="position" row>
@@ -598,7 +599,7 @@ const AdvanceComponent = () => {
                                             />
                                         </FormGroup>
                                     </FormControl></Box> */}
-                                {/* <Box sx={{position: "absolute", bottom: 0}}>
+                            {/* <Box sx={{position: "absolute", bottom: 0}}>
                                         <FormControl sx={{ mt: 2 }}>
                                             <InputLabel id="demo-simple-select-label">Source</InputLabel>
                                             <Select
@@ -614,24 +615,23 @@ const AdvanceComponent = () => {
                                             </Select>
                                         </FormControl>
                                     </Box> */}
-                                {userType === 'admin' && (
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            width: '100%',
-                                            maxWidth: '200px',
-                                            fontFamily: `"Poppins", sans-serif`,
-                                            fontSize: '16px',
-                                        }}
-                                        className='hearder-right-btn'
-                                        onClick={handleExport}
-                                    >
-                                        Export Report
-                                    </Button>
-                                )}
+                            {userType === 'admin' && (
+                                <Button
+                                    sx={{
+                                        mt: 2.5,
+                                        width: '100%',
+                                        maxWidth: '200px',
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px',
+                                    }}
+                                    className='hearder-right-btn'
+                                    onClick={handleExport}
+                                >
+                                    Export Report
+                                </Button>
+                            )}
 
-                            </Stack>
-                        </Grid>
+                        </Stack>
                     </Grid>
                     <Divider sx={{ mt: 2.5 }} />
                 </Box>
@@ -645,22 +645,22 @@ const AdvanceComponent = () => {
                                 zIndex: 10,
                                 borderBottom: "2px solid #ddd",
                             }}>
-                                {/* <Cell>Date</Cell> */}
+                                <Cell>Date</Cell>
                                 <Cell>Title</Cell>
-                                <Cell>Leads</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Planned Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Platform</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Country</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Currency</Cell>
-                                {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Planned Media Spends</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Planned Delivery</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>End Date</Cell> */}
+                                {/* <Cell>Leads</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
-                                <Cell style={{ textAlign: 'center' }}>Country</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Platform</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
-                                <Cell style={{ textAlign: 'center' }}>End Date</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell>
                             </Row>
                             {campaignList.map((row, index) => {
@@ -671,33 +671,32 @@ const AdvanceComponent = () => {
                                     const diffTime = endDate.getTime() - startDate.getTime();
                                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                     return diffDays;
-                                }
-
-                                const today = new Date();
-                                const endDate = new Date(row.endDate);
-                                const daysRemaining = daysBetween(today, endDate);
+                                };
+                                const endDate = new Date(row?.endDate);
+                                const updateDate = new Date(row?.updatedAt);
+                                const daysRemaining = daysBetween(updateDate, endDate);
 
 
                                 return (
                                     <Row key={index} className="table-row" style={{
                                         borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                     }}>
-                                        {/* <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell> */}
+                                        <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
                                         <Cell style={{ color: "#45679F" }}>{row.title}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
-                                        {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{daysRemaining === 0 ? "-" : daysRemaining}</Cell>
                                     </Row>
                                 )
@@ -710,23 +709,23 @@ const AdvanceComponent = () => {
                                     zIndex: 10,
                                     borderTop: "2px solid #ddd",
                                 }}>
-                                {/* <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell> */}
+                                <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
-                                {/* <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}></Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell> */}
                             </Row>
                         </Table>
                     </div>

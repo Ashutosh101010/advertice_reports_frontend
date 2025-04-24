@@ -76,6 +76,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                 if (!value) return 0;
                 return Number(value.toString().replace(/[₹,%]/g, "").replace(/,/g, "").trim()) || 0;
             };
+
             try {
                 const body = {
                     date: normalizedItem?.date,
