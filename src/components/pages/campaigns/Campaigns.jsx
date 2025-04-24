@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery } from '@mui/material';
+import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery, Tooltip } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 // import Label from "../label/Label";
 // import { sentenceCase } from "change-case";
@@ -219,13 +219,15 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
-                return <p style={{ margin: "0px", color: "#00f" }}>{params.row.title}</p>
+                return <Tooltip title={params.row.title} placement="top" arrow>
+                    <p style={{ margin: "0px", color: "#00f" }}>{params.row.title}</p>
+                </Tooltip>
             },
-            flex: 2,
+            flex: 1,
         },
         {
             field: "impressions",
-            headerName: <p style={{ marginLeft: isMobile ? 30 : 0 }}>Impressions</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
@@ -246,7 +248,7 @@ const Campaigns = () => {
         {
             field: "plannedClicks",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>Planned Clicks</p>,
+            headerName: <p>Planned Clicks</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
@@ -287,16 +289,16 @@ const Campaigns = () => {
                 return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
             },
         },
-        {
-            field: "mediaCost",
-            sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Media Cost</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
-            },
-        },
+        // {
+        //     field: "mediaCost",
+        //     sortable: false,
+        //     headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Media Cost</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
+        //     },
+        // },
         {
             field: "plannedMediaSpends",
             sortable: false,
@@ -307,26 +309,26 @@ const Campaigns = () => {
                 return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
             },
         },
-        {
-            field: "cpm",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpm.toLocaleString("en-IN")}</p>
-            },
-        },
-        {
-            field: "cpc",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
-            },
-        },
+        // {
+        //     field: "cpm",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params.row.cpm.toLocaleString("en-IN")}</p>
+        //     },
+        // },
+        // {
+        //     field: "cpc",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
+        //     },
+        // },
         {
             field: "startDate",
             sortable: false,
@@ -334,7 +336,7 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
             },
         },
         {
@@ -344,36 +346,43 @@ const Campaigns = () => {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
             },
         },
         {
             field: "daysRemaining",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Days Remaining</p>,
-            headerClassName: 'super-app-theme--header',
+            headerName: (
+                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>
+                    Days Remaining
+                </p>
+            ),
+            headerClassName: "super-app-theme--header",
             flex: 1,
             renderCell: (params) => {
-                function daysBetween(date1, date2) {
-                    const timeDiff = new Date(date2).getTime() - new Date(date1).getTime();
+                const { endDate } = params.row;
+
+                function daysBetween(today, end) {
+                    const timeDiff = new Date(end).getTime() - new Date(today).getTime();
                     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
                     return daysDiff;
                 }
 
-                const { startDate, endDate } = params.row;
+                if (!endDate) {
+                    return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
+                }
 
-                if (!startDate || !endDate) return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
-
-                const remainingDays = daysBetween(startDate, endDate);
+                const today = new Date();
+                const remainingDays = daysBetween(today, endDate);
 
                 return (
                     <p style={{ margin: "0px 10px 10px 10px" }}>
-                        {remainingDays} days
+                        {remainingDays > 0 ? `${remainingDays} days` : "Ended"}
                     </p>
                 );
-            }
+            },
+        }
 
-        },
     ];
 
 

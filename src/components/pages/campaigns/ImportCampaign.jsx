@@ -17,12 +17,12 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         'Title',
         'Impressions',
         'Clicks',
-        'Conversions',
-        'Media Cost',
+        'Buy Type',
+        // 'Media Cost',
         'CTR',
-        'eCPM',
-        'CPA',
-        'eCPC',
+        // 'eCPM',
+        // 'CPA',
+        // 'eCPC',
         'Date',
         'Currency',
         "Start Date",
@@ -71,25 +71,23 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                 return acc;
             }, {});
 
-
             // Clean number fields
             const cleanNumber = (value) => {
                 if (!value) return 0;
                 return Number(value.toString().replace(/[₹,%]/g, "").replace(/,/g, "").trim()) || 0;
             };
-
             try {
                 const body = {
                     date: normalizedItem?.date,
                     title: normalizedItem?.title,
                     impressions: cleanNumber(normalizedItem?.impressions),
                     clicks: cleanNumber(normalizedItem?.clicks),
-                    conversions: Number(normalizedItem?.conversions),
-                    mediaCost: cleanNumber(normalizedItem?.mediacost),
+                    buyType: normalizedItem?.buyType,
+                    // mediaCost: cleanNumber(normalizedItem?.mediacost),
                     ctr: cleanNumber(normalizedItem?.ctr),
-                    cpm: cleanNumber(normalizedItem?.ecpm),
-                    cpc: cleanNumber(normalizedItem?.ecpc),
-                    cpa: cleanNumber(normalizedItem?.cpa),
+                    // cpm: cleanNumber(normalizedItem?.ecpm),
+                    // cpc: cleanNumber(normalizedItem?.ecpc),
+                    // cpa: cleanNumber(normalizedItem?.cpa),
                     organizationId: ordId,
                     currency: normalizedItem?.currency,
                     startDate: normalizedItem?.startdate,
@@ -114,7 +112,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
                 console.error("Error submitting campaign:", error);
                 hasError = true;
                 errorMessage = "An unexpected error occurred.";
-            }
+            };
         }
 
         // Show notification

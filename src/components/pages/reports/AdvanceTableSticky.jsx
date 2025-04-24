@@ -534,7 +534,7 @@ const AdvanceComponent = () => {
                                     }}>Start Date</InputLabel> */}
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DesktopDatePicker
-                                            label="Start Date"
+                                            label="From"
                                             inputFormat="YYYY-MM-DD"
                                             value={startDate ? startDate : null}
                                             variant="outlined"
@@ -550,7 +550,7 @@ const AdvanceComponent = () => {
                                     }}>End Date</InputLabel> */}
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DesktopDatePicker
-                                            label="End Date"
+                                            label="To"
                                             inputFormat="YYYY-MM-DD"
                                             value={endDate ? endDate : null}
                                             variant="outlined"
@@ -653,10 +653,10 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}>Planned Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Currency</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Planned Media Spends</Cell>
-                                <Cell style={{ textAlign: 'center' }}>eCPM</Cell>
-                                <Cell style={{ textAlign: 'center' }}>eCPC</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Country</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Platform</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
@@ -672,9 +672,11 @@ const AdvanceComponent = () => {
                                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                     return diffDays;
                                 }
-                                const startDate = new Date(row.startDate);
+
+                                const today = new Date();
                                 const endDate = new Date(row.endDate);
-                                const daysRemaining = daysBetween(startDate, endDate);
+                                const daysRemaining = daysBetween(today, endDate);
+
 
                                 return (
                                     <Row key={index} className="table-row" style={{
@@ -688,10 +690,10 @@ const AdvanceComponent = () => {
                                         <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
@@ -716,10 +718,10 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
-                                <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>{totalRow.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
-                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
+                                <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
