@@ -31,7 +31,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         "Platform Name",
         "Leads",
         "Reach",
-        "⁠Planned Media Spends",
+        "Planned Media Spends",
         'Planned Clicks',
     ];
 

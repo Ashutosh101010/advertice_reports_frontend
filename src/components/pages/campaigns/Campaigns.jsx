@@ -218,7 +218,8 @@ const Campaigns = () => {
             sortable: false,
             flex: 0.5,
             renderCell: (params) => {
-                return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
+                // return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
+                return <></>
             }
         },
         {
