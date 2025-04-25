@@ -211,20 +211,19 @@ const Campaigns = () => {
     };
 
     const columns = [
-        {
-            field: "id",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}></p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 0.5,
-            renderCell: (params) => {
-                // return <PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} />
-                return <></>
-            }
-        },
+        // {
+        //     field: "date",
+        //     sortable: false,
+        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
+        //     headerClassName: 'super-app-theme--header',
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.date === null ? "-" : moment(params?.row?.date).format('YYYY-MM-DD')}</p>
+        //     },
+        // },
         {
             field: "title",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center' }}>Campaign</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '16px' }}>Campaign Name</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
@@ -235,18 +234,18 @@ const Campaigns = () => {
             flex: 1,
         },
         {
-            field: "date",
+            field: "buyType",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Buy Type</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1,
+            flex: 0.7,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.date === null ? "-" : moment(params?.row?.date).format('YYYY-MM-DD')}</p>
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.buyType === null ? "-" : params?.row?.buyType}</p>
             },
         },
         {
             field: "impressions",
-            headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Impressions</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 10 : 0, fontSize: '16px' }}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
@@ -257,9 +256,9 @@ const Campaigns = () => {
         {
             field: "clicks",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>Clicks</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '16px' }}>Clicks</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1,
+            flex: 0.8,
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.clicks.toLocaleString("en-IN")}</p>
             },
@@ -267,9 +266,9 @@ const Campaigns = () => {
         {
             field: "ctr",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0 }}>CTR %</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '16px' }}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1,
+            flex: 0.7,
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
             },
@@ -277,45 +276,35 @@ const Campaigns = () => {
         {
             field: "reach",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Reach</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Reach</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1
+            flex: 0.6
         },
         {
             field: "leads",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Leads</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Leads</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
-            flex: 1,
+            flex: 0.6,
         },
         {
-            field: "currency",
+            field: "country",
             sortable: false,
-            headerName: <p>Currency</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Country Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.country === null ? "-" : params?.row?.country}</p>
             },
         },
         {
-            field: "plannedClicks",
+            field: "platform",
             sortable: false,
-            headerName: <p>Planned Clicks</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Platform Name</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1,
+            flex: 0.9,
             renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
-            },
-        },
-        {
-            field: "plannedMediaSpends",
-            sortable: false,
-            headerName: <p>Planned Media Cost</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
+                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.platform === null ? "-" : params?.row?.platform}</p>
             },
         },
 
@@ -351,11 +340,47 @@ const Campaigns = () => {
         //     },
         // },
         {
-            field: "startDate",
+            field: "currency",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Start Date</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Currency</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 0.6,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
+            },
+        },
+        {
+            field: "plannedMediaSpends",
+            sortable: false,
+            headerName: <p style={{ textAlign: 'center', lineHeight: "0.5", fontSize: '16px' }}>
+                <p>Planned Media</p>
+                <p>Cost</p>
+            </p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 30px 10px 0px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
+            },
+        },
+        {
+            field: "plannedClicks",
+            sortable: false,
+            headerName: <p style={{ textAlign: 'center', lineHeight: "0.3", fontSize: '16px' }}>
+                <p>Planned</p>
+                <p>Delivery </p>
+            </p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 0.6,
+            renderCell: (params) => {
+                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
+            },
+        },
+        {
+            field: "startDate",
+            sortable: false,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Start Date</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 0.7,
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
             },
@@ -363,9 +388,9 @@ const Campaigns = () => {
         {
             field: "endDate",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>End Date</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>End Date</p>,
             headerClassName: 'super-app-theme--header',
-            flex: 1,
+            flex: 0.7,
             renderCell: (params) => {
                 return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
             },
@@ -374,7 +399,7 @@ const Campaigns = () => {
             field: "daysRemaining",
             sortable: false,
             headerName: (
-                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>
+                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>
                     Days Remaining
                 </p>
             ),
@@ -395,8 +420,7 @@ const Campaigns = () => {
                     </p>
                 );
             },
-        }
-
+        },
     ];
 
 
