@@ -223,7 +223,7 @@ const Campaigns = () => {
         // },
         {
             field: "title",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '16px' }}>Campaign Name</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Campaign Name</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             renderCell: (params) => {
@@ -236,7 +236,7 @@ const Campaigns = () => {
         {
             field: "buyType",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Buy Type</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Buy Type</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.7,
             renderCell: (params) => {
@@ -245,7 +245,7 @@ const Campaigns = () => {
         },
         {
             field: "impressions",
-            headerName: <p style={{ marginLeft: isMobile ? 10 : 0, fontSize: '16px' }}>Impressions</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 10 : 0, fontSize: '12px' }}>Impressions</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 1,
@@ -256,7 +256,7 @@ const Campaigns = () => {
         {
             field: "clicks",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '16px' }}>Clicks</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>Clicks</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.8,
             renderCell: (params) => {
@@ -266,7 +266,7 @@ const Campaigns = () => {
         {
             field: "ctr",
             sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '16px' }}>CTR %</p>,
+            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>CTR %</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.7,
             renderCell: (params) => {
@@ -276,13 +276,13 @@ const Campaigns = () => {
         {
             field: "reach",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Reach</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Reach</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.6
         },
         {
             field: "leads",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Leads</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Leads</p>,
             headerClassName: 'super-app-theme--header',
             sortable: false,
             flex: 0.6,
@@ -290,7 +290,7 @@ const Campaigns = () => {
         {
             field: "country",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Country Name</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Country Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 1,
             renderCell: (params) => {
@@ -300,7 +300,7 @@ const Campaigns = () => {
         {
             field: "platform",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Platform Name</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Platform Name</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.9,
             renderCell: (params) => {
@@ -342,7 +342,7 @@ const Campaigns = () => {
         {
             field: "currency",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Currency</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Currency</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.6,
             renderCell: (params) => {
@@ -352,7 +352,7 @@ const Campaigns = () => {
         {
             field: "plannedMediaSpends",
             sortable: false,
-            headerName: <p style={{ textAlign: 'center', lineHeight: "0.5", fontSize: '16px' }}>
+            headerName: <p style={{ textAlign: 'center', lineHeight: "0.5", fontSize: '12px' }}>
                 <p>Planned Media</p>
                 <p>Cost</p>
             </p>,
@@ -365,7 +365,7 @@ const Campaigns = () => {
         {
             field: "plannedClicks",
             sortable: false,
-            headerName: <p style={{ textAlign: 'center', lineHeight: "0.3", fontSize: '16px' }}>
+            headerName: <p style={{ textAlign: 'center', lineHeight: "0.3", fontSize: '12px' }}>
                 <p>Planned</p>
                 <p>Delivery </p>
             </p>,
@@ -378,7 +378,7 @@ const Campaigns = () => {
         {
             field: "startDate",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>Start Date</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Start Date</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.7,
             renderCell: (params) => {
@@ -388,7 +388,7 @@ const Campaigns = () => {
         {
             field: "endDate",
             sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>End Date</p>,
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>End Date</p>,
             headerClassName: 'super-app-theme--header',
             flex: 0.7,
             renderCell: (params) => {
@@ -399,7 +399,7 @@ const Campaigns = () => {
             field: "daysRemaining",
             sortable: false,
             headerName: (
-                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '16px' }}>
+                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>
                     Days Remaining
                 </p>
             ),

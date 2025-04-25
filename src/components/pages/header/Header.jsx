@@ -253,10 +253,13 @@ function TopHeader() {
                     >
                         <img src={loginLogo} className='header-logo' />
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important" }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: "white !important", justifyContent: 'flex-start', alignItems: 'center' }}>
                         <Button
                             className={active === "Dashboard" ? "hearder-left-btn-active" : 'hearder-btn'}
                             onClick={() => handleHeaderMenu("Dashboard")}
+                            sx={{
+                                fontSize: '16px'
+                            }}
                         >
                             Dashboard
                         </Button>
