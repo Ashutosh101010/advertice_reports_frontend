@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import AdverticeNetwork from "../../../Network";
-import { Button, Card, Dialog, FormControl, Grid, InputLabel, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
+import { Button, Card, Checkbox, Dialog, FormControl, Grid, InputLabel, ListItemText, MenuItem, Select, TextField, useMediaQuery } from "@mui/material";
 import AuthContext from "../authContext/AuthContext";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,6 +25,10 @@ const Dashboard = () => {
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
     const [campiagnNameList, setCampiagnNameList] = useState([]);
     const [selectCampaign, setSelectCampaign] = useState('');
+    const [platFormList, setPlatFormList] = useState([]);
+    const [countryList, setCountryList] = useState([]);
+    const [selectPlatform, setSelectPlatform] = useState([]);
+    const [selectCountry, setSelectCountry] = useState([]);
 
     useEffect(() => {
         if (userType === "superadmin") {
@@ -34,7 +38,7 @@ const Dashboard = () => {
         } else if (userType === "admin") {
             fetchCampaignList();
         }
-    }, [selectedDate, toDate, selectOrgnigation, userType, selectCampaign])
+    }, [selectedDate, toDate, selectOrgnigation, userType, selectCampaign, selectCountry, selectPlatform]);
 
     useEffect(() => {
         if (auth) {
@@ -76,6 +80,8 @@ const Dashboard = () => {
                 "from": selectedDate !== null ? selectedDate.format('DD-MM-YYYY') : null,
                 "to": toDate !== null ? toDate.format('DD-MM-YYYY') : null,
                 // "organizationId": selectOrgnigation?.id
+                "country": selectCountry.length === 0 ? null : selectCountry,
+                "platform": selectPlatform.length === 0 ? null : selectPlatform
             }
             if (selectOrgnigation?.id && userType === "superadmin") {
                 body.organizationId = selectOrgnigation?.id
@@ -83,10 +89,18 @@ const Dashboard = () => {
             if (selectCampaign && userType === "superadmin") {
                 body.campaignName = selectCampaign
             }
+            // if (selectPlatform && userType === "admin ") {
+            //     body.platform = selectPlatform
+            // }
+            // if (selectCountry && userType === "admin") {
+            //     body.country = selectCountry
+            // }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignData(response.campaigns);
                 setCampiagnNameList(response?.campaignNames)
+                setPlatFormList(response?.platformNames);
+                setCountryList(response?.countryNames);
             }
         } catch (error) {
             console.log(error);
@@ -170,6 +184,25 @@ const Dashboard = () => {
     function handleSelectOrgnigation(event) {
         setSelectOrgnigation(event.target.value);
     };
+
+    const handleSelectPlatForm = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
+    };
+
+    const handleSelectCountry = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectCountry(typeof value === 'string' ? value.split(',') : value);
+    };
+
 
     const handleCloseModal = () => {
         setImportModal(false)
@@ -266,7 +299,64 @@ const Dashboard = () => {
                                 </>
                             )
                         }
-
+                        {/* {
+                            userType === "admin" && (
+                                <> */}
+                        <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
+                            <InputLabel id="state-label"
+                                sx={{
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px'
+                                }}
+                            >
+                                Platform
+                            </InputLabel>
+                            <Select
+                                multiple
+                                value={selectPlatform}
+                                label="Platform"
+                                labelId="state-label"
+                                onChange={handleSelectPlatForm}
+                                sx={{ minWidth: 250, mr: isMobile ? 2 : '' }}
+                                renderValue={(selected) => selected.join(', ')}
+                            >
+                                {platFormList.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        <Checkbox checked={selectPlatform.indexOf(item) > -1} />
+                                        <ListItemText primary={item} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{ textAlign: "start", mt: !isMobile ? 2 : "" }}>
+                            <InputLabel id="state-label"
+                                sx={{
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px'
+                                }}
+                            >
+                                Country
+                            </InputLabel>
+                            <Select
+                                multiple
+                                value={selectCountry}
+                                onChange={handleSelectCountry}
+                                renderValue={(selected) => selected.join(', ')}
+                                sx={{ minWidth: 250, mr: isMobile ? 2 : '' }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                            >
+                                {countryList.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        <Checkbox checked={selectCountry.indexOf(item) > -1} />
+                                        <ListItemText primary={item} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        {/* </>
+                            )
+                        } */}
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Select From Date"
