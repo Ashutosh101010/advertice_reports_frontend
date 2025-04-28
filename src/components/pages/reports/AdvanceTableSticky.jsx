@@ -528,7 +528,7 @@ const AdvanceComponent = () => {
                                 </FormControl>
                             </Stack>
                         </Grid>
-                        <Stack  p={2} direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                        <Stack p={2} direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                             <Stack direction={'column'} spacing={1}>
                                 {/* <InputLabel sx={{
                                         fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
@@ -671,18 +671,24 @@ const AdvanceComponent = () => {
                                     const diffTime = endDate.getTime() - startDate.getTime();
                                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                     return diffDays;
-                                };
-                                const endDate = new Date(row?.endDate);
-                                const date = new Date(row?.date);
-                                const daysRemaining = daysBetween(date, endDate);
+                                }
 
+                                const today = new Date(row?.date);
+                                const endDate = new Date(row?.endDate);
+                                const daysRemaining = daysBetween(today, endDate);
 
                                 return (
                                     <Row key={index} className="table-row" style={{
                                         borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                     }}>
-                                        <Cell>{moment(row?.date).format('YYYY-MM-DD')}</Cell>
-                                        <Cell style={{ color: "#45679F" }}>{row.title}</Cell>
+                                        <Cell>{moment(row?.date).format('DD-MM-YYYY')}</Cell>
+                                        <Cell 
+                                        style={{
+                                            color: "#45679F", wordBreak: "break-word",
+                                            whiteSpace: "normal",
+                                            maxWidth: "150px"
+                                        }}
+                                        >{row.title}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
@@ -697,7 +703,7 @@ const AdvanceComponent = () => {
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining === 0 ? "-" : daysRemaining}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}> {daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
                                     </Row>
                                 )
                             })

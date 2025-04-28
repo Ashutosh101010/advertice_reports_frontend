@@ -612,17 +612,21 @@ const Campaigns = () => {
                                     const diffTime = endDate.getTime() - startDate.getTime();
                                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                     return diffDays;
-                                };
-                                const endDate = new Date(row?.endDate);
-                                const date = new Date(row?.date);
-                                const daysRemaining = daysBetween(date, endDate);
+                                }
 
+                                const today = new Date(row?.date);
+                                const endDate = new Date(row?.endDate);
+                                const daysRemaining = daysBetween(today, endDate);
 
                                 return (
                                     <Row key={index} className="table-row" style={{
                                         borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                     }}>
-                                        <Cell style={{ color: "#45679F" }}>{row.title}</Cell>
+                                        <Cell style={{
+                                            color: "#45679F", wordBreak: "break-word",
+                                            whiteSpace: "normal",
+                                            maxWidth: "150px"
+                                        }}>{row.title}</Cell>
                                         <Cell>{row?.buyType === null ? '-' : row?.buyType}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
@@ -634,13 +638,13 @@ const Campaigns = () => {
                                         <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('DD-MM-YYYY')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('DD-MM-YYYY')}</Cell>
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining === 0 ? "-" : daysRemaining}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>
                                             <>
                                                 <IconButton
