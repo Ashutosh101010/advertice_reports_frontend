@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery, Tooltip } from '@mui/material';
+import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery, Tooltip, IconButton, Menu } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 // import Label from "../label/Label";
 // import { sentenceCase } from "change-case";
@@ -16,6 +16,14 @@ import ImportCampaignCsv from "./ImportCampaign";
 import Papa from "papaparse"
 import '../../../index.css'
 import moment from "moment";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Table, Row, Cell } from "react-sticky-table";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
+const options = ["Edit",];
+
+const ITEM_HEIGHT = 48;
 
 const Campaigns = () => {
 
@@ -36,8 +44,38 @@ const Campaigns = () => {
     const [importModal, setImportModal] = useState(false);
     const [organisationList, setOrganisationList] = useState([]);
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const startIndex = page * pageSize; // Page starts from 0
+    const displayedData = campaignList.slice(startIndex, startIndex + pageSize);
 
     // console.log('organisationList', organisationList, selectOrgnigation);
+
+    const handleClose = (option) => {
+        setAnchorEl(null);
+        if (option === 'Edit') {
+            setEditFormModal(true);
+        } else if (option === 'Delete') {
+            // handleDelete(editAdmitCard?.id);
+        };
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await AdverticeNetwork.deleteCampaignAPI(auth, id);
+            if (response.errorCode === 0) {
+                fetchCampaignList();
+                // handleClose();
+            }
+        } catch (error) {
+            console.log(error);
+        };
+    }
+
+    const handleClick = (event, row) => {
+        setAnchorEl(event.currentTarget);
+        setEditTableData(row);
+    };
 
     useEffect(() => {
         if (userType === "superadmin") {
@@ -109,10 +147,10 @@ const Campaigns = () => {
         }
     }
 
-    const handleClick = (event) => {
-        event.stopPropagation();
-        setSwitchChecked(event.target.checked)
-    };
+    // const handleClick = (event) => {
+    //     event.stopPropagation();
+    //     setSwitchChecked(event.target.checked)
+    // };
 
     function handlePageChange(newPage) {
         setPage(newPage);
@@ -406,13 +444,13 @@ const Campaigns = () => {
             headerClassName: "super-app-theme--header",
             flex: 1,
             renderCell: (params) => {
-                const { updatedAt, endDate } = params.row;
+                const { date, endDate } = params.row;
 
-                if (!updatedAt || !endDate) {
+                if (!date || !endDate) {
                     return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
                 }
 
-                const remainingDays = daysBetween(updatedAt, endDate);
+                const remainingDays = daysBetween(date, endDate);
 
                 return (
                     <p style={{ margin: "0px 10px 10px 10px" }}>
@@ -421,8 +459,61 @@ const Campaigns = () => {
                 );
             },
         },
+        {
+            field: "menu",
+            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Menu</p>,
+            headerClassName: 'super-app-theme--header',
+            flex: 0.2,
+            sortable: false,
+            renderCell: (params) => {
+                // console.log(params.row, "params");
+                return (
+                    <>
+                        <IconButton
+                            aria-label="more"
+                            id={params.row.id}
+                            aria-controls={open ? "long-menu" : undefined}
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            onClick={(e) => handleClick(e, params)}
+                        >
+                            <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                            MenuListProps={{
+                                "aria-labelledby": "long-button",
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={() => setAnchorEl(null)}
+                            onClick={handleClose}
+                            PaperProps={{
+                                style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: "20ch",
+                                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                                },
+                            }}
+                        >
+                            {options.map((option) => {
+                                return <MenuItem
+                                    key={option}
+                                    selected={option === "Pyxis"}
+                                    value={option}
+                                    onClick={() => {
+                                        handleClose(option);
+                                    }}
+                                >
+                                    {option}
+                                </MenuItem>
+                            }
+                            )}
+                        </Menu>
+                    </>
+                );
+            },
+        },
     ];
-
 
     return (
         <React.Fragment>
@@ -482,7 +573,169 @@ const Campaigns = () => {
                         </Button> */}
                     </Grid>
                 </Grid>
-                <Box
+                <div style={{ height: "70vh", display: "flex", flexDirection: "column", position: "relative" }}>
+                    <div style={{ flex: 1, overflowY: "auto", border: "1px solid #ddd", marginBottom: "40px" }}>
+                        <Table style={{ width: '100%', borderCollapse: "collapse" }}>
+                            <Row className="table-header" style={{
+                                background: "#b2c3ff",
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 10,
+                                borderBottom: "2px solid #ddd",
+                            }}>
+                                <Cell>Campaign Name</Cell>
+                                <Cell>Buy Type</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
+                                <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Reach</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Leads</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Country Name</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Platform Name</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Currency</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Planned Media Cost</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Planned Delivery</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>End Date</Cell>
+                                {/* <Cell>Leads</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
+                                <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Menu</Cell>
+                            </Row>
+                            {campaignList.map((row, index) => {
+
+                                function daysBetween(start, end) {
+                                    const startDate = new Date(start);
+                                    const endDate = new Date(end);
+                                    const diffTime = endDate.getTime() - startDate.getTime();
+                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    return diffDays;
+                                };
+                                const endDate = new Date(row?.endDate);
+                                const date = new Date(row?.date);
+                                const daysRemaining = daysBetween(date, endDate);
+
+
+                                return (
+                                    <Row key={index} className="table-row" style={{
+                                        borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
+                                    }}>
+                                        <Cell style={{ color: "#45679F" }}>{row.title}</Cell>
+                                        <Cell>{row?.buyType === null ? '-' : row?.buyType}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{(row.ctr).toFixed(2)}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.reach}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.leads}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
+                                                        <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
+                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining === 0 ? "-" : daysRemaining}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>
+                                            <>
+                                                <IconButton
+                                                    aria-label="more"
+                                                    id={row.id}
+                                                    aria-controls={open ? "long-menu" : undefined}
+                                                    aria-expanded={open ? "true" : undefined}
+                                                    aria-haspopup="true"
+                                                    onClick={(e) => handleClick(e, row)}
+                                                >
+                                                    <MoreVertIcon />
+                                                </IconButton>
+                                                <Menu
+                                                    MenuListProps={{
+                                                        "aria-labelledby": "long-button",
+                                                    }}
+                                                    anchorEl={anchorEl}
+                                                    open={open}
+                                                    onClose={() => setAnchorEl(null)}
+                                                    onClick={handleClose}
+                                                    PaperProps={{
+                                                        style: {
+                                                            maxHeight: ITEM_HEIGHT * 4.5,
+                                                            width: "20ch",
+                                                            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                                                        },
+                                                    }}
+                                                >
+                                                    {options.map((option) => {
+                                                        return <MenuItem
+                                                            key={option}
+                                                            selected={option === "Pyxis"}
+                                                            value={option}
+                                                            onClick={() => {
+                                                                handleClose(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </MenuItem>
+                                                    }
+                                                    )}
+                                                </Menu>
+                                            </>
+                                        </Cell>
+                                    </Row>
+                                )
+                            })
+                            }
+                        </Table>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: "#fff",
+                    }}>
+                        <Select
+                            sx={{ fontSize: "10px" }}
+                            value={pageSize}
+                            onChange={(e) => setPageSize(e.target.value)}
+                            size="small"
+                        >
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={15}>15</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <span style={{ color: "#000", marginLeft: "15px", marginRight: "15px", fontSize: "12px" }}>
+                            {startIndex + 1} - {Math.min(startIndex + pageSize, rowCount)} of {rowCount}
+                        </span>
+                        <div>
+                            <IconButton
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 0}
+                                style={{ color: page === 0 ? "#aaa" : "#000" }}
+                            >
+                                <ArrowBackIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
+                            </IconButton>
+
+                            <IconButton
+                                onClick={() => setPage(page + 1)}
+                                disabled={startIndex + pageSize >= rowCount}
+                                style={{ color: startIndex + pageSize >= rowCount ? "#aaa" : "#000" }}
+                            >
+                                <ArrowForwardIosIcon fontSize={'small'} sx={{ fontSize: "15px" }} />
+                            </IconButton>
+                        </div>
+                    </div>
+                </div>
+                {/* <Box
                     m="10px 0 0 0"
                     height="75vh"
                     sx={{
@@ -558,7 +811,8 @@ const Campaigns = () => {
                             },
                         }}
                     />
-                </Box>
+
+                </Box> */}
                 <Dialog open={createFormModal} onClose={handleCloseModal}
                     sx={{
                         "& .MuiDialog-paper": {

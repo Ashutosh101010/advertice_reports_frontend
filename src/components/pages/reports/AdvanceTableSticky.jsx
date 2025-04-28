@@ -673,8 +673,8 @@ const AdvanceComponent = () => {
                                     return diffDays;
                                 };
                                 const endDate = new Date(row?.endDate);
-                                const updateDate = new Date(row?.updatedAt);
-                                const daysRemaining = daysBetween(updateDate, endDate);
+                                const date = new Date(row?.date);
+                                const daysRemaining = daysBetween(date, endDate);
 
 
                                 return (

@@ -15,7 +15,7 @@ export default class AdverticeNetwork {
     static CHANGE_STATUS_ORGANISATION_URL = Endpoints.baseURL + "/superadmin/organisation/change-status/";
     static CHANGE_STATUS_ADMIN_URL = Endpoints.baseURL + "/admin/change-status/";
     static CREATE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/create";
-
+    static DELETE_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/delete";
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
     static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign";
     static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "";
@@ -176,6 +176,16 @@ export default class AdverticeNetwork {
 
     static async changeStatusAdminApi(auth, adminId) {
         let response = await axios.get(this.CHANGE_STATUS_ADMIN_URL + adminId, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+    static async deleteCampaignAPI(auth, campaignId) {
+        let response = await axios.get(this.DELETE_CAMPAIGN_URL + campaignId, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth
