@@ -273,32 +273,32 @@ const Dashboard = () => {
                                             })}
                                         </Select>
                                     </FormControl>
-                                    <FormControl>
-                                        <InputLabel id="demo-simple-select-label" sx={{
-                                            fontFamily: `"Poppins", sans-serif`,
-                                            fontSize: '16px'
-                                        }}>Campaign</InputLabel>
-                                        <Select
-                                            sx={{ width: isMobile ? "250px" : "360px", mr: isMobile ? 2 : '' }}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={selectCampaign}
-                                            label="Headers"
-                                            onChange={handleSlectCampaign}
-                                        >
-
-                                            {campiagnNameList.map((item) => {
-                                                return (
-                                                    <MenuItem value={item} key={item}>
-                                                        {item}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Select>
-                                    </FormControl>
                                 </>
                             )
                         }
+                        <FormControl>
+                            <InputLabel id="demo-simple-select-label" sx={{
+                                fontFamily: `"Poppins", sans-serif`,
+                                fontSize: '16px'
+                            }}>Campaign</InputLabel>
+                            <Select
+                                sx={{ width: isMobile ? "250px" : "360px", mr: isMobile ? 2 : '' }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectCampaign}
+                                label="Headers"
+                                onChange={handleSlectCampaign}
+                            >
+
+                                {campiagnNameList.map((item) => {
+                                    return (
+                                        <MenuItem value={item} key={item}>
+                                            {item}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
                         {/* {
                             userType === "admin" && (
                                 <> */}
@@ -365,6 +365,8 @@ const Dashboard = () => {
                                 renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt: !isMobile ? 2 : "", minWidth: 250, fontFamily: `"Poppins", sans-serif` }} {...params} />}
                             />
                         </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "flex", justifyContent: "end", padding: '1rem' }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Select To Date"
