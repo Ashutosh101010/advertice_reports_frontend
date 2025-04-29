@@ -28,7 +28,7 @@ function App() {
   // id: contendigitaladmin , password- cda123@admin
 
   // Admin ID Password
-  // id: Test, password- Sweden_CDA_Test
+  // id: CDA_Advertiser, password- cda_advertiser@123
 
   return (
     <Router>

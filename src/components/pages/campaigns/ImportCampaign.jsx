@@ -235,14 +235,16 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         }
     };
 
+    const removeHiddenChars = (str) => str.replace(/[\u200B-\u200D\u2060\uFEFF]/g, '');
 
     const validateHeader = (actualColumnNames) => {
-        const formattedActualColumns = actualColumnNames.map(column => column.trim().toLowerCase());
+        const formattedActualColumns = actualColumnNames.map(column =>
+            removeHiddenChars(column.trim().toLowerCase())
+        );
         const formattedExpectedColumns = expectedColumnNames.map(column => column.toLowerCase());
 
         const missingColumns = formattedExpectedColumns.filter(column => !formattedActualColumns.includes(column));
 
-        // console.log('missingColumns', missingColumns);
         if (missingColumns.length > 0) {
             return `Missing columns: ${missingColumns.join(', ')}`;
         }

@@ -19,7 +19,8 @@ export default class AdverticeNetwork {
     static FETCH_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/fetch-all-campaign";
     static EDIT_CAMPAIGN_URL = Endpoints.baseURL + "/campaign/edit-campaign";
     static IMPORT_DASHBOARD_CSV = Endpoints.baseURL + "";
-    static FETCH_REPORT_URL = Endpoints.baseURL + "";    
+    static FETCH_REPORT_URL = Endpoints.baseURL + "";
+    static EDITCAMPAIGN_TITLE_URL = Endpoints.baseURL + "/campaign/edit-title";
 
 
     // static async fetchReportApi(auth) {
@@ -47,6 +48,16 @@ export default class AdverticeNetwork {
         let response = await axios.post(this.SUPERADMIN_LOGIN_URL, body, {
             headers: {
                 "Content-Type": "application/json",
+            },
+            withCredentials: false,
+        });
+        return response.data;
+    }
+    static async editCampaignTitle(body, auth) {
+        let response = await axios.post(this.EDITCAMPAIGN_TITLE_URL, body, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Auth": auth
             },
             withCredentials: false,
         });
@@ -120,7 +131,7 @@ export default class AdverticeNetwork {
     }
 
     static async createCampaignApi(body, auth) {
-        let response = await axios.post(this.CREATE_CAMPAIGN_URL , body, {
+        let response = await axios.post(this.CREATE_CAMPAIGN_URL, body, {
             headers: {
                 "Content-Type": "application/json",
                 "X-Auth": auth
@@ -195,7 +206,7 @@ export default class AdverticeNetwork {
         return response.data;
     }
 
-    
+
 
     static async importCsvDashboard(body, auth) {
         let response = await axios.post(this.IMPORT_DASHBOARD_CSV, body, {
@@ -218,6 +229,6 @@ export default class AdverticeNetwork {
         });
         return response.data;
     }
-    
+
 
 }

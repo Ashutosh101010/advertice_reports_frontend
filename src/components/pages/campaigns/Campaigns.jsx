@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery, Tooltip, IconButton, Menu } from '@mui/material';
+import { Card, Box, useTheme, Dialog, Grid, Button, FormControl, InputLabel, Select, MenuItem, useMediaQuery, Tooltip, IconButton, Menu, Stack, Checkbox, ListItemText } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 // import Label from "../label/Label";
 // import { sentenceCase } from "change-case";
@@ -48,6 +48,35 @@ const Campaigns = () => {
     const open = Boolean(anchorEl);
     const startIndex = page * pageSize; // Page starts from 0
     const displayedData = campaignList.slice(startIndex, startIndex + pageSize);
+    const [platformList, setPlatformList] = useState([]);
+    const [selectPlatform, setSelectPlatform] = useState([]);
+    const [countryList, setCountryList] = useState([]);
+    const [selectCountry, setSelectCountry] = useState([]);
+    const [selectCampaign, setSelectCampaign] = useState('');
+    const [campiagnNameList, setCampiagnNameList] = useState([]);
+
+    const handleSlectCampaign = (e) => {
+        setSelectCampaign(e.target.value);
+    };
+
+    const handleSelectPlatfrom = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
+    };
+
+    const handleSelectCountry = (event) => {
+        const {
+            target: { value },
+        } = event;
+
+        // On autofill we get a stringified value, so handle that:
+        setSelectCountry(typeof value === 'string' ? value.split(',') : value);
+    };
+
 
     // console.log('organisationList', organisationList, selectOrgnigation);
 
@@ -100,14 +129,18 @@ const Campaigns = () => {
 
             fetchCampaignList();
         }
-    }, [selectOrgnigation, userType])
+    }, [selectOrgnigation, userType, page, pageSize, selectPlatform, selectCountry, selectCampaign])
 
     const fetchCampaignList = async (isExport = false) => {
 
         const body = {
             "page": page,
             "pageSize": pageSize,
-            "group": true
+            "group": true,
+            "platform": selectPlatform,
+            "country": selectCountry,
+            // "organizationId": selectOrgnigation?.id,
+            "campaignName": selectCampaign
         }
         if (userType === "superadmin") {
             body.organizationId = selectOrgnigation?.id
@@ -121,6 +154,9 @@ const Campaigns = () => {
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
                 setRowCount(response.count === 0 ? response?.campaigns.length : response.count);
+                setPlatformList(response.platformNames);
+                setCountryList(response.countryNames);
+                setCampiagnNameList(response.campaignNames);
                 if (isExport) {
                     generateCSV(response.campaigns);
                 }
@@ -519,32 +555,112 @@ const Campaigns = () => {
         <React.Fragment>
             <Card className="card">
                 <Grid container>
-                    <Grid item xs={12} sm={4} md={4} lg={4} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                        {
-                            userType === "superadmin" && (
-                                <FormControl sx={{ textAlign: "start", width: '100%' }}>
-                                    <InputLabel id="state-label" sx={{ fontFamily: `"Poppins", sans-serif` }}>Organisation</InputLabel>
-                                    <Select
-                                        value={selectOrgnigation}
-                                        label="Organisation"
-                                        labelId='state-label'
-                                        onChange={handleSelectOrgnigation}
-                                        sx={{ width: '100%' }}
-                                        disableUnderline
-                                    >
-                                        {organisationList.map((item) => {
-                                            return (
-                                                <MenuItem value={item} key={item.id}>
-                                                    {item.organisation}
-                                                </MenuItem>
-                                            );
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            )
-                        }
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 15 }}>
+                        <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            {
+                                userType === "superadmin" && (
+                                    <FormControl sx={{ textAlign: "start", width: '100%' }}>
+                                        <InputLabel id="state-label" sx={{ fontFamily: `"Poppins", sans-serif` }}>Organisation</InputLabel>
+                                        <Select
+                                            value={selectOrgnigation}
+                                            label="Organisation"
+                                            labelId='state-label'
+                                            onChange={handleSelectOrgnigation}
+                                            sx={{ width: '100%' }}
+                                            disableUnderline
+                                        >
+                                            {organisationList.map((item) => {
+                                                return (
+                                                    <MenuItem value={item} key={item.id}>
+                                                        {item.organisation}
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                )
+                            }
+                            <FormControl>
+                                <InputLabel id="demo-simple-select-label" sx={{
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px'
+                                }}>Campaign</InputLabel>
+                                <Select
+                                    sx={{ width: isMobile ? "250px" : "360px" }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={selectCampaign}
+                                    label="Headers"
+                                    onChange={handleSlectCampaign}
+                                >
+
+                                    {campiagnNameList.map((item) => {
+                                        return (
+                                            <MenuItem value={item} key={item}>
+                                                {item}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </Stack>
+                        <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            <FormControl>
+                                <InputLabel
+                                    id="state-label"
+                                    sx={{
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px'
+                                    }}
+                                >
+                                    Platform
+                                </InputLabel>
+                                <Select
+                                    multiple
+                                    value={selectPlatform}
+                                    label="Platform"
+                                    labelId="state-label"
+                                    onChange={handleSelectPlatfrom}
+                                    sx={{ width: isMobile ? '250px' : '360px' }}
+                                    renderValue={(selected) => selected.join(', ')}
+                                >
+                                    {platformList.map((item) => (
+                                        <MenuItem key={item} value={item}>
+                                            <Checkbox checked={selectPlatform.indexOf(item) > -1} />
+                                            <ListItemText primary={item} />
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl>
+                                <InputLabel
+                                    id="demo-simple-select-label"
+                                    sx={{
+                                        fontFamily: `"Poppins", sans-serif`,
+                                        fontSize: '16px'
+                                    }}>
+                                    Country
+                                </InputLabel>
+                                <Select
+                                    multiple
+                                    value={selectCountry}
+                                    onChange={handleSelectCountry}
+                                    renderValue={(selected) => selected.join(', ')}
+                                    sx={{ width: isMobile ? "250px" : "360px" }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                >
+                                    {countryList.map((item) => (
+                                        <MenuItem key={item} value={item}>
+                                            <Checkbox checked={selectCountry.indexOf(item) > -1} />
+                                            <ListItemText primary={item} />
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={8} md={8} lg={8} sx={{ display: "flex", justifyContent: 'flex-end' }}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: "flex", justifyContent: 'flex-end' }}>
                         {
                             userType === "superadmin" ? <Button
                                 sx={{
@@ -614,7 +730,7 @@ const Campaigns = () => {
                                     return diffDays;
                                 }
 
-                                const today = new Date(row?.date);
+                                const today = new Date(row?.updatedAt);
                                 const endDate = new Date(row?.endDate);
                                 const daysRemaining = daysBetween(today, endDate);
 
@@ -644,7 +760,7 @@ const Campaigns = () => {
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.updatedAt === null ? "-" : daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>
                                             <>
                                                 <IconButton
@@ -835,7 +951,7 @@ const Campaigns = () => {
                         },
                     }}
                 >
-                    <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} />
+                    <EditCampaignFormModal handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} editTableData={editTableData} organisationId={selectOrgnigation?.id} />
                 </Dialog>
                 <Dialog open={importModal} onClose={handleCloseModal}>
                     <ImportCampaignCsv organisationId={organisationId} handleClose={handleCloseModal} fetchCampaignList={fetchCampaignList} auth={auth} selectOrgnigation={selectOrgnigation} />

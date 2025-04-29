@@ -388,7 +388,18 @@ const SuperAdminOrgnisationList = () => {
                                     <Cell><PriorityHighIcon sx={{ background: "orange", padding: "1px", borderRadius: "4px", color: "#fff", mt: 1.5 }} /></Cell>
                                     {/* <Cell style={{ color: "#0061ff" }}>{row?.title}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row?.impressions?.toLocaleString("en-IN")}</Cell> */}
-                                    <Cell style={{ textAlign: 'start' }}>{row?.organisation ? row?.organisation : "N/A"}</Cell>
+                                    <Cell style={{
+                                        textAlign: 'start',
+                                        cursor: 'pointer',
+                                        color: '#1976d2', // MUI primary blue
+                                        textDecoration: 'underline',
+                                        fontWeight: 500,
+                                        // '&:hover': {
+                                        //     textDecoration: 'underline',
+                                        // }
+                                    }}>
+                                        {row?.organisation ? row?.organisation : "N/A"}
+                                    </Cell>
                                     <Cell style={{ textAlign: 'start' }}>{row?.email ? row?.email : "N/A"}</Cell>
                                     <Cell style={{ textAlign: 'start' }}>{row?.address ? row?.address : "N/A"}</Cell>
                                     <Cell style={{ textAlign: 'center' }}>{row?.contact ? row?.contact : "N/A"}</Cell>

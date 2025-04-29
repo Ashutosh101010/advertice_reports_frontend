@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import AdverticeNetwork from "../../../Network";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useSnackbar } from 'notistack';
+import moment from "moment";
 
-export default function EditCampaignFormModal({ handleClose, auth, fetchCampaignList, editTableData }) {
+export default function EditCampaignFormModal({ handleClose, auth, fetchCampaignList, editTableData, organisationId }) {
 
 
     const [title, setTitle] = useState("");
@@ -17,8 +19,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
     const [cpc, setCpc] = useState(0);
     const [cpa, setCpa] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
-
-    // console.log('editTableData', editTableData);
+    const { enqueueSnackbar } = useSnackbar();
+    const [previousTitle, setPreviousTitle] = useState('');
 
     useEffect(() => {
         if (editTableData) {
@@ -31,50 +33,51 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
             setCpm(editTableData.cpm);
             setCpc(editTableData.cpc);
             setCpa(editTableData.cpa);
-            setSelectedDate(editTableData?.date)
-        }
-    }, [editTableData])
+            setSelectedDate(editTableData?.startDate);
+            setPreviousTitle(editTableData?.title)
+        };
+    }, [editTableData]);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
-    function handleStateChange(event) {
-        setCityList(event.target.value.city);
-        setSelectedState(event.target.value);
-    };
+    // function handleStateChange(event) {
+    //     setCityList(event.target.value.city);
+    //     setSelectedState(event.target.value);
+    // };
 
-    function handleCityChange(event) {
-        setSelectedCity(event.target.value);
-    };
+    // function handleCityChange(event) {
+    //     setSelectedCity(event.target.value);
+    // };
 
     async function handleSubmit() {
         try {
-            if (title) {
-                const body = {
-                    "date": "2022-03-10",
-                    "title": title,
-                    "impressions": impressions,
-                    "clicks": clicks,
-                    "conversions": conversions,
-                    "mediaCost": mediaCost,
-                    "ctr": ctr,
-                    "cpm": cpm,
-                    "cpc": cpc,
-                    "cpa": cpa,
-                    "campaignId": editTableData?.id
-                }
+            if (!title) {
+                enqueueSnackbar('Please enter a title.', { variant: 'warning' });
+                return;
+            };
 
-                const response = await AdverticeNetwork.editCampaignApi(body, auth);
-                if (response.errorCode === 0) {
-                    fetchCampaignList();
-                    handleClose();
-                }
+            const body = {
+                date: selectedDate !== null ? moment(selectedDate).format('YYYY-MM-DD') : '',
+                title: title,
+                previousTitle: previousTitle,
+                organizationId: organisationId
             }
 
-        } catch (error) {
+            const response = await AdverticeNetwork.editCampaignTitle(body, auth);
 
-        }
+            if (response.errorCode === 0) {
+                enqueueSnackbar('Campaign updated successfully.', { variant: 'success' });
+                fetchCampaignList();
+                handleClose();
+            } else {
+                enqueueSnackbar(response?.errorDescription || 'Failed to update campaign.', { variant: 'error' });
+            }
+        } catch (error) {
+            console.log(error);
+            enqueueSnackbar('An unexpected error occurred.', { variant: 'error' });
+        };
     };
 
     return (
@@ -92,8 +95,9 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                     padding: "2rem",
                 }}
             >
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                        disabled={localStorage.getItem('userType' === 'superadmin' ? false : true)}
                         label="Select Date"
                         value={selectedDate}
                         onChange={handleDateChange}
@@ -106,7 +110,7 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                             maxWidth: '450px'
                         }} {...params} />}
                     />
-                </LocalizationProvider>
+                </LocalizationProvider> */}
                 <TextField
                     variant="outlined"
                     type="text"
@@ -120,8 +124,8 @@ export default function EditCampaignFormModal({ handleClose, auth, fetchCampaign
                         width: "100%",
                         maxWidth: '450px'
                     }}
+                    disabled={localStorage.getItem('userType') === 'superadmin' ? false : true}
                 />
-
                 {/* <TextField
                     variant="outlined"
                     type="number"

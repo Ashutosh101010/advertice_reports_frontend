@@ -137,6 +137,7 @@ const AdvanceComponent = () => {
     const [campiagnNameList, setCampiagnNameList] = useState([]);
     const [totalImpressions, setTotalImpressions] = useState(0);
     const [totalClicks, setTotalClicks] = useState(0);
+    const [totalLeads, setTotalLeads] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
     const [totalMediaCost, setTotalMediaCost] = useState(0);
     const [platformList, setPlatformList] = useState([]);
@@ -154,10 +155,15 @@ const AdvanceComponent = () => {
         impressions: totalImpressions,
         clicks: totalClicks,
         ctr: totalClicks ? ((totalClicks / totalImpressions) * 100).toFixed(2) + "0" : "0",
+        platform: "",
+        country: "",
         currency: "",
-        mediaCost: totalMediaCost,
-        cpm: "",
-        cpc: "",
+        // mediaCost: totalMediaCost,
+        // cpm: "",
+        // cpc: "",
+        plannedMediaCost: "",
+        plannedClicks: "",
+        leads: totalLeads
     };
 
     useEffect(() => {
@@ -197,7 +203,7 @@ const AdvanceComponent = () => {
         }
     }
 
-    const fetchCampaignList = async (isExport = false) => {
+    const fetchCampaignList = async () => {
         try {
             const body = {
                 "page": page,
@@ -209,9 +215,9 @@ const AdvanceComponent = () => {
                 "country": selectCountry.length === 0 ? null : selectCountry,
                 "platform": selectPlatform.length === 0 ? null : selectPlatform
             }
-            if (isExport) {
-                body.export = true; // Add export flag only for export
-            }
+            // if (isExport) {
+            //     body.export = true; // Add export flag only for export
+            // }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
@@ -223,9 +229,10 @@ const AdvanceComponent = () => {
                 setTotalMediaCost(response?.mediaCost);
                 setPlatformList(response?.platformNames);
                 setCountryList(response?.countryNames);
-                if (isExport) {
-                    generateCSV(response.campaigns);
-                };
+                setTotalLeads(response?.leads);
+                // if (isExport) {
+                //     generateCSV(response.campaigns);
+                // };
             }
             // exportCsv(response.campaigns);
         } catch (error) {
@@ -233,21 +240,21 @@ const AdvanceComponent = () => {
         }
     }
 
-    const fetchReportList = async () => {
-        try {
-            const body = {
-                "page": page,
-                "pageSize": pageSize
-            }
-            // console.log('body', body);
-            const response = await AdverticeNetwork.fetchReportListApi(auth);
-            if (response.errorCode === 0) {
-                setReportList(response.organisations);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // const fetchReportList = async () => {
+    //     try {
+    //         const body = {
+    //             "page": page,
+    //             "pageSize": pageSize
+    //         }
+    //         // console.log('body', body);
+    //         const response = await AdverticeNetwork.fetchReportListApi(auth);
+    //         if (response.errorCode === 0) {
+    //             setReportList(response.organisations);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const generateCSV = (data) => {
         if (!data || data.length === 0) {
@@ -259,15 +266,20 @@ const AdvanceComponent = () => {
         const csvData = data.map(item => ({
             Date: new Date(item.date).toLocaleDateString("en-GB"),
             Title: item.title,
-            Clicks: item.clicks,
-            Conversions: item.conversions,
-            CPA: item.cpa,
-            CPC: item.cpc,
-            CPM: item.cpm,
-            "CTR%": item.ctr,
-            Currency: item?.currency,
             Impressions: item.impressions,
-            MediaCost: `${item.mediaCost.toFixed(2)}`,
+            Clicks: item.clicks,
+            // Conversions: item.conversions,
+            // CPA: item.cpa,
+            // CPC: item.cpc,
+            // CPM: item.cpm,
+            "CTR%": item.ctr,
+            // MediaCost: `${item.mediaCost.toFixed(2)}`,
+            Platform: item.platform,
+            Country: item.country,
+            Currency: item?.currency,
+            "Planned Media Spends": item.plannedMediaCost,
+            "Planned Delivery": item.plannedClicks,
+            "Leads": item.leads,
         }));
 
         // Append Total Row
@@ -277,14 +289,19 @@ const AdvanceComponent = () => {
             Date: "Total",
             Title: "", // Empty since it's a total row
             Clicks: totalClicks,
-            Conversions: "", // Leave empty or sum if applicable
-            CPA: "", // Leave empty or calculate if needed
-            CPC: "", // Leave empty or calculate if needed
-            CPM: "", // Leave empty or calculate if needed
+            // Conversions: "", // Leave empty or sum if applicable
+            // CPA: "", // Leave empty or calculate if needed
+            // CPC: "", // Leave empty or calculate if needed
+            // CPM: "", // Leave empty or calculate if needed
             "CTR%": totalCTR,
             Currency: "", // Leave empty
             Impressions: totalImpressions,
-            MediaCost: totalMediaCost.toFixed(2),
+            // MediaCost: totalMediaCost.toFixed(2),
+            Platform: "",
+            Country: "",
+            "Planned Media Spends": "",
+            "Planned Delivery": "",
+            "Leads": totalLeads,
         });
 
         // Convert to CSV format
@@ -303,8 +320,36 @@ const AdvanceComponent = () => {
 
 
     const handleExport = async () => {
-
-        await fetchCampaignList(true);
+        try {
+            const body = {
+                "page": page,
+                "pageSize": pageSize,
+                "organizationId": selectOrgnigation?.id,
+                "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
+                "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
+                "campaignName": selectCampaign,
+                "country": selectCountry.length === 0 ? null : selectCountry,
+                "platform": selectPlatform.length === 0 ? null : selectPlatform
+            }
+            const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
+            // if (response.errorCode === 0) {
+            //     setCampaignList(response.campaigns);
+            //     setCampiagnNameList(response?.campaignNames)
+            //     setRowCount(response.count);
+            //     setTotalImpressions(response?.impressions);
+            //     setTotalClicks(response?.clicks);
+            //     setTotalCount(response?.count);
+            //     setTotalMediaCost(response?.mediaCost);
+            //     setPlatformList(response?.platformNames);
+            //     setCountryList(response?.countryNames);
+            //     if (isExport) {
+            generateCSV(response.campaigns);
+            //     };
+            // }
+            // exportCsv(response.campaigns);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
 
@@ -615,22 +660,22 @@ const AdvanceComponent = () => {
                                             </Select>
                                         </FormControl>
                                     </Box> */}
-                            {userType === 'admin' && (
-                                <Button
-                                    sx={{
-                                        mt: 2.5,
-                                        width: '100%',
-                                        maxWidth: '200px',
-                                        fontFamily: `"Poppins", sans-serif`,
-                                        fontSize: '16px',
-                                    }}
-                                    className='hearder-right-btn'
-                                    onClick={handleExport}
-                                >
-                                    Export Report
-                                </Button>
-                            )}
-
+                            {/* {userType === 'superadmin' && ( */}
+                            <Button
+                                sx={{
+                                    // mt: 2.5,
+                                    width: '100%',
+                                    maxWidth: '200px',
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px',
+                                    padding: '.8rem .75rem !important'
+                                }}
+                                className='hearder-right-btn'
+                                onClick={handleExport}
+                            >
+                                Export Report
+                            </Button>
+                            {/* )} */}
                         </Stack>
                     </Grid>
                     <Divider sx={{ mt: 2.5 }} />
@@ -661,33 +706,40 @@ const AdvanceComponent = () => {
                                 {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
-                                <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Leads</Cell>
                             </Row>
                             {campaignList.map((row, index) => {
 
-                                function daysBetween(start, end) {
-                                    const startDate = new Date(start);
-                                    const endDate = new Date(end);
-                                    const diffTime = endDate.getTime() - startDate.getTime();
-                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                    return diffDays;
-                                }
+                                // function daysBetween(start, end) {
+                                //     const startDate = new Date(start);
+                                //     const endDate = new Date(end);
+                                //     const diffTime = endDate.getTime() - startDate.getTime();
+                                //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                //     return diffDays;
+                                // }
 
-                                const today = new Date(row?.date);
-                                const endDate = new Date(row?.endDate);
-                                const daysRemaining = daysBetween(today, endDate);
+                                // const today = new Date(row?.date);
+                                // const endDate = new Date(row?.endDate);
+                                // const daysRemaining = daysBetween(today, endDate);
 
                                 return (
                                     <Row key={index} className="table-row" style={{
                                         borderBottom: "1px solid #ddd", color: "#637381", padding: "12px 8px",
                                     }}>
-                                        <Cell>{moment(row?.date).format('DD-MM-YYYY')}</Cell>
-                                        <Cell 
-                                        style={{
-                                            color: "#45679F", wordBreak: "break-word",
-                                            whiteSpace: "normal",
-                                            maxWidth: "150px"
-                                        }}
+                                        <Cell
+                                            style={{
+                                                width: "100px",        // Or use "80px" if you want it tighter
+                                                whiteSpace: "nowrap",  // Prevent line wrap
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                        >{moment(row?.date).format('DD-MM-YYYY')}</Cell>
+                                        <Cell
+                                            style={{
+                                                color: "#45679F", wordBreak: "break-word",
+                                                whiteSpace: "normal",
+                                                maxWidth: "150px"
+                                            }}
                                         >{row.title}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
@@ -703,7 +755,7 @@ const AdvanceComponent = () => {
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}> {daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.leads}</Cell>
                                     </Row>
                                 )
                             })
@@ -725,13 +777,13 @@ const AdvanceComponent = () => {
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
-                                {/* <Cell style={{ textAlign: 'center' }}></Cell> */}
+                                <Cell style={{ textAlign: 'center' }}>{totalRow?.leads}</Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}></Cell> */}
                             </Row>
                         </Table>
                     </div>

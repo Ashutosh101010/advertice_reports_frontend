@@ -354,25 +354,22 @@ const Dashboard = () => {
                                 ))}
                             </Select>
                         </FormControl>
-                        {/* </>
-                            )
-                        } */}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "flex", justifyContent: "end", padding: '1rem' }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Select From Date"
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt: !isMobile ? 2 : "", minWidth: 250, fontFamily: `"Poppins", sans-serif` }} {...params} />}
+                                renderInput={(params) => <TextField sx={{ mr: isMobile ? 2 : '', mt: !isMobile ? 2 : "", width: '100%', maxWidth: '250px', fontFamily: `"Poppins", sans-serif` }} {...params} />}
                             />
                         </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ textAlign: "end", display: !isMobile ? 'grid' : "flex", justifyContent: "end", padding: '1rem' }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Select To Date"
                                 value={toDate}
                                 onChange={handleToDateDateChange}
-                                renderInput={(params) => <TextField {...params} sx={{ mt: !isMobile ? 2 : "", minWidth: 250, fontFamily: `"Poppins", sans-serif` }} />}
+                                renderInput={(params) => <TextField {...params} sx={{ mt: !isMobile ? 2 : "", width: '100%', maxWidth: '250px', fontFamily: `"Poppins", sans-serif` }} />}
                             />
                         </LocalizationProvider>
                     </Grid>
