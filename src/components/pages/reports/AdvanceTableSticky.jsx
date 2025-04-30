@@ -736,7 +736,8 @@ const AdvanceComponent = () => {
                                         >{moment(row?.date).format('DD-MM-YYYY')}</Cell>
                                         <Cell
                                             style={{
-                                                color: "#45679F", wordBreak: "break-word",
+                                                color: "#45679F", 
+                                                wordBreak: "break-word",
                                                 whiteSpace: "normal",
                                                 maxWidth: "150px"
                                             }}

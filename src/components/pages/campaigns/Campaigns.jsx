@@ -730,7 +730,7 @@ const Campaigns = () => {
                                     return diffDays;
                                 }
 
-                                const today = new Date(row?.updatedAt);
+                                const today = new Date(row?.date);
                                 const endDate = new Date(row?.endDate);
                                 const daysRemaining = daysBetween(today, endDate);
 
@@ -760,7 +760,7 @@ const Campaigns = () => {
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{row?.updatedAt === null ? "-" : daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.date === null ? "-" : daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>
                                             <>
                                                 <IconButton
