@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Grid, IconButton, InputAdornment, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import loginLogo from "../../assets/logo.png"
+import loginLogo from "../../assets/advertice-logo.png"
 import AdverticeNetwork from "../../Network";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
