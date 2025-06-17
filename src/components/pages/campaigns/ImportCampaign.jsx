@@ -14,25 +14,25 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 export default function ImportCampaignCsv({ handleClose, auth, organisationId, fetchCampaignList, selectOrgnigation }) {
 
     const expectedColumnNames = [
-        'Title',
+        'Campaign',
         'Impressions',
         'Clicks',
         'Buy Type',
-        // 'Media Cost',
+        'Media Cost',
         'CTR',
         // 'eCPM',
         // 'CPA',
         // 'eCPC',
         'Date',
         'Currency',
-        "Start Date",
-        "End Date",
-        "Country Name",
-        "Platform Name",
-        "Leads",
+        // "Start Date",
+        // "End Date",
+        // "Country Name",
+        // "Platform Name",
+        // "Leads",
         "Reach",
-        "Planned Media Spends",
-        'Planned Clicks',
+        "Unit Cost",
+        // 'Planned Clicks',
     ];
 
     // const [isLoading, setLoading] = useState(false);
@@ -79,26 +79,27 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
 
             try {
                 const body = {
-                    date: normalizedItem?.date,
+                    // date: normalizedItem?.date,
                     title: normalizedItem?.title,
                     impressions: cleanNumber(normalizedItem?.impressions),
                     clicks: cleanNumber(normalizedItem?.clicks),
                     buyType: normalizedItem?.buyType,
-                    // mediaCost: cleanNumber(normalizedItem?.mediacost),
+                    mediaCost: cleanNumber(normalizedItem?.mediacost),
                     ctr: cleanNumber(normalizedItem?.ctr),
                     // cpm: cleanNumber(normalizedItem?.ecpm),
                     // cpc: cleanNumber(normalizedItem?.ecpc),
                     // cpa: cleanNumber(normalizedItem?.cpa),
                     organizationId: ordId,
                     currency: normalizedItem?.currency,
-                    startDate: normalizedItem?.startdate,
-                    endDate: normalizedItem?.enddate,
-                    country: normalizedItem?.countryname,
-                    platform: normalizedItem?.platformname,
-                    leads: Number(normalizedItem?.leads),
+                    // startDate: normalizedItem?.startdate,
+                    // endDate: normalizedItem?.enddate,
+                    // country: normalizedItem?.countryname,
+                    // platform: normalizedItem?.platformname,
+                    // leads: Number(normalizedItem?.leads),
                     reach: Number(normalizedItem?.reach),
-                    plannedMediaCost: Number(normalizedItem?.plannedmediaspends),
-                    plannedClicks: Number(normalizedItem?.plannedclicks),
+                    unitCost: Number(normalizedItem?.unitCost),
+                    // plannedMediaCost: Number(normalizedItem?.plannedmediaspends),
+                    // plannedClicks: Number(normalizedItem?.plannedclicks),
                 };
 
                 const response = await AdverticeNetwork.createCampaignApi(body, auth);
@@ -256,7 +257,7 @@ export default function ImportCampaignCsv({ handleClose, auth, organisationId, f
         <Box sx={{ padding: "25px" }}>
             <form>
                 <Stack marginBottom={'0.2rem'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} gap={'1rem'} textAlign={'start'} fontFamily={`"Poppins", sans-serif`}>
-                    <a href="/samplefile.csv" download><p>Download Sample File from here <AttachFileIcon onClick={handleDownload}
+                    <a href="/CampaignImportSampleFile.csv" download><p>Download Sample File from here <AttachFileIcon onClick={handleDownload}
                         sx={{ cursor: "pointer", color: "blue" }} /></p></a>
                 </Stack>
                 <Stack marginBottom={'1rem'} textAlign={'start'} fontFamily={`"Poppins", sans-serif`}>

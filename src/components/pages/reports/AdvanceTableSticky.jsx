@@ -112,7 +112,7 @@ const IOSSwitch = styled((props) => (
 
 const AdvanceComponent = () => {
 
-    const theme = useTheme();
+    // const theme = useTheme();
     const isMobile = useMediaQuery("(min-width:600px)");
     const userType = localStorage.getItem("userType");
     // const { auth } = useContext(AuthContext);
@@ -120,17 +120,17 @@ const AdvanceComponent = () => {
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(0);
-    const [switchChecked, setSwitchChecked] = useState(true);
+    // const [switchChecked, setSwitchChecked] = useState(true);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [domainCheck, setDomainCheck] = useState(null);
-    const [siteIdCheck, setSiteIdCheck] = useState(null);
-    const [countryCheck, setCountryCheck] = useState(null);
-    const [osCheck, setOsCheck] = useState(null);
+    // const [domainCheck, setDomainCheck] = useState(null);
+    // const [siteIdCheck, setSiteIdCheck] = useState(null);
+    // const [countryCheck, setCountryCheck] = useState(null);
+    // const [osCheck, setOsCheck] = useState(null);
     const [selectCampaign, setSelectCampaign] = useState('');
-    const [intervalSelect, setIntervalSelect] = useState('none');
-    const [checked, setChecked] = React.useState(true);
-    const [reportList, setReportList] = useState([]);
+    // const [intervalSelect, setIntervalSelect] = useState('none');
+    // const [checked, setChecked] = React.useState(true);
+    // const [reportList, setReportList] = useState([]);
     const [organisationList, setOrganisationList] = useState([]);
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
     const [campaignList, setCampaignList] = useState([]);
@@ -140,10 +140,10 @@ const AdvanceComponent = () => {
     const [totalLeads, setTotalLeads] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
     const [totalMediaCost, setTotalMediaCost] = useState(0);
-    const [platformList, setPlatformList] = useState([]);
-    const [selectPlatform, setSelectPlatform] = useState([]);
-    const [countryList, setCountryList] = useState([]);
-    const [selectCountry, setSelectCountry] = useState([]);
+    // const [platformList, setPlatformList] = useState([]);
+    // const [selectPlatform, setSelectPlatform] = useState([]);
+    // const [countryList, setCountryList] = useState([]);
+    // const [selectCountry, setSelectCountry] = useState([]);
 
     const totalPages = Math.ceil(campaignList.length / pageSize);
     const startIndex = page * pageSize; // Page starts from 0
@@ -176,7 +176,7 @@ const AdvanceComponent = () => {
         //     setSelectOrgnigation(organisationList[0])
         fetchCampaignList();
         // }
-    }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize, selectPlatform, selectCountry]);
+    }, [selectOrgnigation, startDate, endDate, selectCampaign, page, pageSize]);
 
     useEffect(() => {
         if (organisationList?.length > 0) {
@@ -212,8 +212,8 @@ const AdvanceComponent = () => {
                 "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
                 "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
                 "campaignName": selectCampaign,
-                "country": selectCountry.length === 0 ? null : selectCountry,
-                "platform": selectPlatform.length === 0 ? null : selectPlatform
+                // "country": selectCountry.length === 0 ? null : selectCountry,
+                // "platform": selectPlatform.length === 0 ? null : selectPlatform
             }
             // if (isExport) {
             //     body.export = true; // Add export flag only for export
@@ -227,8 +227,8 @@ const AdvanceComponent = () => {
                 setTotalClicks(response?.clicks);
                 setTotalCount(response?.count);
                 setTotalMediaCost(response?.mediaCost);
-                setPlatformList(response?.platformNames);
-                setCountryList(response?.countryNames);
+                // setPlatformList(response?.platformNames);
+                // setCountryList(response?.countryNames);
                 setTotalLeads(response?.leads);
                 // if (isExport) {
                 //     generateCSV(response.campaigns);
@@ -268,18 +268,18 @@ const AdvanceComponent = () => {
             Title: item.title,
             Impressions: item.impressions,
             Clicks: item.clicks,
-            // Conversions: item.conversions,
+            'Buy Type': item?.buyType,
             // CPA: item.cpa,
             // CPC: item.cpc,
             // CPM: item.cpm,
             "CTR%": item.ctr,
-            // MediaCost: `${item.mediaCost.toFixed(2)}`,
-            Platform: item.platform,
-            Country: item.country,
+            MediaCost: `${item.mediaCost.toFixed(2)}`,
+            // Platform: item.platform,
+            // Country: item.country,
             Currency: item?.currency,
-            "Planned Media Spends": item.plannedMediaCost,
-            "Planned Delivery": item.plannedClicks,
-            "Leads": item.leads,
+            // "Planned Media Spends": item.plannedMediaCost,
+            // "Planned Delivery": item.plannedClicks,
+            "Unit Cost": item.unitCost,
         }));
 
         // Append Total Row
@@ -288,20 +288,22 @@ const AdvanceComponent = () => {
         csvData.push({
             Date: "Total",
             Title: "", // Empty since it's a total row
+            "Buy Type": "",
+            Impressions: totalImpressions,
             Clicks: totalClicks,
             // Conversions: "", // Leave empty or sum if applicable
-            // CPA: "", // Leave empty or calculate if needed
             // CPC: "", // Leave empty or calculate if needed
             // CPM: "", // Leave empty or calculate if needed
             "CTR%": totalCTR,
             Currency: "", // Leave empty
-            Impressions: totalImpressions,
-            // MediaCost: totalMediaCost.toFixed(2),
-            Platform: "",
-            Country: "",
-            "Planned Media Spends": "",
-            "Planned Delivery": "",
-            "Leads": totalLeads,
+            MediaCost: "",
+            // Platform: "",
+            // Country: "",
+            // "Planned Media Spends": "",
+            // "Planned Delivery": "",
+            // "Leads": totalLeads,
+            "Reach" : "",
+            "Unit Cost" : "",
         });
 
         // Convert to CSV format
@@ -318,7 +320,6 @@ const AdvanceComponent = () => {
         document.body.removeChild(link);
     };
 
-
     const handleExport = async () => {
         try {
             const body = {
@@ -328,8 +329,8 @@ const AdvanceComponent = () => {
                 "from": startDate !== null ? startDate.format('DD-MM-YYYY') : null,
                 "to": endDate !== null ? endDate.format('DD-MM-YYYY') : null,
                 "campaignName": selectCampaign,
-                "country": selectCountry.length === 0 ? null : selectCountry,
-                "platform": selectPlatform.length === 0 ? null : selectPlatform
+                // "country": selectCountry.length === 0 ? null : selectCountry,
+                // "platform": selectPlatform.length === 0 ? null : selectPlatform
             }
             const response = await AdverticeNetwork.fetchCampaignApi(body, auth);
             // if (response.errorCode === 0) {
@@ -352,19 +353,18 @@ const AdvanceComponent = () => {
         }
     };
 
+    // const handleClick = (event) => {
+    //     event.stopPropagation();
+    //     setSwitchChecked(event.target.checked)
+    // };
 
-    const handleClick = (event) => {
-        event.stopPropagation();
-        setSwitchChecked(event.target.checked)
-    };
+    // function handlePageChange(newPage) {
+    //     setPage(newPage);
+    // };
 
-    function handlePageChange(newPage) {
-        setPage(newPage);
-    };
-
-    function handlePageSizeChange(newPageSize) {
-        setPageSize(newPageSize);
-    };
+    // function handlePageSizeChange(newPageSize) {
+    //     setPageSize(newPageSize);
+    // };
 
     function handleStartDate(newValue) {
         setStartDate(newValue);
@@ -374,40 +374,40 @@ const AdvanceComponent = () => {
         setEndDate(newValue);
     };
 
-    const handleDomain = (event) => {
-        setDomainCheck(event.target.checked);
-    };
-    const handleSiteId = (event) => {
-        setSiteIdCheck(event.target.checked);
-    };
-    const handleCountry = (event) => {
-        setCountryCheck(event.target.checked);
-    };
-    const handleOs = (event) => {
-        setOsCheck(event.target.checked);
-    };
+    // const handleDomain = (event) => {
+    //     setDomainCheck(event.target.checked);
+    // };
+    // const handleSiteId = (event) => {
+    //     setSiteIdCheck(event.target.checked);
+    // };
+    // const handleCountry = (event) => {
+    //     setCountryCheck(event.target.checked);
+    // };
+    // const handleOs = (event) => {
+    //     setOsCheck(event.target.checked);
+    // };
 
     const handleSlectCampaign = (e) => {
         setSelectCampaign(e.target.value);
     };
 
-    const handleSelectPlatfrom = (event) => {
-        const {
-            target: { value },
-        } = event;
+    // const handleSelectPlatfrom = (event) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
 
-        // On autofill we get a stringified value, so handle that:
-        setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
-    };
+    //     // On autofill we get a stringified value, so handle that:
+    //     setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
+    // };
 
-    const handleSelectCountry = (event) => {
-        const {
-            target: { value },
-        } = event;
+    // const handleSelectCountry = (event) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
 
-        // On autofill we get a stringified value, so handle that:
-        setSelectCountry(typeof value === 'string' ? value.split(',') : value);
-    };
+    //     // On autofill we get a stringified value, so handle that:
+    //     setSelectCountry(typeof value === 'string' ? value.split(',') : value);
+    // };
 
     function handleSelectOrgnigation(event) {
         setSelectOrgnigation(event.target.value);
@@ -517,7 +517,7 @@ const AdvanceComponent = () => {
                                         </FormGroup>
                                     </FormControl></Box> */}
                             </Stack>
-                            <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            {/* <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                                 <FormControl>
                                     <InputLabel
                                         id="state-label"
@@ -571,9 +571,7 @@ const AdvanceComponent = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Stack>
-                        </Grid>
-                        <Stack p={2} direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            </Stack> */}
                             <Stack direction={'column'} spacing={1}>
                                 {/* <InputLabel sx={{
                                         fontWeight: "500", fontFamily: `"Poppins", sans-serif`, fontSize: '18px'
@@ -606,6 +604,22 @@ const AdvanceComponent = () => {
                                     />
                                 </LocalizationProvider>
                             </Stack>
+                            <Button
+                                sx={{
+                                    // mt: 2.5,
+                                    width: '100%',
+                                    maxWidth: '200px',
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px',
+                                    padding: '.8rem .75rem !important'
+                                }}
+                                className='hearder-right-btn'
+                                onClick={handleExport}
+                            >
+                                Export Report
+                            </Button>
+                        </Grid>
+                        {/* <Stack p={2} direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}> */}
                             {/* <Stack direction={'column'} spacing={1} mt={[2, 4]}>
                                         <Button
                                             onClick={handleExport}
@@ -661,22 +675,9 @@ const AdvanceComponent = () => {
                                         </FormControl>
                                     </Box> */}
                             {/* {userType === 'superadmin' && ( */}
-                            <Button
-                                sx={{
-                                    // mt: 2.5,
-                                    width: '100%',
-                                    maxWidth: '200px',
-                                    fontFamily: `"Poppins", sans-serif`,
-                                    fontSize: '16px',
-                                    padding: '.8rem .75rem !important'
-                                }}
-                                className='hearder-right-btn'
-                                onClick={handleExport}
-                            >
-                                Export Report
-                            </Button>
+
                             {/* )} */}
-                        </Stack>
+                        {/* </Stack> */}
                     </Grid>
                     <Divider sx={{ mt: 2.5 }} />
                 </Box>
@@ -691,22 +692,24 @@ const AdvanceComponent = () => {
                                 borderBottom: "2px solid #ddd",
                             }}>
                                 <Cell>Date</Cell>
-                                <Cell>Title</Cell>
+                                <Cell>Campaign Name</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Buy Type</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Platform</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Country</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Platform</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Country</Cell> */}
+                                <Cell style={{ textAlign: 'center' }}>Reach</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Currency</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Planned Media Spends</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Planned Delivery</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Unit Cost</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
                                 <Cell style={{ textAlign: 'center' }}>End Date</Cell> */}
                                 {/* <Cell>Leads</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
-                                <Cell style={{ textAlign: 'center' }}>Leads</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Leads</Cell> */}
                             </Row>
                             {campaignList.map((row, index) => {
 
@@ -736,27 +739,29 @@ const AdvanceComponent = () => {
                                         >{moment(row?.date).format('DD-MM-YYYY')}</Cell>
                                         <Cell
                                             style={{
-                                                color: "#45679F", 
+                                                color: "#45679F",
                                                 wordBreak: "break-word",
                                                 whiteSpace: "normal",
                                                 maxWidth: "150px"
                                             }}
                                         >{row.title}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.buyType === null ? "-" : row?.buyType}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell> */}
+                                        <Cell style={{ textAlign: 'center' }}>{row.reach === null ? "-" : row.reach}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.unitCost === null ? "-" : row?.unitCost}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.mediaCost === null ? "-" : row?.mediaCost}</Cell>
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('YYYY-MM-DD')}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{row?.leads}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.leads}</Cell> */}
                                     </Row>
                                 )
                             })
@@ -770,15 +775,16 @@ const AdvanceComponent = () => {
                                 }}>
                                 <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
+                                <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}></Cell> */}
                                 <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
-                                <Cell style={{ textAlign: 'center' }}>{totalRow?.leads}</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>{totalRow?.leads}</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>{totalRow.cpm}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.cpc}</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}></Cell>

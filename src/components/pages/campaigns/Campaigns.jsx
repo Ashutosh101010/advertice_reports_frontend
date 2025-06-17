@@ -34,7 +34,7 @@ const Campaigns = () => {
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(25);
     const [rowCount, setRowCount] = useState(0);
-    const [switchChecked, setSwitchChecked] = useState(true);
+    // const [switchChecked, setSwitchChecked] = useState(true);
     const [createFormModal, setCreateFormModal] = useState(false);
     const [editFormModal, setEditFormModal] = useState(false);
     // const { auth } = useContext(AuthContext);
@@ -45,66 +45,66 @@ const Campaigns = () => {
     const [organisationList, setOrganisationList] = useState([]);
     const [selectOrgnigation, setSelectOrgnigation] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+    // const open = Boolean(anchorEl);
     const startIndex = page * pageSize; // Page starts from 0
-    const displayedData = campaignList.slice(startIndex, startIndex + pageSize);
-    const [platformList, setPlatformList] = useState([]);
-    const [selectPlatform, setSelectPlatform] = useState([]);
-    const [countryList, setCountryList] = useState([]);
-    const [selectCountry, setSelectCountry] = useState([]);
+    // const displayedData = campaignList.slice(startIndex, startIndex + pageSize);
+    // const [platformList, setPlatformList] = useState([]);
+    // const [selectPlatform, setSelectPlatform] = useState([]);
+    // const [countryList, setCountryList] = useState([]);
+    // const [selectCountry, setSelectCountry] = useState([]);
     const [selectCampaign, setSelectCampaign] = useState('');
-    const [campiagnNameList, setCampiagnNameList] = useState([]);
+    // const [campiagnNameList, setCampiagnNameList] = useState([]);
 
-    const handleSlectCampaign = (e) => {
-        setSelectCampaign(e.target.value);
-    };
+    // const handleSlectCampaign = (e) => {
+    //     setSelectCampaign(e.target.value);
+    // };
 
-    const handleSelectPlatfrom = (event) => {
-        const {
-            target: { value },
-        } = event;
+    // const handleSelectPlatfrom = (event) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
 
-        // On autofill we get a stringified value, so handle that:
-        setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
-    };
+    //     // On autofill we get a stringified value, so handle that:
+    //     setSelectPlatform(typeof value === 'string' ? value.split(',') : value);
+    // };
 
-    const handleSelectCountry = (event) => {
-        const {
-            target: { value },
-        } = event;
+    // const handleSelectCountry = (event) => {
+    //     const {
+    //         target: { value },
+    //     } = event;
 
-        // On autofill we get a stringified value, so handle that:
-        setSelectCountry(typeof value === 'string' ? value.split(',') : value);
-    };
+    //     // On autofill we get a stringified value, so handle that:
+    //     setSelectCountry(typeof value === 'string' ? value.split(',') : value);
+    // };
 
 
     // console.log('organisationList', organisationList, selectOrgnigation);
 
-    const handleClose = (option) => {
-        setAnchorEl(null);
-        if (option === 'Edit') {
-            setEditFormModal(true);
-        } else if (option === 'Delete') {
-            // handleDelete(editAdmitCard?.id);
-        };
-    };
+    // const handleClose = (option) => {
+    //     setAnchorEl(null);
+    //     if (option === 'Edit') {
+    //         setEditFormModal(true);
+    //     } else if (option === 'Delete') {
+    //         // handleDelete(editAdmitCard?.id);
+    //     };
+    // };
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await AdverticeNetwork.deleteCampaignAPI(auth, id);
-            if (response.errorCode === 0) {
-                fetchCampaignList();
-                // handleClose();
-            }
-        } catch (error) {
-            console.log(error);
-        };
-    }
+    // const handleDelete = async (id) => {
+    //     try {
+    //         const response = await AdverticeNetwork.deleteCampaignAPI(auth, id);
+    //         if (response.errorCode === 0) {
+    //             fetchCampaignList();
+    //             // handleClose();
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     };
+    // }
 
-    const handleClick = (event, row) => {
-        setAnchorEl(event.currentTarget);
-        setEditTableData(row);
-    };
+    // const handleClick = (event, row) => {
+    //     setAnchorEl(event.currentTarget);
+    //     setEditTableData(row);
+    // };
 
     useEffect(() => {
         if (userType === "superadmin") {
@@ -129,7 +129,7 @@ const Campaigns = () => {
 
             fetchCampaignList();
         }
-    }, [selectOrgnigation, userType, page, pageSize, selectPlatform, selectCountry, selectCampaign])
+    }, [selectOrgnigation, userType, page, pageSize, selectCampaign])
 
     const fetchCampaignList = async (isExport = false) => {
 
@@ -137,8 +137,8 @@ const Campaigns = () => {
             "page": page,
             "pageSize": pageSize,
             "group": true,
-            "platform": selectPlatform,
-            "country": selectCountry,
+            // "platform": selectPlatform,
+            // "country": selectCountry,
             // "organizationId": selectOrgnigation?.id,
             "campaignName": selectCampaign
         }
@@ -154,9 +154,9 @@ const Campaigns = () => {
             if (response.errorCode === 0) {
                 setCampaignList(response.campaigns);
                 setRowCount(response.count === 0 ? response?.campaigns.length : response.count);
-                setPlatformList(response.platformNames);
-                setCountryList(response.countryNames);
-                setCampiagnNameList(response.campaignNames);
+                // setPlatformList(response.platformNames);
+                // setCountryList(response.countryNames);
+                // setCampiagnNameList(response.campaignNames);
                 if (isExport) {
                     generateCSV(response.campaigns);
                 }
@@ -164,7 +164,7 @@ const Campaigns = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const fetchOrganisationList = async () => {
         try {
@@ -180,25 +180,25 @@ const Campaigns = () => {
             }
         } catch (error) {
             console.log(error);
-        }
-    }
+        };
+    };
 
     // const handleClick = (event) => {
     //     event.stopPropagation();
     //     setSwitchChecked(event.target.checked)
     // };
 
-    function handlePageChange(newPage) {
-        setPage(newPage);
-    };
+    // function handlePageChange(newPage) {
+    //     setPage(newPage);
+    // };
 
-    function handlePageSizeChange(newPageSize) {
-        setPageSize(newPageSize);
-    };
+    // function handlePageSizeChange(newPageSize) {
+    //     setPageSize(newPageSize);
+    // };
 
-    const createForm = () => {
-        setCreateFormModal(true);
-    }
+    // const createForm = () => {
+    //     setCreateFormModal(true);
+    // }
 
     const handleCloseModal = () => {
         setCreateFormModal(false);
@@ -254,309 +254,309 @@ const Campaigns = () => {
         document.body.removeChild(link);
     };
 
-    const handleExport = async () => {
-        const body = {
-            page: page,
-            pageSize: pageSize,
-            organizationId: selectOrgnigation?.id,
-        };
+    // const handleExport = async () => {
+    //     const body = {
+    //         page: page,
+    //         pageSize: pageSize,
+    //         organizationId: selectOrgnigation?.id,
+    //     };
 
-        await fetchCampaignList(body, true);
-    };
+    //     await fetchCampaignList(body, true);
+    // };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    };
+    // const formatDate = (dateString) => {
+    //     const date = new Date(dateString);
+    //     const day = String(date.getDate()).padStart(2, "0");
+    //     const month = String(date.getMonth() + 1).padStart(2, "0");
+    //     const year = date.getFullYear();
+    //     return `${day}-${month}-${year}`;
+    // };
 
-    function handleSelectOrgnigation(event) {
-        setSelectOrgnigation(event.target.value);
-    };
+    // function handleSelectOrgnigation(event) {
+    //     setSelectOrgnigation(event.target.value);
+    // };
 
-    const daysBetween = (start, end) => {
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        const diffTime = endDate.getTime() - startDate.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
-    };
+    // const daysBetween = (start, end) => {
+    //     const startDate = new Date(start);
+    //     const endDate = new Date(end);
+    //     const diffTime = endDate.getTime() - startDate.getTime();
+    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    //     return diffDays;
+    // };
 
-    const columns = [
-        // {
-        //     field: "date",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.date === null ? "-" : moment(params?.row?.date).format('YYYY-MM-DD')}</p>
-        //     },
-        // },
-        {
-            field: "title",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Campaign Name</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            renderCell: (params) => {
-                return <Tooltip title={params.row.title} placement="top" arrow>
-                    <p style={{ margin: "0px", color: "#00f" }}>{params.row.title}</p>
-                </Tooltip>
-            },
-            flex: 1,
-        },
-        {
-            field: "buyType",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Buy Type</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.7,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.buyType === null ? "-" : params?.row?.buyType}</p>
-            },
-        },
-        {
-            field: "impressions",
-            headerName: <p style={{ marginLeft: isMobile ? 10 : 0, fontSize: '12px' }}>Impressions</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.impressions.toLocaleString("en-IN")}</p>
-            },
-        },
-        {
-            field: "clicks",
-            sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>Clicks</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.8,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.clicks.toLocaleString("en-IN")}</p>
-            },
-        },
-        {
-            field: "ctr",
-            sortable: false,
-            headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>CTR %</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.7,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
-            },
-        },
-        {
-            field: "reach",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Reach</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.6
-        },
-        {
-            field: "leads",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Leads</p>,
-            headerClassName: 'super-app-theme--header',
-            sortable: false,
-            flex: 0.6,
-        },
-        {
-            field: "country",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Country Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.country === null ? "-" : params?.row?.country}</p>
-            },
-        },
-        {
-            field: "platform",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Platform Name</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.9,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.platform === null ? "-" : params?.row?.platform}</p>
-            },
-        },
+    // const columns = [
+    //     // {
+    //     //     field: "date",
+    //     //     sortable: false,
+    //     //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>Date</p>,
+    //     //     headerClassName: 'super-app-theme--header',
+    //     //     flex: 1,
+    //     //     renderCell: (params) => {
+    //     //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.date === null ? "-" : moment(params?.row?.date).format('YYYY-MM-DD')}</p>
+    //     //     },
+    //     // },
+    //     {
+    //         field: "title",
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Campaign Name</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             return <Tooltip title={params.row.title} placement="top" arrow>
+    //                 <p style={{ margin: "0px", color: "#00f" }}>{params.row.title}</p>
+    //             </Tooltip>
+    //         },
+    //         flex: 1,
+    //     },
+    //     {
+    //         field: "buyType",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Buy Type</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.7,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.buyType === null ? "-" : params?.row?.buyType}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "impressions",
+    //         headerName: <p style={{ marginLeft: isMobile ? 10 : 0, fontSize: '12px' }}>Impressions</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         sortable: false,
+    //         flex: 1,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.impressions.toLocaleString("en-IN")}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "clicks",
+    //         sortable: false,
+    //         headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>Clicks</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.8,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.clicks.toLocaleString("en-IN")}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "ctr",
+    //         sortable: false,
+    //         headerName: <p style={{ marginLeft: isMobile ? 5 : 0, fontSize: '12px' }}>CTR %</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.7,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 10px", }}>{((params.row?.clicks / params.row?.impressions) * 100)?.toFixed(2)}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "reach",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Reach</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.6
+    //     },
+    //     {
+    //         field: "leads",
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Leads</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         sortable: false,
+    //         flex: 0.6,
+    //     },
+    //     {
+    //         field: "country",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Country Name</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 1,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.country === null ? "-" : params?.row?.country}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "platform",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Platform Name</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.9,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.platform === null ? "-" : params?.row?.platform}</p>
+    //         },
+    //     },
 
-        // {
-        //     field: "mediaCost",
-        //     sortable: false,
-        //     headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Media Cost</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
-        //     },
-        // },
+    //     // {
+    //     //     field: "mediaCost",
+    //     //     sortable: false,
+    //     //     headerName: <p style={{ marginLeft: isMobile ? 10 : 0 }}>Media Cost</p>,
+    //     //     headerClassName: 'super-app-theme--header',
+    //     //     flex: 1,
+    //     //     renderCell: (params) => {
+    //     //         return <p style={{ margin: "0px 10px 10px 10px", textAlign: "center" }}>{params.row.mediaCost.toLocaleString("en-IN")}</p>
+    //     //     },
+    //     // },
 
-        // {
-        //     field: "cpm",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params.row.cpm.toLocaleString("en-IN")}</p>
-        //     },
-        // },
-        // {
-        //     field: "cpc",
-        //     sortable: false,
-        //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
-        //     headerClassName: 'super-app-theme--header',
-        //     flex: 1,
-        //     renderCell: (params) => {
-        //         return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
-        //     },
-        // },
-        {
-            field: "currency",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Currency</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.6,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
-            },
-        },
-        {
-            field: "plannedMediaSpends",
-            sortable: false,
-            headerName: <p style={{ textAlign: 'center', lineHeight: "0.5", fontSize: '12px' }}>
-                <p>Planned Media</p>
-                <p>Cost</p>
-            </p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 1,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 30px 10px 0px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
-            },
-        },
-        {
-            field: "plannedClicks",
-            sortable: false,
-            headerName: <p style={{ textAlign: 'center', lineHeight: "0.3", fontSize: '12px' }}>
-                <p>Planned</p>
-                <p>Delivery </p>
-            </p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.6,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
-            },
-        },
-        {
-            field: "startDate",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Start Date</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.7,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
-            },
-        },
-        {
-            field: "endDate",
-            sortable: false,
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>End Date</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.7,
-            renderCell: (params) => {
-                return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
-            },
-        },
-        {
-            field: "daysRemaining",
-            sortable: false,
-            headerName: (
-                <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>
-                    Days Remaining
-                </p>
-            ),
-            headerClassName: "super-app-theme--header",
-            flex: 1,
-            renderCell: (params) => {
-                const { date, endDate } = params.row;
+    //     // {
+    //     //     field: "cpm",
+    //     //     sortable: false,
+    //     //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPM</p>,
+    //     //     headerClassName: 'super-app-theme--header',
+    //     //     flex: 1,
+    //     //     renderCell: (params) => {
+    //     //         return <p style={{ margin: "0px 10px 10px 0px" }}>{params.row.cpm.toLocaleString("en-IN")}</p>
+    //     //     },
+    //     // },
+    //     // {
+    //     //     field: "cpc",
+    //     //     sortable: false,
+    //     //     headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""}>eCPC</p>,
+    //     //     headerClassName: 'super-app-theme--header',
+    //     //     flex: 1,
+    //     //     renderCell: (params) => {
+    //     //         return <p style={{ margin: "0px 10px 10px 10px" }}>{params.row.cpc.toLocaleString("en-IN")}</p>
+    //     //     },
+    //     // },
+    //     {
+    //         field: "currency",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Currency</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.6,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 20px", }}>{params.row.currency}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "plannedMediaSpends",
+    //         sortable: false,
+    //         headerName: <p style={{ textAlign: 'center', lineHeight: "0.5", fontSize: '12px' }}>
+    //             <p>Planned Media</p>
+    //             <p>Cost</p>
+    //         </p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 1,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 30px 10px 0px", textAlign: "center" }}>{params.row?.plannedMediaCost === null ? '-' : params.row?.plannedMediaCost}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "plannedClicks",
+    //         sortable: false,
+    //         headerName: <p style={{ textAlign: 'center', lineHeight: "0.3", fontSize: '12px' }}>
+    //             <p>Planned</p>
+    //             <p>Delivery </p>
+    //         </p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.6,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 10px" }}>{params?.row?.plannedClicks === null ? '-' : params?.row?.plannedClicks}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "startDate",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>Start Date</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.7,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.startDate === null ? "-" : moment(params?.row?.startDate).format('YYYY-MM-DD')}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "endDate",
+    //         sortable: false,
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>End Date</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.7,
+    //         renderCell: (params) => {
+    //             return <p style={{ margin: "0px 10px 10px 0px" }}>{params?.row?.endDate === null ? "-" : moment(params?.row?.endDate).format('YYYY-MM-DD')}</p>
+    //         },
+    //     },
+    //     {
+    //         field: "daysRemaining",
+    //         sortable: false,
+    //         headerName: (
+    //             <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ fontSize: '12px' }}>
+    //                 Days Remaining
+    //             </p>
+    //         ),
+    //         headerClassName: "super-app-theme--header",
+    //         flex: 1,
+    //         renderCell: (params) => {
+    //             const { date, endDate } = params.row;
 
-                if (!date || !endDate) {
-                    return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
-                }
+    //             if (!date || !endDate) {
+    //                 return <p style={{ margin: "0px 10px 10px 10px" }}>-</p>;
+    //             }
 
-                const remainingDays = daysBetween(date, endDate);
+    //             const remainingDays = daysBetween(date, endDate);
 
-                return (
-                    <p style={{ margin: "0px 10px 10px 10px" }}>
-                        {remainingDays > 0 ? `${remainingDays} days` : "Ended"}
-                    </p>
-                );
-            },
-        },
-        {
-            field: "menu",
-            headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Menu</p>,
-            headerClassName: 'super-app-theme--header',
-            flex: 0.2,
-            sortable: false,
-            renderCell: (params) => {
-                // console.log(params.row, "params");
-                return (
-                    <>
-                        <IconButton
-                            aria-label="more"
-                            id={params.row.id}
-                            aria-controls={open ? "long-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            onClick={(e) => handleClick(e, params)}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                            MenuListProps={{
-                                "aria-labelledby": "long-button",
-                            }}
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={() => setAnchorEl(null)}
-                            onClick={handleClose}
-                            PaperProps={{
-                                style: {
-                                    maxHeight: ITEM_HEIGHT * 4.5,
-                                    width: "20ch",
-                                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                                },
-                            }}
-                        >
-                            {options.map((option) => {
-                                return <MenuItem
-                                    key={option}
-                                    selected={option === "Pyxis"}
-                                    value={option}
-                                    onClick={() => {
-                                        handleClose(option);
-                                    }}
-                                >
-                                    {option}
-                                </MenuItem>
-                            }
-                            )}
-                        </Menu>
-                    </>
-                );
-            },
-        },
-    ];
+    //             return (
+    //                 <p style={{ margin: "0px 10px 10px 10px" }}>
+    //                     {remainingDays > 0 ? `${remainingDays} days` : "Ended"}
+    //                 </p>
+    //             );
+    //         },
+    //     },
+    //     {
+    //         field: "menu",
+    //         headerName: <p className={theme.palette.mode === "dark" ? "globalTableCss" : ""} style={{ textAlign: 'center', fontSize: '12px' }}>Menu</p>,
+    //         headerClassName: 'super-app-theme--header',
+    //         flex: 0.2,
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             // console.log(params.row, "params");
+    //             return (
+    //                 <>
+    //                     <IconButton
+    //                         aria-label="more"
+    //                         id={params.row.id}
+    //                         aria-controls={open ? "long-menu" : undefined}
+    //                         aria-expanded={open ? "true" : undefined}
+    //                         aria-haspopup="true"
+    //                         onClick={(e) => handleClick(e, params)}
+    //                     >
+    //                         <MoreVertIcon />
+    //                     </IconButton>
+    //                     <Menu
+    //                         MenuListProps={{
+    //                             "aria-labelledby": "long-button",
+    //                         }}
+    //                         anchorEl={anchorEl}
+    //                         open={open}
+    //                         onClose={() => setAnchorEl(null)}
+    //                         onClick={handleClose}
+    //                         PaperProps={{
+    //                             style: {
+    //                                 maxHeight: ITEM_HEIGHT * 4.5,
+    //                                 width: "20ch",
+    //                                 boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+    //                             },
+    //                         }}
+    //                     >
+    //                         {options.map((option) => {
+    //                             return <MenuItem
+    //                                 key={option}
+    //                                 selected={option === "Pyxis"}
+    //                                 value={option}
+    //                                 onClick={() => {
+    //                                     handleClose(option);
+    //                                 }}
+    //                             >
+    //                                 {option}
+    //                             </MenuItem>
+    //                         }
+    //                         )}
+    //                     </Menu>
+    //                 </>
+    //             );
+    //         },
+    //     },
+    // ];
 
     return (
         <React.Fragment>
             <Card className="card">
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 15 }}>
-                        <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    {/* <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 15 }}> */}
+                    {/* <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                             {
                                 userType === "superadmin" && (
                                     <FormControl sx={{ textAlign: "start", width: '100%' }}>
@@ -603,8 +603,8 @@ const Campaigns = () => {
                                     })}
                                 </Select>
                             </FormControl>
-                        </Stack>
-                        <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                        </Stack> */}
+                    {/* <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                             <FormControl>
                                 <InputLabel
                                     id="state-label"
@@ -658,8 +658,8 @@ const Campaigns = () => {
                                     ))}
                                 </Select>
                             </FormControl>
-                        </Stack>
-                    </Grid>
+                        </Stack> */}
+                    {/* </Grid> */}
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: "flex", justifyContent: 'flex-end' }}>
                         {
                             userType === "superadmin" ? <Button
@@ -705,34 +705,34 @@ const Campaigns = () => {
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Reach</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Leads</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Country Name</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Platform Name</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Leads</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>Country Name</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Platform Name</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Currency</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Planned Media Cost</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Planned Delivery</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
-                                <Cell style={{ textAlign: 'center' }}>End Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Unit Cost</Cell>
+                                <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
+                                <Cell style={{ textAlign: 'center' }}>End Date</Cell> */}
                                 {/* <Cell>Leads</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>Media Cost</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPM</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>eCPC</Cell> */}
-                                <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Menu</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Days Remaining</Cell> */}
+                                {/* <Cell style={{ textAlign: 'center' }}>Menu</Cell> */}
                             </Row>
                             {campaignList.map((row, index) => {
 
-                                function daysBetween(start, end) {
-                                    const startDate = new Date(start);
-                                    const endDate = new Date(end);
-                                    const diffTime = endDate.getTime() - startDate.getTime();
-                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                    return diffDays;
-                                }
+                                // function daysBetween(start, end) {
+                                //     const startDate = new Date(start);
+                                //     const endDate = new Date(end);
+                                //     const diffTime = endDate.getTime() - startDate.getTime();
+                                //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                //     return diffDays;
+                                // }
 
-                                const today = new Date(row?.date);
-                                const endDate = new Date(row?.endDate);
-                                const daysRemaining = daysBetween(today, endDate);
+                                // const today = new Date(row?.date);
+                                // const endDate = new Date(row?.endDate);
+                                // const daysRemaining = daysBetween(today, endDate);
 
                                 return (
                                     <Row key={index} className="table-row" style={{
@@ -748,20 +748,20 @@ const Campaigns = () => {
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{(row.ctr).toFixed(2)}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.reach}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row.leads}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.leads}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedMediaCost === null ? "-" : row?.plannedMediaCost}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.plannedClicks === null ? "-" : row?.plannedClicks}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('DD-MM-YYYY')}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('DD-MM-YYYY')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.unitCost === null ? "-" : row?.unitCost}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.mediaCost === null ? "-" : row?.mediaCost}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('DD-MM-YYYY')}</Cell>
+                                        <Cell style={{ textAlign: 'center' }}>{row?.endDate === null ? "-" : moment(row?.endDate).format('DD-MM-YYYY')}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.leads === null ? "-" : row.leads}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.mediaCost.toLocaleString("en-IN")}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.cpm.toLocaleString("en-IN")}</Cell>
                                                         <Cell style={{ textAlign: 'center' }}>{row.cpc.toLocaleString("en-IN")}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{row?.date === null ? "-" : daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.date === null ? "-" : daysRemaining > 0 ? `${daysRemaining} days` : "Ended"}</Cell> */}
+                                        {/* <Cell style={{ textAlign: 'center' }}>
                                             <>
                                                 <IconButton
                                                     aria-label="more"
@@ -804,7 +804,7 @@ const Campaigns = () => {
                                                     )}
                                                 </Menu>
                                             </>
-                                        </Cell>
+                                        </Cell> */}
                                     </Row>
                                 )
                             })
