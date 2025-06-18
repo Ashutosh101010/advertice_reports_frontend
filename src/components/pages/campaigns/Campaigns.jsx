@@ -116,7 +116,11 @@ const Campaigns = () => {
         if (userType === "admin") {
             fetchCampaignList();
         }
-    }, [userType])
+    }, [userType]);
+
+    function handleOrganisation(event) {
+        setSelectOrgnigation(event.target.value);
+    };
 
     useEffect(() => {
         if (organisationList?.length > 0) {
@@ -556,31 +560,47 @@ const Campaigns = () => {
             <Card className="card">
                 <Grid container>
                     {/* <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 15 }}> */}
-                    {/* <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                            {
-                                userType === "superadmin" && (
-                                    <FormControl sx={{ textAlign: "start", width: '100%' }}>
-                                        <InputLabel id="state-label" sx={{ fontFamily: `"Poppins", sans-serif` }}>Organisation</InputLabel>
-                                        <Select
-                                            value={selectOrgnigation}
-                                            label="Organisation"
-                                            labelId='state-label'
-                                            onChange={handleSelectOrgnigation}
-                                            sx={{ width: '100%' }}
-                                            disableUnderline
-                                        >
-                                            {organisationList.map((item) => {
-                                                return (
-                                                    <MenuItem value={item} key={item.id}>
-                                                        {item.organisation}
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Select>
-                                    </FormControl>
-                                )
-                            }
-                            <FormControl>
+                    <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}
+                    m={1}
+                    >
+                        {
+                            userType === "superadmin" && (
+                                <FormControl sx={{ textAlign: "start", width: '100%' }}>
+                                    <InputLabel id="state-label" sx={{ fontFamily: `"Poppins", sans-serif` }}>Organisation</InputLabel>
+                                    <Select
+                                        value={selectOrgnigation}
+                                        label="Organisation"
+                                        labelId='state-label'
+                                        onChange={handleOrganisation}
+                                        sx={{ width: '200px' }}
+                                        disableUnderline
+                                    >
+                                        {organisationList.map((item) => {
+                                            return (
+                                                <MenuItem value={item} key={item.id}>
+                                                    {item.organisation}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            )
+                        }
+                        {
+                            userType === "superadmin" ? <Button
+                                sx={{
+                                    width: '100%',
+                                    maxWidth: '200px',
+                                    fontFamily: `"Poppins", sans-serif`,
+                                    fontSize: '16px',
+                                }}
+                                className='hearder-right-btn create-organisation'
+                                onClick={ImportCampaign}>
+                                Import Campaign
+                            </Button>
+                                : ""
+                        }
+                        {/* <FormControl>
                                 <InputLabel id="demo-simple-select-label" sx={{
                                     fontFamily: `"Poppins", sans-serif`,
                                     fontSize: '16px'
@@ -602,8 +622,8 @@ const Campaigns = () => {
                                         );
                                     })}
                                 </Select>
-                            </FormControl>
-                        </Stack> */}
+                            </FormControl> */}
+                    </Stack>
                     {/* <Stack direction={isMobile ? 'row' : 'column'} spacing={2} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                             <FormControl>
                                 <InputLabel
@@ -661,20 +681,7 @@ const Campaigns = () => {
                         </Stack> */}
                     {/* </Grid> */}
                     <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: "flex", justifyContent: 'flex-end' }}>
-                        {
-                            userType === "superadmin" ? <Button
-                                sx={{
-                                    width: '100%',
-                                    maxWidth: '200px',
-                                    fontFamily: `"Poppins", sans-serif`,
-                                    fontSize: '16px',
-                                }}
-                                className='hearder-right-btn create-organisation'
-                                onClick={ImportCampaign}>
-                                Import Campaign
-                            </Button>
-                                : ""
-                        }
+
 
                         {/* <Button
                             sx={{
