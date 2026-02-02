@@ -268,7 +268,7 @@ const AdvanceComponent = () => {
             Title: item.title,
             Impressions: item.impressions,
             Clicks: item.clicks,
-            'Buy Type': item?.buyType,
+            // 'Buy Type': item?.buyType,
             // CPA: item.cpa,
             // CPC: item.cpc,
             // CPM: item.cpm,
@@ -276,7 +276,7 @@ const AdvanceComponent = () => {
             MediaCost: `${item.mediaCost.toFixed(2)}`,
             // Platform: item.platform,
             // Country: item.country,
-            Currency: item?.currency,
+            // Currency: item?.currency,
             // "Planned Media Spends": item.plannedMediaCost,
             // "Planned Delivery": item.plannedClicks,
             "Unit Cost": item.unitCost,
@@ -288,14 +288,14 @@ const AdvanceComponent = () => {
         csvData.push({
             Date: "Total",
             Title: "", // Empty since it's a total row
-            "Buy Type": "",
+            // "Buy Type": "",
             Impressions: totalImpressions,
             Clicks: totalClicks,
             // Conversions: "", // Leave empty or sum if applicable
             // CPC: "", // Leave empty or calculate if needed
             // CPM: "", // Leave empty or calculate if needed
             "CTR%": totalCTR,
-            Currency: "", // Leave empty
+            // Currency: "", // Leave empty
             MediaCost: "",
             // Platform: "",
             // Country: "",
@@ -693,14 +693,14 @@ const AdvanceComponent = () => {
                             }}>
                                 <Cell>Date</Cell>
                                 <Cell>Campaign Name</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Buy Type</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Buy Type</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}>Platform</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Country</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Reach</Cell>
-                                <Cell style={{ textAlign: 'center' }}>Currency</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Currency</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Unit Cost</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
@@ -745,14 +745,14 @@ const AdvanceComponent = () => {
                                                 maxWidth: "150px"
                                             }}
                                         >{row.title}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row?.buyType === null ? "-" : row?.buyType}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row?.buyType === null ? "-" : row?.buyType}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row.ctr}</Cell>
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row.reach === null ? "-" : row.reach}</Cell>
-                                        <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row?.unitCost === null ? "-" : row?.unitCost}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.mediaCost === null ? "-" : row?.mediaCost}</Cell>
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('YYYY-MM-DD')}</Cell>
@@ -775,11 +775,11 @@ const AdvanceComponent = () => {
                                 }}>
                                 <Cell style={{ textAlign: 'start' }}>{totalRow.date}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.title}</Cell>
-                                <Cell style={{ textAlign: 'center' }}></Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}></Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.impressions.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{totalRow.clicks.toLocaleString("en-IN")}</Cell>
                                 <Cell style={{ textAlign: 'center' }}>{parseFloat((totalRow?.clicks / totalRow?.impressions) * 100).toFixed(2)}%</Cell>
-                                <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>{totalRow.currency}</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 <Cell style={{ textAlign: 'center' }}></Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}></Cell> */}

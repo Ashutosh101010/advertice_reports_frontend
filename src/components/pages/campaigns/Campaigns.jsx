@@ -707,7 +707,7 @@ const Campaigns = () => {
                                 borderBottom: "2px solid #ddd",
                             }}>
                                 <Cell>Campaign Name</Cell>
-                                <Cell>Buy Type</Cell>
+                                {/* <Cell>Buy Type</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Impressions</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Clicks</Cell>
                                 <Cell style={{ textAlign: 'center' }}>CTR (%)</Cell>
@@ -715,7 +715,7 @@ const Campaigns = () => {
                                 {/* <Cell style={{ textAlign: 'center' }}>Leads</Cell> */}
                                 {/* <Cell style={{ textAlign: 'center' }}>Country Name</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Platform Name</Cell> */}
-                                <Cell style={{ textAlign: 'center' }}>Currency</Cell>
+                                {/* <Cell style={{ textAlign: 'center' }}>Currency</Cell> */}
                                 <Cell style={{ textAlign: 'center' }}>Unit Cost</Cell>
                                 <Cell style={{ textAlign: 'center' }}>Media Cost</Cell>
                                 {/* <Cell style={{ textAlign: 'center' }}>Start Date</Cell>
@@ -750,7 +750,7 @@ const Campaigns = () => {
                                             whiteSpace: "normal",
                                             maxWidth: "150px"
                                         }}>{row.title}</Cell>
-                                        <Cell>{row?.buyType === null ? '-' : row?.buyType}</Cell>
+                                        {/* <Cell>{row?.buyType === null ? '-' : row?.buyType}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row.impressions.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.clicks === null ? "-" : row.clicks.toLocaleString("en-IN")}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{(row.ctr).toFixed(2)}</Cell>
@@ -758,7 +758,7 @@ const Campaigns = () => {
                                         {/* <Cell style={{ textAlign: 'center' }}>{row.leads}</Cell> */}
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.country === null ? "-" : row?.country}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.platform === null ? "-" : row?.platform}</Cell> */}
-                                        <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell>
+                                        {/* <Cell style={{ textAlign: 'center' }}>{row.currency}</Cell> */}
                                         <Cell style={{ textAlign: 'center' }}>{row?.unitCost === null ? "-" : row?.unitCost}</Cell>
                                         <Cell style={{ textAlign: 'center' }}>{row?.mediaCost === null ? "-" : row?.mediaCost}</Cell>
                                         {/* <Cell style={{ textAlign: 'center' }}>{row?.startDate === null ? "-" : moment(row?.startDate).format('DD-MM-YYYY')}</Cell>
